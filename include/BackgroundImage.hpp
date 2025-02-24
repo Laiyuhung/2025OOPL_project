@@ -1,6 +1,6 @@
 #ifndef BACKGROUND_IMAGE_HPP
 #define BACKGROUND_IMAGE_HPP
-
+#include <filesystem>
 #include "Util/GameObject.hpp"
 #include "Util/Image.hpp"
 
@@ -8,7 +8,7 @@ class BackgroundImage : public Util::GameObject {
 
 public:
     BackgroundImage() : GameObject(
-            std::make_unique<Util::Image>("./Resources/Image/Background/InitailPage.jpg"), -1) {
+            std::make_unique<Util::Image>(GA_RESOURCE_DIR"/Image/Background/InitailPage.jpg"), -1) {
     }
 
     void NextPhase(const int phase) {
