@@ -1,6 +1,6 @@
 ## Object Function analysis
 
-# Background Blocks
+### Background Blocks
 {
   blockType:  
   specialBlock:  
@@ -8,7 +8,7 @@
   eliminated:  
 }
 
-# Level Maps
+### Level Maps
 {
   x-length:  
   y-length:  
@@ -17,7 +17,7 @@
   movesSet:  
 }
 
-# Tools
+### Tools
 {
   function:  
   used:  
