@@ -1,4 +1,4 @@
-## Object Function analysis
+## Object Function Analysis
 
 ### Background Blocks
 {
@@ -7,19 +7,21 @@
   blockPosition:  
   eliminated:  
 }
+
 ### Special Blocks
 {
-  produce method:
-  effect:
+  produce method:  
+  effect:  
 }
+
 ### Level Maps
 {
   x-length:  
   y-length:  
   blockingBlocks and positions:  
-  initialAwards:
-  goalToReach: 
-  movesGiven: 
+  initialAwards:  
+  goalToReach:  
+  movesGiven:  
 }
 
 ### Tools
@@ -29,12 +31,11 @@
   appearance:  
 }
 
-### UserInfo （不確定要不要）
+### UserInfo (不確定要不要)
 {
-  UserName:
-  nowLevel:
-  levelScore:
-  ownedTools:
-  ownedHearts:
+  UserName:  
+  nowLevel:  
+  levelScore:  
+  ownedTools:  
+  ownedHearts:  
 }
-  
