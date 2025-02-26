@@ -1,25 +1,25 @@
 ## Object Function analysis
 
-Background
-Blocks：｛
-blockType:
-specialBlock:
-blockPosition: 
-eliminated:
-｝,
-
-levelMaps:(
-x-length:
-y-length:
-blockingBlocks and positions:
-goal:
-movesSet:
-},
-
-tools:{
-function:
-used:
-appearance:
+# Background Blocks
+{
+  blockType:  
+  specialBlock:  
+  blockPosition:  
+  eliminated:  
 }
 
-其他還在想
+# Level Maps
+{
+  x-length:  
+  y-length:  
+  blockingBlocks and positions:  
+  goal:  
+  movesSet:  
+}
+
+# Tools
+{
+  function:  
+  used:  
+  appearance:  
+}
