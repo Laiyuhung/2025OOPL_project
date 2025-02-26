@@ -1,6 +1,6 @@
 ## Object Function analysis
 
-- 1. Background
+Background
 Blocks：｛
 blockType:
 specialBlock:
