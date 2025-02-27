@@ -1,20 +1,20 @@
-#ifndef PHASE_MANGER_HPP
-#define PHASE_MANGER_HPP
+#ifndef PHASE_MANAGER_HPP
+#define PHASE_MANAGER_HPP
 
 #include "Util/GameObject.hpp"
 // #include "TaskText.hpp"
 // #include "Character.hpp"
 #include "BackgroundImage.hpp"
 
-class PhaseResourceManger {
+class PhaseResourceManager {
 public:
-    PhaseResourceManger();
+    PhaseResourceManager();
 
     [[nodiscard]] std::vector<std::shared_ptr<Util::GameObject>> GetChildren() const {
         return {m_Background};
     }
 
-    void NextPhase(const std::string phase);
+    void NextPhase(const int phase);
 
 private:
     // std::shared_ptr<TaskText> m_TaskText;

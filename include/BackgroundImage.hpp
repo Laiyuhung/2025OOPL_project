@@ -9,7 +9,7 @@ class BackgroundImage : public Util::GameObject {
 public:
     BackgroundImage() : GameObject(
             std::make_unique<Util::Image>(GA_RESOURCE_DIR "/Image/Background/InitialImage.png"), -1) {
-            SetPivot(glm::vec2(0.5f, 0.5f));
+            SetPivot(glm::vec2(0.1f, 0.5f));
     }
 
     void NextImage(const std::string phase) {
@@ -20,7 +20,7 @@ public:
     }
     void Draw(const Core::Matrices &data) {
         Core::Matrices modifiedData = data;
-        modifiedData.model = ComputeScaleMatrix() * modifiedData.model;  
+        modifiedData.m_Model = ComputeScaleMatrix() * modifiedData.m_Model;  
 
         auto temp = std::dynamic_pointer_cast<Util::Image>(m_Drawable);
         if (temp) {

@@ -5,7 +5,7 @@
 
 #include "Util/Renderer.hpp"
 #include "Util/Text.hpp"
-#include "PhaseResourceManger.hpp"
+#include "PhaseResourceManager.hpp"
 // #include "Character.hpp"
 // #include "AnimatedCharacter.hpp"
 
@@ -46,7 +46,7 @@ private:
     // std::shared_ptr<AnimatedCharacter> m_Bee;
     // std::shared_ptr<AnimatedCharacter> m_Ball;
 
-    std::shared_ptr<PhaseResourceManger> m_PRM;
+    std::shared_ptr<PhaseResourceManager> m_PRM;
 
     bool m_EnterDown = false; 
 };
