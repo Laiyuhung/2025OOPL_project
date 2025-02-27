@@ -4,10 +4,10 @@
 #include "pch.hpp" // IWYU pragma: export
 
 #include "Util/Renderer.hpp"
-#include "Character.hpp"
 #include "Util/Text.hpp"
 #include "PhaseResourceManger.hpp"
-#include "AnimatedCharacter.hpp"
+// #include "Character.hpp"
+// #include "AnimatedCharacter.hpp"
 
 class App {
 public:
