@@ -6,7 +6,7 @@
 #include "Util/Renderer.hpp"
 #include "Util/Text.hpp"
 #include "PhaseResourceManager.hpp"
-// #include "Character.hpp"
+#include "Character.hpp"
 // #include "AnimatedCharacter.hpp"
 
 class App {
@@ -39,7 +39,7 @@ private:
 
     Util::Renderer m_Root;
 
-    // std::shared_ptr<Character> m_Giraffe;
+    std::shared_ptr<Character> m_Start_initial;
     // std::shared_ptr<Character> m_Chest;
     // std::vector<std::shared_ptr<Character>> m_Doors;
 

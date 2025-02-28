@@ -40,7 +40,7 @@ public:
         glm::vec2 sizeA = this -> m_Size;
     
         glm::vec2 posB = other->GetPosition();
-        glm::vec2 sizeB = {this -> m_Size;
+        glm::vec2 sizeB = this -> m_Size;
     
         bool collisionX = (posA.x < posB.x + sizeB.x) && (posA.x + sizeA.x > posB.x);
         bool collisionY = (posA.y < posB.y + sizeB.y) && (posA.y + sizeA.y > posB.y);

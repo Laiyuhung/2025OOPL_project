@@ -1,11 +1,11 @@
 @echo off
 if exist build (
-    echo [INFO] build 資料夾已存在，跳過 CMake 配置。
+    echo [INFO] build is exist , skip it
 ) else (
-    echo [INFO] build 資料夾不存在，執行 CMake...
+    echo [INFO] build is not exist, do cmake option Debug
     cmake -DCMAKE_BUILD_TYPE=Debug -B build
 )
-echo 正在編譯專案...
+echo build the project now
 cmake --build build
-echo 完成！
+echo finish compile , run ./build/Debug/2025OOPL_PROJECT.exe
 pause

@@ -34,6 +34,7 @@ list(TRANSFORM INCLUDE_FILES PREPEND ${INCLUDE_DIR}/)
 add_executable(${PROJECT_NAME}
     ${SRC_DIR}/main.cpp
     ${SRC_DIR}/PhaseResourceManager.cpp
+    ${SRC_DIR}/Character.cpp
     ${SRC_FILES}
     ${HEADER_FILES}
 )
