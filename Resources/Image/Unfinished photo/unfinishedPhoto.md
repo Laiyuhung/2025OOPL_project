@@ -11,3 +11,6 @@ photo8：mission提示3<br>
 
 photo9：暫停按鈕<br>
 photo10：暫停候選項按鈕(移除關卡標示)<br>
+
+photo11：阻礙物1<br>
+photo12：阻礙物2<br>
