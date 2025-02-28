@@ -73,7 +73,7 @@ private:
 
     // **取得圖片路徑**
     inline std::string ImagePath(const std::string& phase) {
-        return (GA_RESOURCE_DIR "/Image/Background/" + phase + ".png" );
+        return (GA_RESOURCE_DIR "/Image/Background/" + phase );
     }
 };
 

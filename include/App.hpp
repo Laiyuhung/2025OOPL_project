@@ -9,6 +9,9 @@
 #include "Character.hpp"
 // #include "AnimatedCharacter.hpp"
 
+
+void PhaseInitialImage(std::shared_ptr<Character> &chara_obj, std::shared_ptr<PhaseResourceManager> &RPM);
+
 class App {
 public:
     enum class State {
@@ -31,6 +34,7 @@ private:
 private:
     enum class Phase {
         INITIAL_IMAGE,
+        HOME_PAGE,
     };
 
 

@@ -1,5 +1,4 @@
 #include "App.hpp"
-#include "PhaseMainAction.h"
 
 #include "Util/Image.hpp"
 #include "Util/Input.hpp"
@@ -23,10 +22,11 @@ void App::Start() {
 void App::Update() {
     
     
-    // switch (m_Phase) {
-    //     case Phase::INITIAL_IMAGE:
-
-    // }
+    switch (m_Phase) {
+        case Phase::INITIAL_IMAGE:
+            PhaseInitialImage(m_Start_initial, m_PRM);
+            break;
+    }
     /*
      * Do not touch the code below as they serve the purpose for
      * closing the window.
