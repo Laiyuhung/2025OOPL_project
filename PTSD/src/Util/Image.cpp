@@ -56,6 +56,7 @@ void Image::SetImage(const std::string &filepath) {
 
 void Image::Draw(const Core::Matrices &data) {
     m_UniformBuffer->SetData(0, data);
+
     m_Texture->Bind(UNIFORM_SURFACE_LOCATION);
     s_Program->Bind();
     s_Program->Validate();
