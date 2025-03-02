@@ -12,7 +12,7 @@
 class BackgroundImage : public Util::GameObject {
 public:
     BackgroundImage() : GameObject(
-        std::make_unique<Util::Image>(GA_RESOURCE_DIR "/Image/Background/InitialImage.png"), -1) {
+        std::make_unique<Util::Image>(GA_RESOURCE_DIR "/Image/Background/initialImage.png"), -1) {
         SetPivot(glm::vec2(0.1f, 0.5f)); // ✅ 讓 Pivot 影響圖片縮放
     }
 

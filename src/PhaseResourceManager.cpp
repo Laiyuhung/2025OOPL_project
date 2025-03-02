@@ -16,7 +16,7 @@ void PhaseResourceManager::NextPhase(int Phase) {
     LOG_DEBUG("Passed! Next phase: {}", Phase);
     switch (Phase){
         case PHASE_HOME_PAGE:
-            m_Background->NextImage("home_page.jpg");
+            m_Background->NextImage("homePage.png");
             m_Phase = Phase;
             break; 
 
