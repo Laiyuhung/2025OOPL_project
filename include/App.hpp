@@ -13,6 +13,9 @@
 
 
 void PhaseInitialImage(std::shared_ptr<Character> &chara_obj, std::shared_ptr<PhaseResourceManager> &RPM);
+void PhaseHomePage( std::shared_ptr<GameCharacter>* objectArray , std::shared_ptr<PhaseResourceManager> & RPM);
+
+void InitializeGameCharacter( std::shared_ptr<GameCharacter>* objectArray );
 
 class App {
 public:

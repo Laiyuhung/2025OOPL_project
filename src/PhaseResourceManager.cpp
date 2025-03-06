@@ -1,10 +1,6 @@
 #include "PhaseResourceManager.hpp"
-
+#include "Global.hpp"
 #include "Util/Logger.hpp"
-
-#define PHASE_INITIAL_IMAGE 1
-#define PHASE_HOME_PAGE 2
-
 
 PhaseResourceManager::PhaseResourceManager() {
     // m_TaskText = std::make_shared<TaskText>();

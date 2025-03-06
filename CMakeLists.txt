@@ -36,6 +36,8 @@ add_executable(${PROJECT_NAME}
     ${SRC_DIR}/PhaseResourceManager.cpp
     ${SRC_DIR}/Character.cpp
     ${SRC_DIR}/PhaseMainAction.cpp
+    ${SRC_DIR}/GameCharacter.cpp
+    ${SRC_DIR}/GameMainAction.cpp
     ${SRC_FILES}
     ${HEADER_FILES}
 )

@@ -1,7 +1,5 @@
 #include "App.hpp"
-
-#define PHASE_INITIAL_IMAGE 1
-#define PHASE_HOME_PAGE 2
+#include "Global.hpp"
 
 void PhaseInitialImage( std::shared_ptr<Character> & chara_obj , std::shared_ptr<PhaseResourceManager> & RPM){
     if ( chara_obj->GetVisibility() == true ){
@@ -11,4 +9,9 @@ void PhaseInitialImage( std::shared_ptr<Character> & chara_obj , std::shared_ptr
             RPM->NextPhase( PHASE_HOME_PAGE );
         }
     }
+}
+
+void PhaseHomePage( std::shared_ptr<GameCharacter>* objectArray , std::shared_ptr<PhaseResourceManager> & RPM){
+    objectArray[BROWN_NORMAL_OBJECT]->Appear();
+
 }

@@ -1,4 +1,5 @@
 #include "App.hpp"
+#include "Global.hpp"
 
 #include "Util/Image.hpp"
 #include "Util/Input.hpp"
@@ -12,8 +13,14 @@ void App::Start() {
     m_Start_initial->SetZIndex(10);
     m_Root.AddChild(m_Start_initial);
 
-
-
+    InitializeGameCharacter( m_Normal_Game_Object );
+    m_Root.AddChild(m_Normal_Game_Object[BLUE_NORMAL_OBJECT]);
+    m_Root.AddChild(m_Normal_Game_Object[BROWN_NORMAL_OBJECT]);
+    m_Root.AddChild(m_Normal_Game_Object[GREEN_NORMAL_OBJECT]);
+    m_Root.AddChild(m_Normal_Game_Object[PINK_NORMAL_OBJECT]);
+    m_Root.AddChild(m_Normal_Game_Object[ORANGE_NORMAL_OBJECT]);
+    m_Root.AddChild(m_Normal_Game_Object[WHITE_NORMAL_OBJECT]);
+    m_Root.AddChild(m_Normal_Game_Object[YELLOW_NORMAL_OBJECT]);
     m_PRM = std::make_shared<PhaseResourceManager>();
     m_Root.AddChildren(m_PRM->GetChildren());
     m_CurrentState = State::UPDATE;
@@ -25,6 +32,9 @@ void App::Update() {
     switch (m_Phase) {
         case Phase::INITIAL_IMAGE:
             PhaseInitialImage(m_Start_initial, m_PRM);
+            break;
+        case Phase::HOME_PAGE:
+            PhaseHomePage(m_Normal_Game_Object, m_PRM);
             break;
     }
     /*
