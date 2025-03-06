@@ -19,19 +19,19 @@ public:
 
     Character& operator=(Character&&) = delete;
 
-    [[nodiscard]] const std::string& GetImagePath() const { return m_ImagePath; }
+    [[nodiscard]] virtual const std::string& GetImagePath() const { return m_ImagePath; }
 
-    [[nodiscard]] const glm::vec2& GetPosition() const { return m_Transform.translation; }
+    [[nodiscard]] virtual const glm::vec2& GetPosition() const { return m_Transform.translation; }
 
-    [[nodiscard]] bool GetVisibility() const { return m_Visible; }
+    [[nodiscard]] virtual bool GetVisibility() const { return m_Visible; }
 
-    void SetImage(const std::string& ImagePath);
+    virtual void SetImage(const std::string& ImagePath);
 
-    void SetPosition(const glm::vec2& Position) { m_Transform.translation = Position; }
+    virtual void SetPosition(const glm::vec2& Position) { m_Transform.translation = Position; }
 
-    glm::vec2 GetSize() { return this->m_Size; }
+    virtual glm::vec2 GetSize() { return this->m_Size; }
 
-    void SetSize( glm::vec2 size ) { this->m_Size = size; }
+    virtual void SetSize( glm::vec2 size ) { this->m_Size = size; }
 
     // TODO: Implement the collision detection
     [[nodiscard]] bool IfCollides(const std::shared_ptr<Character>& other) const {
@@ -61,7 +61,7 @@ public:
     }
     
 
-private:
+protected:
     void ResetPosition() { m_Transform.translation = {0, 0}; }
 
     glm::vec2 m_Size = { 50.0f, 100.0f };

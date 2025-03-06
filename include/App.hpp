@@ -7,6 +7,8 @@
 #include "Util/Text.hpp"
 #include "PhaseResourceManager.hpp"
 #include "Character.hpp"
+#include "GameCharacter.hpp"
+
 // #include "AnimatedCharacter.hpp"
 
 
@@ -44,6 +46,9 @@ private:
     Util::Renderer m_Root;
 
     std::shared_ptr<Character> m_Start_initial;
+
+    std::shared_ptr<GameCharacter> m_Normal_Game_Object[7];
+
     // std::shared_ptr<Character> m_Chest;
     // std::vector<std::shared_ptr<Character>> m_Doors;
 
