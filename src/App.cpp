@@ -7,7 +7,7 @@
 
 void App::Start() {
     LOG_TRACE("Start");
-    m_Start_initial = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/initial_start_buttom.png");
+    m_Start_initial = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/initailStartButton.png");
     m_Start_initial->SetPosition({0, -160.5f});
     m_Start_initial->SetZIndex(10);
     m_Root.AddChild(m_Start_initial);
