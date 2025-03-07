@@ -22,7 +22,12 @@ void App::Start() {
     m_Root.AddChild(m_Normal_Game_Object[WHITE_NORMAL_OBJECT]);
     m_Root.AddChild(m_Normal_Game_Object[YELLOW_NORMAL_OBJECT]);
 
-    // m_Stage_Buttom_1 = std::make_shared<Character>(GA_RESOURCE_DIR"/Image");
+    m_Stage_Buttom_1 = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/levelOne.png");
+    m_Stage_Buttom_1->SetPosition({0, -160.5f});
+    m_Stage_Buttom_1->SetZIndex(10);
+    m_Stage_Buttom_1->SetVisible(false);
+    m_Root.AddChild( m_Stage_Buttom_1 );
+
     m_PRM = std::make_shared<PhaseResourceManager>();
     m_Root.AddChildren(m_PRM->GetChildren());
     m_CurrentState = State::UPDATE;
@@ -34,13 +39,14 @@ void App::Update() {
             if (PhaseInitialImage(m_Start_initial)){
                 m_PRM->NextPhase(PHASE_HOME_PAGE);
                 m_Phase = Phase::HOME_PAGE;
+                m_Stage_Buttom_1->SetVisible( true );
             }
             break;
         case Phase::HOME_PAGE:
-            // if (PhaseInitialImage(m_Start_initial)){
-            //     m_PRM->NextPhase(PHASE_STAGE_1);
-            //     m_Phase = Phase::STAGE_1;
-            // }
+            if (PhaseHomePage(m_Stage_Buttom_1)){
+                m_PRM->NextPhase(PHASE_STAGE_1);
+                m_Phase = Phase::STAGE_1;
+            }
             break;
         case Phase::STAGE_1:
             break;

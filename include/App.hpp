@@ -13,7 +13,9 @@
 
 // Declare of Phase Main Action
 bool PhaseInitialImage(std::shared_ptr<Character> &chara_obj);
-void PhaseHomePage( std::shared_ptr<GameCharacter>* objectArray);
+bool PhaseHomePage( std::shared_ptr<Character> &level1);
+bool PhaseStage1( std::shared_ptr<GameCharacter>* objectArray );
+void DebugPhaseStage1( std::shared_ptr<GameCharacter>* objectArray );
 
 // Declare of Game Main Character
 void InitializeGameCharacter( std::shared_ptr<GameCharacter>* objectArray );
