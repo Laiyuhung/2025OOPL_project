@@ -44,6 +44,7 @@ public:
             NextPos.x += Speed;
 
         this->SetPosition( NextPos ); 
+        std::cout << "x : " << NextPos.x << " y : " << NextPos.y << "\n";
     }
     void SwitchPosition( std::shared_ptr<Character>& other ) {
         glm::vec2 temp = this->GetPosition();
