@@ -11,11 +11,14 @@
 
 // #include "AnimatedCharacter.hpp"
 
-
+// Declare of Phase Main Action
 void PhaseInitialImage(std::shared_ptr<Character> &chara_obj, std::shared_ptr<PhaseResourceManager> &RPM);
 void PhaseHomePage( std::shared_ptr<GameCharacter>* objectArray , std::shared_ptr<PhaseResourceManager> & RPM);
+void PhaseInitialImage( std::shared_ptr<GameCharacter>* objectArray , std::shared_ptr<Character> & chara_obj , std::shared_ptr<PhaseResourceManager> & RPM);
 
+// Declare of Game Main Character
 void InitializeGameCharacter( std::shared_ptr<GameCharacter>* objectArray );
+void DebugModeOfPosition( std::shared_ptr<GameCharacter>* objectArray , int option);
 
 class App {
 public:

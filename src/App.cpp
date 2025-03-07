@@ -27,14 +27,11 @@ void App::Start() {
 }
 
 void App::Update() {
-    
-    
     switch (m_Phase) {
         case Phase::INITIAL_IMAGE:
-            PhaseInitialImage(m_Start_initial, m_PRM);
+            PhaseInitialImage(m_Normal_Game_Object, m_Start_initial, m_PRM);
             break;
         case Phase::HOME_PAGE:
-            PhaseHomePage(m_Normal_Game_Object, m_PRM);
             break;
     }
     /*

@@ -14,7 +14,9 @@ public:
         return {m_Background};
     }
 
-    void NextPhase(const int phase);
+    void NextPhase(int Phase);
+
+    int ReturnPhase() { return m_Phase; }
 
 private:
     // std::shared_ptr<TaskText> m_TaskText;

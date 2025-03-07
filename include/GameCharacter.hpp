@@ -32,24 +32,24 @@ public:
             this->SetPosition(NextPos);
         }
     }
-    void DebugMode() {
-        while ( true ) {
-            glm::vec2 NextPos = this->GetPosition();
-            if (Util::Input::IsKeyDown(Util::Keycode::Q)) {
-                std::cout << "x : " << NextPos.x << " y : " << NextPos.y << "\n";
-                return;
-            }
-            if (Util::Input::IsKeyDown(Util::Keycode::UP) )
-                NextPos.y += 1;
-            if (Util::Input::IsKeyDown(Util::Keycode::DOWN) )
-                NextPos.y -= 1;
-            if (Util::Input::IsKeyDown(Util::Keycode::LEFT) )
-                NextPos.x -= 1;
-            if (Util::Input::IsKeyDown(Util::Keycode::RIGHT) )
-                NextPos.x += 1;
-        }
-    }
+    void DebugMode(int Speed) {
+        glm::vec2 NextPos = this->GetPosition();
+        if (Util::Input::IsKeyDown(Util::Keycode::UP) )
+            NextPos.y += Speed;
+        if (Util::Input::IsKeyDown(Util::Keycode::DOWN) )
+            NextPos.y -= Speed;
+        if (Util::Input::IsKeyDown(Util::Keycode::LEFT) )
+            NextPos.x -= Speed;
+        if (Util::Input::IsKeyDown(Util::Keycode::RIGHT) )
+            NextPos.x += Speed;
 
+        this->SetPosition( NextPos ); 
+    }
+    void SwitchPosition( std::shared_ptr<Character>& other ) {
+        glm::vec2 temp = this->GetPosition();
+        this->SetPosition( other->GetPosition() );
+        other->SetPosition( temp );
+    }
     virtual void SetPosition(const glm::vec2& Position) { m_Transform.translation = Position; }
     virtual void SetImage(const std::string& ImagePath);
 

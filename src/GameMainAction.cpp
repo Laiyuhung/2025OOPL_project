@@ -17,3 +17,9 @@ void InitializeGameCharacter( std::shared_ptr<GameCharacter>* objectArray ){
         objectArray[i]->DisAppear();
     }
 }
+
+void DebugModeOfPosition( std::shared_ptr<GameCharacter>* objectArray , int option) {
+    objectArray[option]->Appear();
+    objectArray[option]->DebugMode(10);
+    
+}
