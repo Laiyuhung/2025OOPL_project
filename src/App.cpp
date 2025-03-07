@@ -28,9 +28,10 @@ void App::Start() {
     m_Stage_Buttom_1->SetVisible(false);
     m_Root.AddChild( m_Stage_Buttom_1 );
 
-    InitializeStageCharacter( m_Stage_1_Object , m_Normal_Game_Object , 37);
-    
-    
+    InitializeStageCharacter( m_Stage_1_Object, 37);
+    for ( int i = 0 ; i < 37 ; ++i ) {
+        m_Root.AddChild( m_Stage_1_Object[i] );
+    }
 
     m_PRM = std::make_shared<PhaseResourceManager>();
     m_Root.AddChildren(m_PRM->GetChildren());
@@ -49,6 +50,9 @@ void App::Update() {
         case Phase::HOME_PAGE:
             if (PhaseHomePage(m_Stage_Buttom_1)){
                 m_PRM->NextPhase(PHASE_STAGE_1);
+                for ( int i = 0 ; i < 37 ; ++i ) {
+                    m_Stage_1_Object[i]->Appear();
+                }
                 m_Phase = Phase::STAGE_1;
             }
             break;

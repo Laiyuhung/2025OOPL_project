@@ -38,6 +38,7 @@ add_executable(${PROJECT_NAME}
     ${SRC_DIR}/PhaseMainAction.cpp
     ${SRC_DIR}/GameCharacter.cpp
     ${SRC_DIR}/GameMainAction.cpp
+    ${SRC_DIR}/Global.cpp
     ${SRC_FILES}
     ${HEADER_FILES}
 )

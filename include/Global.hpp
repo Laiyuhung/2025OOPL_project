@@ -1,11 +1,10 @@
 #ifndef GLOBAL_HPP
 #define GLOBAL_HPP
-#pragma once
 
+#pragma once
 #define PHASE_INITIAL_IMAGE 1
 #define PHASE_HOME_PAGE 2
 #define PHASE_STAGE_1 3
-
 
 #define BLUE_NORMAL_OBJECT 0
 #define BROWN_NORMAL_OBJECT 1
@@ -15,7 +14,8 @@
 #define WHITE_NORMAL_OBJECT 5
 #define YELLOW_NORMAL_OBJECT 6
 
+#include <glm/vec2.hpp> 
 
-
+extern glm::vec2 stage1_postion[37];
 
 #endif // GLOBAL_HPP

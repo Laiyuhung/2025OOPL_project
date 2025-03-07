@@ -24,7 +24,7 @@ bool PhaseHomePage( std::shared_ptr<Character> &level1){
 }
 
 bool PhaseStage1( std::shared_ptr<GameCharacter>* objectArray ) {
-    objectArray[0]->Appear();
+
     return true;
 }
 

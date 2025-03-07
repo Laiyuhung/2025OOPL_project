@@ -60,7 +60,6 @@ public:
         return insideX && insideY && isClicked;
     }
     
-    virtual std::shared_ptr<Character> Clone() const = 0;
 protected:
     void ResetPosition() { m_Transform.translation = {0, 0}; }
 

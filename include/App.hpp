@@ -21,7 +21,7 @@ void DebugPhaseStage1( std::shared_ptr<GameCharacter>* objectArray );
 
 // Declare of Game Main Character
 void InitializeGameCharacter( std::shared_ptr<GameCharacter>* objectArray );
-void InitializeStageCharacter( std::shared_ptr<GameCharacter>* objectArray , std::shared_ptr<GameCharacter>* object , int size );
+void InitializeStageCharacter( std::shared_ptr<GameCharacter>* objectArray , int size);
 void DebugModeOfPosition( std::shared_ptr<GameCharacter>* objectArray , int option);
 void DebugModeCancel( std::shared_ptr<GameCharacter>* objectArray , int option);
 
