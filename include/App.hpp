@@ -12,13 +12,13 @@
 // #include "AnimatedCharacter.hpp"
 
 // Declare of Phase Main Action
-void PhaseInitialImage(std::shared_ptr<Character> &chara_obj, std::shared_ptr<PhaseResourceManager> &RPM);
-void PhaseHomePage( std::shared_ptr<GameCharacter>* objectArray , std::shared_ptr<PhaseResourceManager> & RPM);
-void PhaseInitialImage( std::shared_ptr<GameCharacter>* objectArray , std::shared_ptr<Character> & chara_obj , std::shared_ptr<PhaseResourceManager> & RPM);
+bool PhaseInitialImage(std::shared_ptr<Character> &chara_obj);
+void PhaseHomePage( std::shared_ptr<GameCharacter>* objectArray);
 
 // Declare of Game Main Character
 void InitializeGameCharacter( std::shared_ptr<GameCharacter>* objectArray );
 void DebugModeOfPosition( std::shared_ptr<GameCharacter>* objectArray , int option);
+void DebugModeCancel( std::shared_ptr<GameCharacter>* objectArray , int option);
 
 class App {
 public:
@@ -41,8 +41,9 @@ private:
 
 private:
     enum class Phase {
-        INITIAL_IMAGE,
-        HOME_PAGE,
+        INITIAL_IMAGE = 1,
+        HOME_PAGE = 2 ,
+        STAGE_1 = 3 ,
     };
 
 
@@ -52,6 +53,7 @@ private:
     Util::Renderer m_Root;
 
     std::shared_ptr<Character> m_Start_initial;
+    std::shared_ptr<Character> m_Stage_Buttom_1;
 
     std::shared_ptr<GameCharacter> m_Normal_Game_Object[7];
 

@@ -1,6 +1,7 @@
 #include "App.hpp"
 #include "Global.hpp"
 #include "Util/Keycode.hpp"
+#include <iostream>
 
 void InitializeGameCharacter( std::shared_ptr<GameCharacter>* objectArray ){
     objectArray[BLUE_NORMAL_OBJECT] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/blueNormal.png" );
@@ -21,5 +22,9 @@ void InitializeGameCharacter( std::shared_ptr<GameCharacter>* objectArray ){
 void DebugModeOfPosition( std::shared_ptr<GameCharacter>* objectArray , int option) {
     objectArray[option]->Appear();
     objectArray[option]->DebugMode(10);
-    
+}
+
+void DebugModeCancel( std::shared_ptr<GameCharacter>* objectArray , int option) {
+    objectArray[option]->DisAppear();
+    std::cout << "x : " << objectArray[option]->GetPosition().x << " y : " << objectArray[option]->GetPosition().y << "\n";
 }

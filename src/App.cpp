@@ -21,6 +21,8 @@ void App::Start() {
     m_Root.AddChild(m_Normal_Game_Object[ORANGE_NORMAL_OBJECT]);
     m_Root.AddChild(m_Normal_Game_Object[WHITE_NORMAL_OBJECT]);
     m_Root.AddChild(m_Normal_Game_Object[YELLOW_NORMAL_OBJECT]);
+
+    // m_Stage_Buttom_1 = std::make_shared<Character>(GA_RESOURCE_DIR"/Image");
     m_PRM = std::make_shared<PhaseResourceManager>();
     m_Root.AddChildren(m_PRM->GetChildren());
     m_CurrentState = State::UPDATE;
@@ -29,9 +31,18 @@ void App::Start() {
 void App::Update() {
     switch (m_Phase) {
         case Phase::INITIAL_IMAGE:
-            PhaseInitialImage(m_Normal_Game_Object, m_Start_initial, m_PRM);
+            if (PhaseInitialImage(m_Start_initial)){
+                m_PRM->NextPhase(PHASE_HOME_PAGE);
+                m_Phase = Phase::HOME_PAGE;
+            }
             break;
         case Phase::HOME_PAGE:
+            // if (PhaseInitialImage(m_Start_initial)){
+            //     m_PRM->NextPhase(PHASE_STAGE_1);
+            //     m_Phase = Phase::STAGE_1;
+            // }
+            break;
+        case Phase::STAGE_1:
             break;
     }
     /*

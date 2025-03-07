@@ -1,27 +1,31 @@
 #include "App.hpp"
 #include "Global.hpp"
+#include "Util/Keycode.hpp"
 
-void PhaseInitialImage( std::shared_ptr<Character> & chara_obj , std::shared_ptr<PhaseResourceManager> & RPM){
+bool PhaseInitialImage( std::shared_ptr<Character> & chara_obj ){
     if ( chara_obj->GetVisibility() == true ){
         if (chara_obj->IfClick()) { 
             std::cout << "Character clicked!" << std::endl;
             chara_obj->SetVisible( false );
-            RPM->NextPhase( PHASE_HOME_PAGE );
+            return true; 
         }
     }
+    return false;
 }
+// bool PhaseHomePage( std::shared_ptr<GameCharacter>* objectArray ){
+//     if ( chara_obj->GetVisibility() == true ){
+//         if (chara_obj->IfClick()) { 
+//             std::cout << "Character clicked!" << std::endl;
+//             chara_obj->SetVisible( false );
+//             return true; 
+//         }
+//     }
+//     return false;
+// }
 
-void PhaseInitialImage( std::shared_ptr<GameCharacter>* objectArray , std::shared_ptr<Character> & chara_obj , std::shared_ptr<PhaseResourceManager> & RPM){
-    if ( chara_obj->GetVisibility() == true ){
-        if (chara_obj->IfClick()) { 
-            std::cout << "Character clicked!" << std::endl;
-            chara_obj->SetVisible( false );
-            RPM->NextPhase( PHASE_HOME_PAGE );
-        }
-        DebugModeOfPosition(objectArray, 0 );
-    }
-}
-
-void PhaseHomePage( std::shared_ptr<GameCharacter>* objectArray , std::shared_ptr<PhaseResourceManager> & RPM){
-    DebugModeOfPosition( objectArray , 0 );
-}
+// void PhaseStage1( std::shared_ptr<GameCharacter>* objectArray ) {
+//     DebugModeOfPosition( objectArray , 0 );
+//     if ( Util::Input::IsKeyDown(Util::Keycode::R ) ){
+//         DebugModeCancel( objectArray, 0 );
+//     }
+// }

@@ -2,8 +2,10 @@
 #define GLOBAL_HPP
 #pragma once
 
-#define PHASE_INITIAL_IMAGE 0
-#define PHASE_HOME_PAGE 1
+#define PHASE_INITIAL_IMAGE 1
+#define PHASE_HOME_PAGE 2
+#define PHASE_STAGE_1 3
+
 
 #define BLUE_NORMAL_OBJECT 0
 #define BROWN_NORMAL_OBJECT 1
