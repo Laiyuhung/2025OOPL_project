@@ -8,19 +8,21 @@
 
 void App::Start() {
     LOG_TRACE("Start");
+    InitializeStage1();
+
     m_Start_initial = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/initailStartButton.png");
     m_Start_initial->SetPosition({0, -160.5f});
     m_Start_initial->SetZIndex(10);
     m_Root.AddChild(m_Start_initial);
 
-    InitializeGameCharacter( m_Normal_Game_Object );
-    m_Root.AddChild(m_Normal_Game_Object[BLUE_NORMAL_OBJECT]);
-    m_Root.AddChild(m_Normal_Game_Object[BROWN_NORMAL_OBJECT]);
-    m_Root.AddChild(m_Normal_Game_Object[GREEN_NORMAL_OBJECT]);
-    m_Root.AddChild(m_Normal_Game_Object[PINK_NORMAL_OBJECT]);
-    m_Root.AddChild(m_Normal_Game_Object[ORANGE_NORMAL_OBJECT]);
-    m_Root.AddChild(m_Normal_Game_Object[WHITE_NORMAL_OBJECT]);
-    m_Root.AddChild(m_Normal_Game_Object[YELLOW_NORMAL_OBJECT]);
+    // InitializeGameCharacter( m_Normal_Game_Object );
+    // m_Root.AddChild(m_Normal_Game_Object[BLUE_NORMAL_OBJECT]);
+    // m_Root.AddChild(m_Normal_Game_Object[BROWN_NORMAL_OBJECT]);
+    // m_Root.AddChild(m_Normal_Game_Object[GREEN_NORMAL_OBJECT]);
+    // m_Root.AddChild(m_Normal_Game_Object[PINK_NORMAL_OBJECT]);
+    // m_Root.AddChild(m_Normal_Game_Object[ORANGE_NORMAL_OBJECT]);
+    // m_Root.AddChild(m_Normal_Game_Object[WHITE_NORMAL_OBJECT]);
+    // m_Root.AddChild(m_Normal_Game_Object[YELLOW_NORMAL_OBJECT]);
 
     m_Stage_Buttom_1 = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/levelOne.png");
     m_Stage_Buttom_1->SetPosition({0, -160.5f});
@@ -29,7 +31,7 @@ void App::Start() {
     m_Root.AddChild( m_Stage_Buttom_1 );
 
     InitializeStageCharacter( m_Stage_1_Object, 37);
-    for ( int i = 0 ; i < 37 ; ++i ) {
+    for ( int i = 1 ; i < 38 ; ++i ) {
         m_Root.AddChild( m_Stage_1_Object[i] );
     }
 
@@ -50,7 +52,8 @@ void App::Update() {
         case Phase::HOME_PAGE:
             if (PhaseHomePage(m_Stage_Buttom_1)){
                 m_PRM->NextPhase(PHASE_STAGE_1);
-                for ( int i = 0 ; i < 37 ; ++i ) {
+                for ( int i = 1 ; i < 38 ; ++i ) {
+                    // std::cout << "i : " << i << " " << m_Stage_1_Object[i]->GetPosition().x << " " <<  m_Stage_1_Object[i]->GetPosition().y<< std::endl;
                     m_Stage_1_Object[i]->Appear();
                 }
                 m_Phase = Phase::STAGE_1;

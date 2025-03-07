@@ -25,6 +25,10 @@ void InitializeGameCharacter( std::shared_ptr<GameCharacter>* objectArray );
 void InitializeStageCharacter( std::shared_ptr<GameCharacter>* objectArray , int size);
 void DebugModeOfPosition( std::shared_ptr<GameCharacter>* objectArray , int option);
 void DebugModeCancel( std::shared_ptr<GameCharacter>* objectArray , int option);
+void CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, int size );
+int CheckNextAppearance( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length );
+void DisappaerMethodOfOneLine( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length );
+void DisappearBySingleObject ( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length_left);
 
 class App {
 public:
@@ -63,7 +67,7 @@ private:
 
     std::shared_ptr<GameCharacter> m_Normal_Game_Object[7];
 
-    std::shared_ptr<GameCharacter> m_Stage_1_Object[37];
+    std::shared_ptr<GameCharacter> m_Stage_1_Object[38];
 
     // std::shared_ptr<Character> m_Chest;
     // std::vector<std::shared_ptr<Character>> m_Doors;

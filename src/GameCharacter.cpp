@@ -3,7 +3,7 @@
 
 
 GameCharacter::GameCharacter(const std::string& ImagePath)
-    : Character(ImagePath), m_ImagePath(ImagePath) { }
+    : Character(ImagePath), m_ImagePath(ImagePath) {}
 
 void GameCharacter::SetImage(const std::string& ImagePath) {
     m_ImagePath = ImagePath;

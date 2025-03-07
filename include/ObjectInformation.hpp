@@ -15,13 +15,13 @@ class Objectinformation {
             }
         }
         
-        int GetStage() { return this->m_Stage };
+        int GetStage() { return this->m_Stage; }
 
-        int GetPositionNumber() { return this->m_PosNumber };
+        int GetPositionNumber() { return this->m_PosNumber; }
 
-        int* GetNeibor() { return this->m_Neibor };
+        int* GetNeibor() { return this->m_Neibor; }
 
-        glm::vec2 GetPosition() { return this->m_Postion };
+        glm::vec2 GetPosition() { return this->m_Position; };
         
         
         void SetPosNumber( int PosNumber ) { 
@@ -42,12 +42,13 @@ class Objectinformation {
             this->m_Stage = Stage;
         }
 
-        void SetPostion( glm::vec2 Postion ) {
-            this->m_Postion = Postion;
+        void SetPosition( glm::vec2 Postion ) {
+            this->m_Position = Postion;
         }
+
     private:
         int m_Stage = 0 ;
         int m_PosNumber = 0 ;
         int m_Neibor[6] = {0};
-        glm::vec2 m_Postion = {0, 0};
+        glm::vec2 m_Position = {0, 0};
 };
