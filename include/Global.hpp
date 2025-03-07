@@ -15,7 +15,10 @@
 #define YELLOW_NORMAL_OBJECT 6
 
 #include <glm/vec2.hpp> 
+#include "ObjectInformation.hpp"
 
-extern glm::vec2 stage1_postion[37];
+extern glm::vec2 stage1_postion[38];
+extern int stage1_neibor[38][6] = {0};
+extern Objectinformation stage1[38];
 
 #endif // GLOBAL_HPP

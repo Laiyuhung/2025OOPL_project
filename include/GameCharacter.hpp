@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 
+#include "ObjectInformation.hpp"
 #include "Character.hpp"
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
@@ -46,13 +47,34 @@ public:
         this->SetPosition( NextPos ); 
         std::cout << "x : " << NextPos.x << " y : " << NextPos.y << "\n";
     }
-    void SwitchPosition( std::shared_ptr<Character>& other ) {
-        glm::vec2 temp = this->GetPosition();
-        this->SetPosition( other->GetPosition() );
-        other->SetPosition( temp );
+    
+    int GetInformationStage() { return (this->m_information).GetStage(); }
+
+    int GetInformationPosNumber() { return (this->m_information).GetPositionNumber(); }
+
+    int* GetInformationNeibor() { return (this->m_information).GetNeibor(); }
+
+    glm::vec2 GetInformationPosition() { return (this->m_information).GetPosition(); }
+
+    void SwitchPosition( std::shared_ptr<GameCharacter>& other ) {
+        Objectinformation temp = this->m_information;
+        this->m_information = other->m_information;
+        other->m_information = temp;
+
+        this->SetPosition( this->GetInformationPosition() );
+        other->SetPosition( other->GetInformationPosition() );
     }
 
-    virtual void SetPosition(const glm::vec2& Position) { m_Transform.translation = Position; }
+    void SetInformation( int Stage , int Pos , int* Neibor , const glm::vec2& Position) {
+        (this->m_information).SetStage( Stage );
+        (this->m_information).SetPosNumber( Pos );
+        (this->m_information).SetNeibor( Neibor );
+        this->SetPosition( Position );
+    }
+    virtual void SetPosition(const glm::vec2& Position) { 
+        m_Transform.translation = Position; 
+        (this->m_information).SetPostion( Position );
+    }
     virtual void SetImage(const std::string& ImagePath);
 
 protected:
@@ -62,6 +84,7 @@ protected:
 
     glm::vec2 m_Size = { 50.0f, 100.0f };
     std::string m_ImagePath;
+    Objectinformation &m_information;
 };
 
 #endif // GAME_CHARACTER_HPP

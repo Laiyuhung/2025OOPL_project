@@ -1,5 +1,8 @@
 #include "Global.hpp"
-glm::vec2 stage1_postion[37] = {
+#include "App.hpp"
+
+glm::vec2 stage1_postion[38] = {
+    { -100000 , -100000 },
     { -87 , -70.5 }, { -87, -37.5 }, { -87, -4.5 } , { -87, 28.5 },
     { -57, 46.5 }, { -57, 13.5 }, { -57, -19.5 },
     { -57, -52.5 }, { -57, -85.5 }, { -27, -103.5 },
@@ -13,3 +16,18 @@ glm::vec2 stage1_postion[37] = {
     { 57, -49.5 }, { 57, -82.5 }, { 87, -70.5 },
     { 87, -37.5 }, { 87, -1.5 }, { 87, 31.5 }
 };
+
+int stage1_neibor[38][6] = {
+    { -1 , -1 , -1 , -1 , -1 , -1 },
+    // ex: { 1 , 2 , 3, 4, 5, 6}
+};
+
+Objectinformation stage1[38];
+void InitializeStage1() {
+    for ( int i = 0 ; i < 39 ; ++i ) {
+        stage1[i].SetNeibor( stage1_neibor[i] );
+        stage1[i].SetPosNumber( i );
+        stage1[i].SetPostion( stage1_postion[i] );
+        stage1[i].SetStage(1);
+    }
+}

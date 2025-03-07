@@ -10,6 +10,7 @@
 #include "PhaseResourceManager.hpp"
 #include "Character.hpp"
 #include "GameCharacter.hpp"
+#include "ObjectInformation.hpp"
 
 // #include "AnimatedCharacter.hpp"
 
