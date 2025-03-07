@@ -49,6 +49,9 @@ void App::Update() {
             }
             break;
         case Phase::STAGE_1:
+            if (PhaseStage1(m_Normal_Game_Object)){
+                
+            }
             break;
     }
     /*
