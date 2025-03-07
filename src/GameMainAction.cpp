@@ -19,6 +19,13 @@ void InitializeGameCharacter( std::shared_ptr<GameCharacter>* objectArray ){
     }
 }
 
+void InitializeStageCharacter(std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>* object) {
+    
+    if (object[0]) {
+        objectArray[0] = std::dynamic_pointer_cast<GameCharacter>(object[0]->Clone());    
+    }
+}
+
 void DebugModeOfPosition( std::shared_ptr<GameCharacter>* objectArray , int option) {
     objectArray[option]->Appear();
     objectArray[option]->DebugMode(10);

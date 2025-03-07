@@ -1,6 +1,8 @@
 #ifndef APP_HPP
 #define APP_HPP
 
+#include <vector>
+
 #include "pch.hpp" // IWYU pragma: export
 
 #include "Util/Renderer.hpp"
@@ -19,6 +21,7 @@ void DebugPhaseStage1( std::shared_ptr<GameCharacter>* objectArray );
 
 // Declare of Game Main Character
 void InitializeGameCharacter( std::shared_ptr<GameCharacter>* objectArray );
+void InitializeStageCharacter( std::shared_ptr<GameCharacter>* objectArray , std::shared_ptr<GameCharacter>* object , int size );
 void DebugModeOfPosition( std::shared_ptr<GameCharacter>* objectArray , int option);
 void DebugModeCancel( std::shared_ptr<GameCharacter>* objectArray , int option);
 
@@ -58,6 +61,8 @@ private:
     std::shared_ptr<Character> m_Stage_Buttom_1;
 
     std::shared_ptr<GameCharacter> m_Normal_Game_Object[7];
+
+    std::shared_ptr<GameCharacter> m_Stage_1_Object[37];
 
     // std::shared_ptr<Character> m_Chest;
     // std::vector<std::shared_ptr<Character>> m_Doors;

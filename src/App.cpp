@@ -28,6 +28,10 @@ void App::Start() {
     m_Stage_Buttom_1->SetVisible(false);
     m_Root.AddChild( m_Stage_Buttom_1 );
 
+    InitializeStageCharacter( m_Stage_1_Object , m_Normal_Game_Object , 37);
+    
+    
+
     m_PRM = std::make_shared<PhaseResourceManager>();
     m_Root.AddChildren(m_PRM->GetChildren());
     m_CurrentState = State::UPDATE;
@@ -49,7 +53,7 @@ void App::Update() {
             }
             break;
         case Phase::STAGE_1:
-            if (PhaseStage1(m_Normal_Game_Object)){
+            if (PhaseStage1(m_Stage_1_Object)){
                 
             }
             break;

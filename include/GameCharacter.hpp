@@ -51,6 +51,11 @@ public:
         this->SetPosition( other->GetPosition() );
         other->SetPosition( temp );
     }
+
+    std::shared_ptr<Character> Clone() const override {
+        return std::make_shared<GameCharacter>(*this);
+    }
+
     virtual void SetPosition(const glm::vec2& Position) { m_Transform.translation = Position; }
     virtual void SetImage(const std::string& ImagePath);
 
