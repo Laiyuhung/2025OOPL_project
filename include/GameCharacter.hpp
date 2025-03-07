@@ -32,7 +32,7 @@ public:
             this->SetPosition(NextPos);
         }
     }
-    void DebugMode(int Speed) {
+    void DebugMode(float Speed) {
         glm::vec2 NextPos = this->GetPosition();
         if (Util::Input::IsKeyDown(Util::Keycode::UP) )
             NextPos.y += Speed;
