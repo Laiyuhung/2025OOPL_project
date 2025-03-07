@@ -57,7 +57,6 @@ void InitializeStageCharacter(std::shared_ptr<GameCharacter>* objectArray, int s
         objectArray[i]->SetZIndex(10);
         objectArray[i]->DisAppear();
     }
-    
     // objectArray[BLUE_NORMAL_OBJECT] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/blueNormal.png" );
     // objectArray[BROWN_NORMAL_OBJECT] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/brownNormal.png" );
     // objectArray[GREEN_NORMAL_OBJECT] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/greenNormal.png" );
@@ -77,42 +76,59 @@ void CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, int size ) {
     for ( int i = 1 ; i < size+1 ; ++i ) {
         int *neighbors = objectArray[i]->GetInformationNeibor() ;//GET NEIGHBOR
         objectArray[i]->GetBlockType() ;
-        int length = 0 ;
         int total_length[6] = { 0 } ;
         for ( int j = 0 ; j < 6 ; ++j ) { 
-            if ( objectArray[ neighbors[j] ]->GetBlockType() == objectArray[i]->GetBlockType() ) {       
-                total_length[j] = CheckNextAppearance( objectArray, objectArray[ neighbors[j] ], j, length ) ;
+            if ( neighbors[j] == -1 ) 
+                continue;
+            if ( objectArray[ neighbors[j] ]->GetBlockType() == objectArray[i]->GetBlockType() ) {      
+                total_length[j] = CheckNextAppearance( objectArray, objectArray[ neighbors[j] ], j, 1 ) ;
             }
         }
         for ( int j = 0 ; j < 6 ; ++j ) 
-            DisappaerMethodOfOneLine(objectArray, objectArray[ neighbors[j]] , total_length );
+            DisappaerMethodOfOneLine(objectArray, &objectArray[ neighbors[j]] , total_length );
     }
 }
 
 int CheckNextAppearance( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length ) {
-    if ( object->GetBlockType() == objectArray[ object->GetInformationNeibor()[side] ]->GetBlockType() ){
-        length++ ;
-        return CheckNextAppearance( objectArray, objectArray[ object->GetInformationNeibor()[side] ], side, length ) ;
+    // std::cout << "side: " << side << " length: " << length << " object->GetInformationPosNumber(): " << object->GetInformationPosNumber() << std::endl;
+    
+    if( object->GetInformationNeibor()[side] == -1 )
+        return length;
+    
+    if ( object->GetBlockType() == objectArray[ object->GetInformationNeibor()[side] ]->GetBlockType() && object->GetInformationNeibor()[side] != -1 ){
+        return CheckNextAppearance( objectArray, objectArray[ object->GetInformationNeibor()[side] ], side, length + 1 ) ;
     }
     else
         return length ;
+
 }
 
 void DisappaerMethodOfOneLine( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length ) {
-    if ( (total_length[0] + total_length[3] + 1 ) >=3 ) {
+    if ( (total_length[0] + total_length[3] + 1 ) >= 3 ) {
+        
         object->DisAppear();
-        DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[0] ], 0, total_length[0]);
-        DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[3] ], 3, total_length[3]);
+
+        if( total_length[0] > 0 )
+            ;// DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[0] ], 0, total_length[0]);
+
+        if( total_length[3] > 0 )
+            ;// DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[3] ], 3, total_length[3]);
     }
     else if ( (total_length[1] + total_length[4] + 1 ) >=3 ) {
         object->DisAppear();
-        DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[1] ], 1, total_length[1]);
-        DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[4] ], 4, total_length[4]);
+
+        if( total_length[1] > 0 )
+            ;// DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[1] ], 1, total_length[1]);
+        
+        if( total_length[4] > 0 )
+            ;// DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[4] ], 4, total_length[4]);
     }
     else if ( (total_length[2] + total_length[5] + 1 ) >=3 ) {
         object->DisAppear();        
-        DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[2] ], 2, total_length[2]);
-        DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[5] ], 5, total_length[5]);
+        if( total_length[2] > 0 )
+            ;// DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[2] ], 2, total_length[2]);
+        if( total_length[5] > 0 )
+            ;// DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[5] ], 5, total_length[5]);
     }
     else 
         return;
@@ -120,7 +136,10 @@ void DisappaerMethodOfOneLine( std::shared_ptr<GameCharacter>* objectArray, std:
 }
 
 void DisappearBySingleObject ( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length_left) {
+    std::cout << "hi" ;
     object->DisAppear();
+    if ( object->GetInformationNeibor()[side] == -1 )
+        return;
     if ( length_left - 1 > 0 ) {
         DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[side] ], side, length_left - 1) ;
     } else

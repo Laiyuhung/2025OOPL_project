@@ -34,6 +34,8 @@ void App::Start() {
     for ( int i = 1 ; i < 38 ; ++i ) {
         m_Root.AddChild( m_Stage_1_Object[i] );
     }
+    
+    CheckAppearance( m_Stage_1_Object , 37 );
 
     m_PRM = std::make_shared<PhaseResourceManager>();
     m_Root.AddChildren(m_PRM->GetChildren());
