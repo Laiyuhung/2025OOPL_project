@@ -20,7 +20,6 @@ public:
     }
 
     void DisAppear() {
-        // printf( "test\n");
         this->SetVisible(false);
     }
     void Drop(glm::vec2 MoveVector = {0 , 1}, glm::vec2 GoalPosition = {0, 0}) {

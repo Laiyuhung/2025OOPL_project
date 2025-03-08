@@ -34,7 +34,7 @@ void Dropping_method( std::shared_ptr<GameCharacter>* objectArray, const int siz
 
 void CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, int size );
 int  CheckNextAppearance( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length );
-void DisappaerMethodOfOneLine( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length );
+bool DisappaerMethodOfOneLine( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length );
 void DisappearBySingleObject ( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length_left);
 void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , int size );
 
