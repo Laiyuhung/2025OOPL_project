@@ -14,16 +14,7 @@ void App::Start() {
     m_Start_initial->SetPosition({0, -160.5f});
     m_Start_initial->SetZIndex(10);
     m_Root.AddChild(m_Start_initial);
-
-    // InitializeGameCharacter( m_Normal_Game_Object );
-    // m_Root.AddChild(m_Normal_Game_Object[BLUE_NORMAL_OBJECT]);
-    // m_Root.AddChild(m_Normal_Game_Object[BROWN_NORMAL_OBJECT]);
-    // m_Root.AddChild(m_Normal_Game_Object[GREEN_NORMAL_OBJECT]);
-    // m_Root.AddChild(m_Normal_Game_Object[PINK_NORMAL_OBJECT]);
-    // m_Root.AddChild(m_Normal_Game_Object[ORANGE_NORMAL_OBJECT]);
-    // m_Root.AddChild(m_Normal_Game_Object[WHITE_NORMAL_OBJECT]);
-    // m_Root.AddChild(m_Normal_Game_Object[YELLOW_NORMAL_OBJECT]);
-
+    
     m_Stage_Buttom_1 = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/levelOne.png");
     m_Stage_Buttom_1->SetPosition({0, -160.5f});
     m_Stage_Buttom_1->SetZIndex(10);
@@ -31,16 +22,8 @@ void App::Start() {
     m_Root.AddChild( m_Stage_Buttom_1 );
 
     InitializeStageCharacter( m_Stage_1_Object, 37);
-    for ( int i = 1 ; i < 38 ; ++i ) {
+    for ( int i = 1 ; i < 38 ; ++i )
         m_Root.AddChild( m_Stage_1_Object[i] );
-    }
-
-    // m_Stage_1_Object[1]->Appear();
-    // m_Stage_1_Object[2]->Appear();
-
-    // std::cout << "wqd "<< m_Stage_1_Object[1]->GetBlockType() << " " << m_Stage_1_Object[2]->GetBlockType() << std::endl;
-    // int test = 1;
-    // m_Stage_1_Object[test]->SwitchPosition( m_Stage_1_Object[ m_Stage_1_Object[test]->GetInformationNeibor()[0] ] );
     CheckAppearance( m_Stage_1_Object , 37 );
 
     m_PRM = std::make_shared<PhaseResourceManager>();

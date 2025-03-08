@@ -4,20 +4,43 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <string>
 
-void InitializeGameCharacter( std::shared_ptr<GameCharacter>* objectArray ){
-    objectArray[BLUE_NORMAL_OBJECT] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/blueNormal.png" );
-    objectArray[BROWN_NORMAL_OBJECT] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/brownNormal.png" );
-    objectArray[GREEN_NORMAL_OBJECT] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/greenNormal.png" );
-    objectArray[PINK_NORMAL_OBJECT] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/pinkNormal.png" );
-    objectArray[ORANGE_NORMAL_OBJECT] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/orangeNormal.png" );
-    objectArray[WHITE_NORMAL_OBJECT] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/whiteNormal.png" );
-    objectArray[YELLOW_NORMAL_OBJECT] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/yellowNormal.png" );
-
-    for ( int i = 0 ; i < 7 ; ++i ) {
-        objectArray[i]->SetPosition( {0, -160.5f} );
-        objectArray[i]->SetZIndex(10);
-        objectArray[i]->DisAppear();
+void RamdomChangeObject( std::shared_ptr<GameCharacter> object ) {
+    std::srand( std::time( NULL ));
+    int ramdom_number = std::rand() % 7 + 1;
+    switch ( ramdom_number )
+    {
+        case BLUE_NORMAL_OBJECT:
+            object->SetImage( GA_RESOURCE_DIR"/Image/GameObject/blueNormal.png" );
+            object->SetBlock( BLUE_NORMAL_OBJECT );
+            break;
+        case BROWN_NORMAL_OBJECT:
+            object->SetImage( GA_RESOURCE_DIR"/Image/GameObject/brownNormal.png" );
+            object->SetBlock( BROWN_NORMAL_OBJECT );
+            break;
+        case GREEN_NORMAL_OBJECT:
+            object->SetImage( GA_RESOURCE_DIR"/Image/GameObject/greenNormal.png" );
+            object->SetBlock( GREEN_NORMAL_OBJECT );
+            break;
+        case PINK_NORMAL_OBJECT:
+            object->SetImage( GA_RESOURCE_DIR"/Image/GameObject/pinkNormal.png" );
+            object->SetBlock( PINK_NORMAL_OBJECT );
+            break;
+        case ORANGE_NORMAL_OBJECT:
+            object->SetImage( GA_RESOURCE_DIR"/Image/GameObject/orangeNormal.png" );
+            object->SetBlock( ORANGE_NORMAL_OBJECT );
+            break;
+        case WHITE_NORMAL_OBJECT:
+            object->SetImage( GA_RESOURCE_DIR"/Image/GameObject/whiteNormal.png" );
+            object->SetBlock( WHITE_NORMAL_OBJECT );
+            break;
+        case YELLOW_NORMAL_OBJECT:
+            object->SetImage( GA_RESOURCE_DIR"/Image/GameObject/yellowNormal.png" );
+            object->SetBlock( YELLOW_NORMAL_OBJECT );
+            break;
+        default:
+            break;
     }
 }
 void InitializeStageCharacter(std::shared_ptr<GameCharacter>* objectArray, int size) {
