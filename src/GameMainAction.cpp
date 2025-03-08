@@ -73,8 +73,40 @@ void InitializeStageCharacter(std::shared_ptr<GameCharacter>* objectArray, int s
     // }
 }
 
+void Dropping( std::shared_ptr<GameCharacter>* objectArray, const int size ){
+    int loop_count = 0;
+    for ( int i = 1 ; i < size+1 ; ) {
+        if ( loop_count > size/2 || !objectArray[i] || objectArray[i]->GetInformationNeibor()[0] == -1 || objectArray[i]->GetAppearBool() ) {
+            ++i;
+            loop_count = 0;
+            continue;
+        }
+        if ( !objectArray[i]->GetAppearBool() && objectArray[i]->GetInformationNeibor()[0] != -1 ) 
+            Dropping_method( objectArray, size, i);
+        ++loop_count ;
+    }
+}
+
+void Dropping_method( std::shared_ptr<GameCharacter>* objectArray, const int size , const int current_position ) {
+    if ( !objectArray[current_position] || objectArray[current_position]->GetInformationNeibor()[0] == -1  || !objectArray[objectArray[current_position]->GetInformationNeibor()[0]])
+        return;
+    if ( current_position < size+1 ) {
+        const int next_position = objectArray[current_position]->GetInformationNeibor()[0];
+        bool flag = objectArray[next_position]->GetAppearBool();
+        objectArray[current_position]->SwitchPosition( objectArray[next_position] );
+
+        std::shared_ptr<GameCharacter> NewObject = objectArray[current_position];
+        objectArray[current_position] = objectArray[next_position];
+        objectArray[next_position] = NewObject;
+        objectArray[current_position]->SetAppearBool( flag );
+        
+        Dropping_method( objectArray , size , next_position );
+    }
+
+    return;
+}
+
 void CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int size ) {
-    // printf( "qwqw\n" );
     for ( int i = 1 ; i < size+1 ; ++i ) {
         if( !objectArray[i] )
             continue;
@@ -93,6 +125,7 @@ void CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
     }
     // DebugModeOfAppearance( objectArray , size);
     MakeDisappear( objectArray , size );
+    Dropping( objectArray, size );
 }
 
 int CheckNextAppearance( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length ) {

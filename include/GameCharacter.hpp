@@ -49,7 +49,7 @@ public:
         std::cout << "x : " << NextPos.x << " y : " << NextPos.y << "\n";
     }
     
-    // int GetInformation() { return (this->m_information).GetStage(); }
+    Objectinformation GetInformation() { return this->m_information; }
     
     int GetInformationStage() { return (this->m_information).GetStage(); }
 
@@ -67,9 +67,10 @@ public:
         Objectinformation temp = this->m_information;
         this->m_information = other->m_information;
         other->m_information = temp;
-
+        
         this->SetPosition( this->GetInformationPosition() );
         other->SetPosition( other->GetInformationPosition() );
+
     }
 
     void SetInformation( Objectinformation& other ) {

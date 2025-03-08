@@ -28,6 +28,9 @@ void DebugModeOfPosition( std::shared_ptr<GameCharacter>* objectArray , int opti
 void DebugModeCancel( std::shared_ptr<GameCharacter>* objectArray , int option);
 void DebugModeOfAppearance( std::shared_ptr<GameCharacter>* objectArray , int size );
 
+void Dropping( std::shared_ptr<GameCharacter>* objectArray, const int size );
+void Dropping_method( std::shared_ptr<GameCharacter>* objectArray, const int size , const int current_position );
+
 void CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, int size );
 int CheckNextAppearance( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length );
 void DisappaerMethodOfOneLine( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length );

@@ -34,7 +34,13 @@ void App::Start() {
     for ( int i = 1 ; i < 38 ; ++i ) {
         m_Root.AddChild( m_Stage_1_Object[i] );
     }
-    
+
+    // m_Stage_1_Object[1]->Appear();
+    // m_Stage_1_Object[2]->Appear();
+
+    // std::cout << "wqd "<< m_Stage_1_Object[1]->GetBlockType() << " " << m_Stage_1_Object[2]->GetBlockType() << std::endl;
+    // int test = 1;
+    // m_Stage_1_Object[test]->SwitchPosition( m_Stage_1_Object[ m_Stage_1_Object[test]->GetInformationNeibor()[0] ] );
     CheckAppearance( m_Stage_1_Object , 37 );
 
     m_PRM = std::make_shared<PhaseResourceManager>();
@@ -49,6 +55,13 @@ void App::Update() {
                 m_PRM->NextPhase(PHASE_HOME_PAGE);
                 m_Phase = Phase::HOME_PAGE;
                 m_Stage_Buttom_1->SetVisible( true );
+
+                // m_Stage_1_Object[1]->SwitchPosition( m_Stage_1_Object[2] );
+                // std::shared_ptr<GameCharacter> temp = m_Stage_1_Object[1];
+                // m_Stage_1_Object[1] = m_Stage_1_Object[2];
+                // m_Stage_1_Object[2] = temp;
+
+                // std::cout << "wqd "<< m_Stage_1_Object[1]->GetBlockType() << " " << m_Stage_1_Object[2]->GetBlockType() << std::endl;
             }
             break;
         case Phase::HOME_PAGE:
