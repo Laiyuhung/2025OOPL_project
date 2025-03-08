@@ -154,12 +154,10 @@ void DisappaerMethodOfOneLine( std::shared_ptr<GameCharacter>* objectArray, std:
         return;
     for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
         if ( (total_length[i] + total_length[j] + 1 ) >= 3 ) {
-            if ( !objectArray[ object->GetInformationNeibor()[i] ] || !objectArray[ object->GetInformationNeibor()[j] ])
-                return;
             object->SetAppearBool( false );
-            if( total_length[i] > 0 )
+            if( total_length[i] > 0 && objectArray[ object->GetInformationNeibor()[i] ])
                 DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]);
-            if( total_length[j] > 0 )
+            if( total_length[j] > 0 && objectArray[ object->GetInformationNeibor()[j] ] )
                 DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]);
         }
     }
