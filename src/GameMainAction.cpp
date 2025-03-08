@@ -56,6 +56,7 @@ void InitializeStageCharacter(std::shared_ptr<GameCharacter>* objectArray, int s
         objectArray[i]->SetPosition( stage1_position[i] );
         objectArray[i]->SetZIndex(10);
         objectArray[i]->DisAppear();
+        objectArray[i]->SetAppearBool( true );
     }
     // objectArray[BLUE_NORMAL_OBJECT] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/blueNormal.png" );
     // objectArray[BROWN_NORMAL_OBJECT] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/brownNormal.png" );
@@ -72,27 +73,30 @@ void InitializeStageCharacter(std::shared_ptr<GameCharacter>* objectArray, int s
     // }
 }
 
-void CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, int size ) {
+void CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int size ) {
+    // printf( "qwqw\n" );
     for ( int i = 1 ; i < size+1 ; ++i ) {
+        if( !objectArray[i] )
+            continue;
         int *neighbors = objectArray[i]->GetInformationNeibor() ;//GET NEIGHBOR
         objectArray[i]->GetBlockType() ;
         int total_length[6] = { 0 } ;
         for ( int j = 0 ; j < 6 ; ++j ) { 
-            if ( neighbors[j] == -1 ) 
+            if ( neighbors[j] == -1 || !objectArray[ neighbors[j] ]) 
                 continue;
             if ( objectArray[ neighbors[j] ]->GetBlockType() == objectArray[i]->GetBlockType() ) {      
                 total_length[j] = CheckNextAppearance( objectArray, objectArray[ neighbors[j] ], j, 1 ) ;
             }
         }
         for ( int j = 0 ; j < 6 ; ++j ) 
-            DisappaerMethodOfOneLine(objectArray, &objectArray[ neighbors[j]] , total_length );
+            DisappaerMethodOfOneLine(objectArray, objectArray[ neighbors[j]] , total_length );
     }
+    // DebugModeOfAppearance( objectArray , size);
+    MakeDisappear( objectArray , size );
 }
 
 int CheckNextAppearance( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length ) {
-    // std::cout << "side: " << side << " length: " << length << " object->GetInformationPosNumber(): " << object->GetInformationPosNumber() << std::endl;
-    
-    if( object->GetInformationNeibor()[side] == -1 )
+    if (!object || object->GetInformationNeibor()[side] == -1 || !objectArray[ object->GetInformationNeibor()[side] ] )
         return length;
     
     if ( object->GetBlockType() == objectArray[ object->GetInformationNeibor()[side] ]->GetBlockType() && object->GetInformationNeibor()[side] != -1 ){
@@ -104,49 +108,54 @@ int CheckNextAppearance( std::shared_ptr<GameCharacter>* objectArray, std::share
 }
 
 void DisappaerMethodOfOneLine( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length ) {
-    if ( (total_length[0] + total_length[3] + 1 ) >= 3 ) {
-        
-        object->DisAppear();
-
-        if( total_length[0] > 0 )
-            ;// DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[0] ], 0, total_length[0]);
-
-        if( total_length[3] > 0 )
-            ;// DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[3] ], 3, total_length[3]);
-    }
-    else if ( (total_length[1] + total_length[4] + 1 ) >=3 ) {
-        object->DisAppear();
-
-        if( total_length[1] > 0 )
-            ;// DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[1] ], 1, total_length[1]);
-        
-        if( total_length[4] > 0 )
-            ;// DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[4] ], 4, total_length[4]);
-    }
-    else if ( (total_length[2] + total_length[5] + 1 ) >=3 ) {
-        object->DisAppear();        
-        if( total_length[2] > 0 )
-            ;// DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[2] ], 2, total_length[2]);
-        if( total_length[5] > 0 )
-            ;// DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[5] ], 5, total_length[5]);
-    }
-    else 
+    if( !object )
         return;
+    for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
+        if ( (total_length[i] + total_length[j] + 1 ) >= 3 ) {
+            if ( !objectArray[ object->GetInformationNeibor()[i] ] || !objectArray[ object->GetInformationNeibor()[j] ])
+                return;
+            object->SetAppearBool( false );
+            if( total_length[i] > 0 )
+                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]);
+            if( total_length[j] > 0 )
+                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]);
+        }
+    }
+    return;
 
 }
 
 void DisappearBySingleObject ( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length_left) {
-    std::cout << "hi" ;
-    object->DisAppear();
-    if ( object->GetInformationNeibor()[side] == -1 )
+    if( !object || object->GetInformationNeibor()[side] == -1 || !objectArray[ object->GetInformationNeibor()[side] ] ) 
         return;
-    if ( length_left - 1 > 0 ) {
+    object->SetAppearBool( false );
+    if ( length_left - 1 > 0 )
         DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[side] ], side, length_left - 1) ;
-    } else
+    else
         return;
 }
 
+void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , const int size ) {
+    for ( int i = 1 ; i < size+1 ; ++i ) {
+        if ( !objectArray[i] ){
+            // std::cout << "Error: objectArray[" << i << "] is nullptr!" << std::endl;
+            continue; 
+        }
+        // std::cout << objectArray[i]->GetAppearBool() << std::endl;
+        if ( !objectArray[i]->GetAppearBool() ){
+            // printf( "%d\n" , i );
+            objectArray[i]->DisAppear();
+        }
+    }
+}
 
+
+
+void DebugModeOfAppearance( std::shared_ptr<GameCharacter>* objectArray , int size ) {
+    for ( int i = 1 ; i < size+1 ; ++i ) {
+        std::cout << "Pos number: " << objectArray[i]->GetInformationPosNumber() << " Appear Bool: " << objectArray[i]->GetAppearBool() << std::endl;
+    }
+}
 void DebugModeOfPosition( std::shared_ptr<GameCharacter>* objectArray , int option) {
     objectArray[option]->Appear();
     objectArray[option]->DebugMode(10);

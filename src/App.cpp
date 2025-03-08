@@ -56,7 +56,8 @@ void App::Update() {
                 m_PRM->NextPhase(PHASE_STAGE_1);
                 for ( int i = 1 ; i < 38 ; ++i ) {
                     // std::cout << "i : " << i << " " << m_Stage_1_Object[i]->GetPosition().x << " " <<  m_Stage_1_Object[i]->GetPosition().y<< std::endl;
-                    m_Stage_1_Object[i]->Appear();
+                    if ( m_Stage_1_Object[i]->GetAppearBool() )
+                        m_Stage_1_Object[i]->Appear();  
                 }
                 m_Phase = Phase::STAGE_1;
             }
