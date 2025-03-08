@@ -58,19 +58,6 @@ void InitializeStageCharacter(std::shared_ptr<GameCharacter>* objectArray, int s
         objectArray[i]->DisAppear();
         objectArray[i]->SetAppearBool( true );
     }
-    // objectArray[BLUE_NORMAL_OBJECT] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/blueNormal.png" );
-    // objectArray[BROWN_NORMAL_OBJECT] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/brownNormal.png" );
-    // objectArray[GREEN_NORMAL_OBJECT] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/greenNormal.png" );
-    // objectArray[PINK_NORMAL_OBJECT] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/pinkNormal.png" );
-    // objectArray[ORANGE_NORMAL_OBJECT] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/orangeNormal.png" );
-    // objectArray[WHITE_NORMAL_OBJECT] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/whiteNormal.png" );
-    // objectArray[YELLOW_NORMAL_OBJECT] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/yellowNormal.png" );
-
-    // for ( int i = 0 ; i < 7 ; ++i ) {
-    //     objectArray[i]->SetPosition( {0, -160.5f} );
-    //     objectArray[i]->SetZIndex(10);
-    //     objectArray[i]->DisAppear();
-    // }
 }
 
 void Dropping( std::shared_ptr<GameCharacter>* objectArray, const int size ){
@@ -116,14 +103,11 @@ void CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
         for ( int j = 0 ; j < 6 ; ++j ) { 
             if ( neighbors[j] == -1 || !objectArray[ neighbors[j] ]) 
                 continue;
-            if ( objectArray[ neighbors[j] ]->GetBlockType() == objectArray[i]->GetBlockType() ) {
-
+            if ( objectArray[ neighbors[j] ]->GetBlockType() == objectArray[i]->GetBlockType() ) {      
                 total_length[j] = CheckNextAppearance( objectArray, objectArray[ neighbors[j] ], j, 1 ) ;
-                // std::cout<< objectArray[i]->GetInformationPosNumber() << " " << j << std::endl;
             }
         }
-        // for ( int j = 0 ; j < 6 ; ++j )
-        DisappaerMethodOfOneLine(objectArray, objectArray[ i ] , total_length );
+        DisappaerMethodOfOneLine(objectArray, objectArray[i] , total_length );
     }
     // DebugModeOfAppearance( objectArray , size);
     MakeDisappear( objectArray , size );
@@ -135,7 +119,6 @@ int CheckNextAppearance( std::shared_ptr<GameCharacter>* objectArray, std::share
         return length;
     
     if ( object->GetBlockType() == objectArray[ object->GetInformationNeibor()[side] ]->GetBlockType() && object->GetInformationNeibor()[side] != -1 ){
-        // std::cout<< object->GetInformationPosNumber() << "  loop  " << side << std::endl;
         return CheckNextAppearance( objectArray, objectArray[ object->GetInformationNeibor()[side] ], side, length + 1 ) ;
     }
     else
@@ -147,23 +130,14 @@ void DisappaerMethodOfOneLine( std::shared_ptr<GameCharacter>* objectArray, std:
     if( !object )
         return;
     for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
-
-        // std::cout<< i<<"  " <<  total_length[i] <<"    " << j<<"  "<<  total_length[j]<<"  pos:" << object->GetInformationPosNumber() << std::endl;
-        if ( (total_length[i] + total_length[j] + 1 ) >= 3 )
-        {
-            // if ( !objectArray[ object->GetInformationNeibor()[i] ] || !objectArray[ object->GetInformationNeibor()[j] ])
-            //     return;
-
-            // std::cout<< i<<"   inside       " <<  total_length[i] <<"    " << j<<"  "<<  total_length[j]<<"  pos:" << object->GetInformationPosNumber() << std::endl;
+        if ( (total_length[i] + total_length[j] + 1 ) >= 3 ) {
+            if ( !objectArray[ object->GetInformationNeibor()[i] ] || !objectArray[ object->GetInformationNeibor()[j] ])
+                return;
             object->SetAppearBool( false );
-            if( total_length[i] > 0 ){
+            if( total_length[i] > 0 )
                 DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]);
-                // std::cout<< i << std::endl;
-            }
-            if( total_length[j] > 0 ){
+            if( total_length[j] > 0 )
                 DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]);
-                // std::cout<< j << std::endl;
-            }
         }
     }
     return;
@@ -182,15 +156,8 @@ void DisappearBySingleObject ( std::shared_ptr<GameCharacter>* objectArray, std:
 
 void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , const int size ) {
     for ( int i = 1 ; i < size+1 ; ++i ) {
-        if ( !objectArray[i] ){
-            // std::cout << "Error: objectArray[" << i << "] is nullptr!" << std::endl;
-            continue; 
-        }
-        // std::cout << objectArray[i]->GetAppearBool() << std::endl;
-        if ( !objectArray[i]->GetAppearBool() ){
-            // printf( "%d\n" , i );
-            objectArray[i]->DisAppear();
-        }
+        if ( !objectArray[i] ) continue; 
+        if ( !objectArray[i]->GetAppearBool() ) objectArray[i]->DisAppear();
     }
 }
 
@@ -203,7 +170,7 @@ void DebugModeOfAppearance( std::shared_ptr<GameCharacter>* objectArray , int si
 }
 void DebugModeOfPosition( std::shared_ptr<GameCharacter>* objectArray , int option) {
     objectArray[option]->Appear();
-    objectArray[option]->DebugMode(3);
+    objectArray[option]->DebugMode(10);
 }
 
 void DebugModeCancel( std::shared_ptr<GameCharacter>* objectArray , int option) {
