@@ -2,6 +2,14 @@
 #include "App.hpp"
 #pragma once
 
+int is_click = 0;
+
+int stage_point_goal[13] = {
+    0, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40
+};
+
+int stage_point_counter[13] = {0};
+
 
 glm::vec2 stage1_position[38] = {
     { -100000 , -100000 },

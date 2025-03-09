@@ -15,11 +15,16 @@
 #define YELLOW_NORMAL_OBJECT 7
 
 #include <glm/vec2.hpp> 
+#include <stack>
+#include <memory>
 #include "ObjectInformation.hpp"
 
 extern glm::vec2 stage1_position[38];
 extern int stage1_neibor[38][6];
 extern Objectinformation stage1[38];
+extern int is_click;
+extern int stage_point_goal[13];
+extern int stage_point_counter[13];
 
 void InitializeStage1();
 

@@ -21,6 +21,7 @@ bool PhaseStage1( std::shared_ptr<GameCharacter>* objectArray , const int size )
 void DebugPhaseStage1( std::shared_ptr<GameCharacter>* objectArray );
 
 // Declare of Game Main Character
+void DisAppearAll( std::shared_ptr<GameCharacter> *objectArray , const int size );
 void AppearAll( std::shared_ptr<GameCharacter> *objectArray , const int size );
 void ClearAll( std::shared_ptr<GameCharacter> *objectArray , const int size );
 
@@ -32,14 +33,14 @@ void DebugModeOfPosition( std::shared_ptr<GameCharacter>* objectArray , int opti
 void DebugModeCancel( std::shared_ptr<GameCharacter>* objectArray , int option);
 void DebugModeOfAppearance( std::shared_ptr<GameCharacter>* objectArray , int size );
 
-void Dropping( std::shared_ptr<GameCharacter>* objectArray, const int size , bool stage);
+void Dropping( std::shared_ptr<GameCharacter>* objectArray, const int size , int stage);
 void Dropping_method( std::shared_ptr<GameCharacter>* objectArray, const int size , const int current_position );
 
-void CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, int size , bool stage);
+bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, int size , int stage);
 int  CheckNextAppearance( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length );
 bool DisappaerMethodOfOneLine( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length );
 void DisappearBySingleObject ( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length_left);
-void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , int size );
+void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , int size , int stage );
 
 class App {
 public:

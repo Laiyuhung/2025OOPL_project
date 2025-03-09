@@ -26,37 +26,45 @@ bool PhaseHomePage( std::shared_ptr<Character> &level1){
     return false;
 }
 
-int counter = 0 ;
 bool PhaseStage1( std::shared_ptr<GameCharacter>* objectArray , const int size ) {
     for ( int i = 1 ; i < size+1 ; ++i ) {
-        if ( objectArray[i]->GetClick() ) {
-            for ( int j = 0 ; j < 6 ; ++j ) {
-                if ( objectArray[i]->GetInformationNeibor()[j] != -1 && objectArray[ objectArray[i]->GetInformationNeibor()[j] ]->GetClick() ){
-                    const int next_position = objectArray[i]->GetInformationNeibor()[j];
-                    // bool flag = objectArray[next_position]->GetAppearBool();
-                    objectArray[i]->SwitchPosition( objectArray[next_position] );
-                    
-                    std::shared_ptr<GameCharacter> NewObject = objectArray[i];
-                    objectArray[i] = objectArray[next_position];
-                    objectArray[next_position] = NewObject;
-                    // objectArray[i]->SetAppearBool( flag );
-                    CheckAppearance( objectArray, size , true );
+        if ( objectArray[i]->IfClick() ) {
+            std::cout << "which click: " << objectArray[i]->GetInformationPosNumber() << std::endl;
+            if ( is_click == 0  ) {
+                is_click = i;
+            }
+            else {
+                std::cout << "test_else\n";
+                if ( is_click == i ) {
+                    is_click = 0;
                     break;
                 }
-                else if ( counter == 2 && j == 5 ){
-                    std::cout << "clear all\n" ;
-                    counter = 0;
-                    ClearAll( objectArray, size);
+                int check = is_click;
+                is_click = 0;
+                for ( int j = 0 ; j < 6 ; ++j ) {
+                    if( objectArray[i]->GetInformationNeibor()[j] == check ) {
+                        objectArray[i]->SwitchPosition( objectArray[check] );
+                        std::shared_ptr<GameCharacter> NewObject = objectArray[check];
+                        objectArray[check] = objectArray[i];
+                        objectArray[i] = NewObject;
+
+                        if ( !CheckAppearance( objectArray, size, 1 ) ) {
+                            objectArray[i]->SwitchPosition( objectArray[check] );
+                            std::shared_ptr<GameCharacter> NewObject = objectArray[check];
+                            objectArray[check] = objectArray[i];
+                            objectArray[i] = NewObject;
+                        }
+                        std::cout << "Point: " << stage_point_counter[1] << std::endl;
+                        break;
+                    }
                 }
             }
         }
-        else if ( objectArray[i]->IfClick() ) {
-            objectArray[i]->SetClick( true );
-            ++counter;
-        }
     }
     AppearAll( objectArray , size );
-    return true;
+    if ( stage_point_counter[1] >= stage_point_goal[1] ) 
+        return true;
+    return false;
 }
 
 void DebugPhaseStage1( std::shared_ptr<GameCharacter>* objectArray ) {

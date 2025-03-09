@@ -60,7 +60,10 @@ void App::Update() {
             break;
         case Phase::STAGE_1:
             if (PhaseStage1(m_Stage_1_Object, 37)){
-                
+                m_PRM->NextPhase(PHASE_HOME_PAGE);
+                m_Phase = Phase::HOME_PAGE;
+                m_Stage_Buttom_1->SetVisible( true );
+                DisAppearAll( m_Stage_1_Object , 37 );
             }
             break;
     }

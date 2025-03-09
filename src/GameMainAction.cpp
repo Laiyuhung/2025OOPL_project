@@ -11,9 +11,18 @@
 using namespace std;
 
 void AppearAll( std::shared_ptr<GameCharacter> *objectArray , const int size ) {
-    for ( int i = 1 ; i < size+1 ; ++i ) 
+    for ( int i = 1 ; i < size+1 ; ++i )  {
         objectArray[i]->Appear();
+        objectArray[i]->SetAppearBool( true );
+    }
 }
+void DisAppearAll( std::shared_ptr<GameCharacter> *objectArray , const int size ) {
+    for ( int i = 1 ; i < size+1 ; ++i )  {
+        objectArray[i]->DisAppear();
+        objectArray[i]->SetAppearBool( false );
+    }
+}
+
 
 void ClearAll( std::shared_ptr<GameCharacter> *objectArray , const int size ) {
     for ( int i = 1 ; i < size+1 ; ++i ) {
@@ -101,13 +110,13 @@ void InitializeStageCharacter(std::shared_ptr<GameCharacter>* objectArray, int s
         objectArray[i]->SetInformation( stage1[i] );
         objectArray[i]->SetPosition( stage1_position[i] );
         objectArray[i]->SetZIndex(10);
-        objectArray[i]->SetSize( {20, 20} );
+        objectArray[i]->SetSize( {20, 25} );
         objectArray[i]->DisAppear();
         objectArray[i]->SetAppearBool( true );
     }
 }
 
-void Dropping( std::shared_ptr<GameCharacter>* objectArray, const int size , bool stage = false ) {
+void Dropping( std::shared_ptr<GameCharacter>* objectArray, const int size , int stage = 0 ) {
     int loop_count = 0;
     for ( int i = 1 ; i < size+1 ; ) {
         if ( loop_count > size || !objectArray[i] || objectArray[i]->GetInformationNeibor()[0] == -1 || objectArray[i]->GetAppearBool() ) {
@@ -125,6 +134,9 @@ void Dropping( std::shared_ptr<GameCharacter>* objectArray, const int size , boo
         }
         objectArray[i]->SetAppearBool( true );
     }
+    if ( stage != 0 ) 
+        AppearAll( objectArray , size );
+    
     CheckAppearance( objectArray, size , stage);
 
 }
@@ -141,14 +153,14 @@ void Dropping_method( std::shared_ptr<GameCharacter>* objectArray, const int siz
         objectArray[current_position] = objectArray[next_position];
         objectArray[next_position] = NewObject;
         objectArray[current_position]->SetAppearBool( flag );
-        
+
         Dropping_method( objectArray , size , next_position );
     }
 
     return;
 }
 
-void CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int size , bool stage = false) {
+bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int size , int stage ) {
 
     bool cont_to_check = false;
     bool flag = false;
@@ -187,10 +199,11 @@ void CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
 
     if ( flag ) {
         // DebugModeOfAppearance( objectArray , size);
-        MakeDisappear( objectArray , size );
+        MakeDisappear( objectArray , size , stage);
         Dropping( objectArray, size , stage );
     
     }
+    return flag;
 
 }
 
@@ -239,11 +252,15 @@ void DisappearBySingleObject ( std::shared_ptr<GameCharacter>* objectArray, std:
         return;
 }
 
-void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , const int size ) {
+void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , const int size , int stage) {
     for ( int i = 1 ; i < size+1 ; ++i ) {
         // if ( !objectArray[i] ) continue; 
-        if ( !objectArray[i]->GetAppearBool() ) objectArray[i]->DisAppear();
+        if ( !objectArray[i]->GetAppearBool() ) {
+            objectArray[i]->DisAppear();
+            ++stage_point_counter[stage];
+        }
     }
+    // std::this_thread::sleep_for(std::chrono::seconds(1));  
 }
 
 

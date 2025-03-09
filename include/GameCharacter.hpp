@@ -73,6 +73,8 @@ public:
         this->SetPosition( this->GetInformationPosition() );
         other->SetPosition( other->GetInformationPosition() );
 
+        temp.~Objectinformation();
+
     }
 
     void SetInformation( Objectinformation& other ) {
