@@ -30,7 +30,7 @@ bool PhaseStage1( std::shared_ptr<GameCharacter>* objectArray ) {
 
 void DebugPhaseStage1( std::shared_ptr<GameCharacter>* objectArray ) {
     DebugModeOfPosition( objectArray , 0 );
-    if ( Util::Input::IsKeyDown(Util::Keycode::R ) ){
+    if ( Util::Input::IsKeyUp(Util::Keycode::R ) ){
         DebugModeCancel( objectArray, 0 );
     }
 }

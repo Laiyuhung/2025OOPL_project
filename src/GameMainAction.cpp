@@ -5,12 +5,16 @@
 #include <cstdlib>
 #include <ctime>
 #include <string>
-
+#include <random>
 using namespace std;
 
 void RamdomChangeObject( std::shared_ptr<GameCharacter> object ) {
-    std::srand( std::time( NULL ));
-    int ramdom_number = std::rand() % 7 + 1;
+    static std::random_device rd;
+    static std::mt19937 gen(rd()); 
+    std::uniform_int_distribution<int> distrib(1, 7); 
+    
+    int ramdom_number = distrib(gen);
+
     switch ( ramdom_number )
     {
         case BLUE_NORMAL_OBJECT:
@@ -46,7 +50,11 @@ void RamdomChangeObject( std::shared_ptr<GameCharacter> object ) {
     }
 }
 void InitializeStageCharacter(std::shared_ptr<GameCharacter>* objectArray, int size) {
-    std::srand( std::time( NULL ));
+    static std::random_device rd;
+    static std::mt19937 gen(rd()); 
+    std::uniform_int_distribution<int> distrib(1, 7); 
+    
+    int ramdom_number = distrib(gen);
     for ( int i = 1 ; i < size+1 ; ++i ) {
         int random_number = std::rand() % 7 + 1;
         if ( random_number == BLUE_NORMAL_OBJECT ) {
