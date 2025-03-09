@@ -1,31 +1,4 @@
-# PTSD Template
-
-This is a [PTSD](https://github.com/ntut-open-source-club/practical-tools-for-simple-design) framework template for students taking OOPL2024s.
-
-## Quick Start
-
-1. Use this template to create a new repository
-   ![github screenshot](https://github.com/ntut-rick/ptsd-template/assets/126899559/ef62242f-03ed-481d-b858-12b730c09beb)
-
-2. Clone your repository
-
-   ```bash
-   git clone YOUR_GIT_URL --recursive
-   ```
-
-3. Build your project
-
-  > [!WARNING]
-  > Please build your project in `Debug` because our `Release` path is broken D:
-   
-   ```sh
-   cmake -DCMAKE_BUILD_TYPE=Debug -B build # -G Ninja
-   ```
-   better read [PTSD README](https://github.com/ntut-open-source-club/practical-tools-for-simple-design)
-
----
-
-# Proposal
+# Abstract 
 
 遊戲名稱：LINE POP 2 
 
@@ -61,27 +34,28 @@ This is a [PTSD](https://github.com/ntut-open-source-club/practical-tools-for-si
 # Development timeline
 
 - Week 1：遊戲構想
-  - [x] 規劃進度
-  - [x] 分析遊戲物件
-  - [x] 分析所需素材
-  - [x] 研究 PTSD 框架提供的物件與使用方法
+  - [x] 規劃進度 (6)
+  - [x] 分析遊戲物件 (6)
+  - [x] 分析所需素材 (6)
+  - [x] 研究 PTSD 框架提供的物件與使用方法 (6)
 - Week 2：蒐集初級關卡遊戲素材並處理封面場景
-  - [ ] 蒐集初級關卡內之背景素材
-  - [ ] 蒐集初級關卡內方塊之素材
-  - [ ] 蒐集初級關卡內遊戲框架素材
-  - [ ] 蒐集初級關卡內之其他 UI 素材
-  - [x] 蒐集關卡所需之音效素材(暫時不用)
-  - [x] 蒐集封面與大廳所需之 UI 素材
-  - [x] 蒐集封面與大廳所需之音效素材(暫時不用)
-  - [x] 蒐集封面之 UI 素材
-  - [x] 蒐集封面之背景素材
-  - [x] 建立封面畫面與觸發封面(暫時不用)
+  - [x] 蒐集初級關卡內之背景素材 (6、34)
+  - [x] 蒐集初級關卡內方塊之素材 (6)
+  - [x] 蒐集初級關卡內遊戲框架素材 (6、34)
+  - [x] 蒐集初級關卡內之其他 UI 素材 (6)
+  - [x] 蒐集關卡所需之音效素材(暫時不用) (34)
+  - [x] 蒐集封面與大廳所需之 UI 素材 (6、34)
+  - [x] 蒐集封面與大廳所需之音效素材(暫時不用) (34)
+  - [x] 蒐集封面之 UI 素材 (6)
+  - [x] 蒐集封面之背景素材 (6)
+  - [x] 建立封面畫面與觸發封面 (6)
 - Week 3：初級關卡設計與基本三消邏輯系統
-  - [ ] 建立初級關卡基本畫面
-  - [ ] 開發基本三消匹配邏輯並可以觸發消除
-  - [ ] 開發基本三消匹配邏輯並可以觸發掉落
-  - [ ] 開發基本三消匹配邏輯並可以觸發連鎖消除反應
+  - [x] 建立初級關卡基本畫面 (6)
+  - [x] 開發基本三消匹配邏輯並可以觸發消除 (6、34)
+  - [x] 開發基本三消匹配邏輯並可以觸發掉落 (6)
+  - [ ] 開發基本三消匹配邏輯並可以觸發連鎖消除反應 (6)
 - Week 4：初級關卡設計與基本特殊方塊合成與功能並可以觸發
+  - [ ] 蒐集特殊方塊圖像素材
   - [ ] 開發特殊功能方塊合成邏輯並可以在對應區塊生成特殊方塊
   - [ ] 開發特殊功能方塊功能並可以觸發對應的消除功能
   - [ ] 開發特殊功能方塊功能並可以觸發對應消除後可以觸發掉落
@@ -140,4 +114,3 @@ This is a [PTSD](https://github.com/ntut-open-source-club/practical-tools-for-si
   - [ ] 完成遊戲進出場動畫等各項功能測試並 Bug 修復
 - Week 18：期末 Demo
   - [ ] 完成專題
-
