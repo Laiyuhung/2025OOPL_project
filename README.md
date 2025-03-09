@@ -1,3 +1,5 @@
+# **做完 CLEAN CODE 後再丟上來**
+
 # Abstract 
 
 遊戲名稱：LINE POP 2 
