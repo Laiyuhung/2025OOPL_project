@@ -24,7 +24,7 @@ void App::Start() {
     InitializeStageCharacter( m_Stage_1_Object, 37);
     for ( int i = 1 ; i < 38 ; ++i )
         m_Root.AddChild( m_Stage_1_Object[i] );
-    CheckAppearance( m_Stage_1_Object , 37 );
+    CheckAppearance( m_Stage_1_Object , 37 , false);
 
     m_PRM = std::make_shared<PhaseResourceManager>();
     m_Root.AddChildren(m_PRM->GetChildren());
@@ -59,7 +59,7 @@ void App::Update() {
             }
             break;
         case Phase::STAGE_1:
-            if (PhaseStage1(m_Stage_1_Object)){
+            if (PhaseStage1(m_Stage_1_Object, 37)){
                 
             }
             break;

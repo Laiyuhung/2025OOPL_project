@@ -6,7 +6,20 @@
 #include <ctime>
 #include <string>
 #include <random>
+#include <thread>
+
 using namespace std;
+
+void AppearAll( std::shared_ptr<GameCharacter> *objectArray , const int size ) {
+    for ( int i = 1 ; i < size+1 ; ++i ) 
+        objectArray[i]->Appear();
+}
+
+void ClearAll( std::shared_ptr<GameCharacter> *objectArray , const int size ) {
+    for ( int i = 1 ; i < size+1 ; ++i ) {
+        objectArray[i]->SetClick( false );
+    }
+}
 
 void RamdomChangeObject( std::shared_ptr<GameCharacter> object ) {
     static std::random_device rd;
@@ -88,15 +101,16 @@ void InitializeStageCharacter(std::shared_ptr<GameCharacter>* objectArray, int s
         objectArray[i]->SetInformation( stage1[i] );
         objectArray[i]->SetPosition( stage1_position[i] );
         objectArray[i]->SetZIndex(10);
+        objectArray[i]->SetSize( {20, 20} );
         objectArray[i]->DisAppear();
         objectArray[i]->SetAppearBool( true );
     }
 }
 
-void Dropping( std::shared_ptr<GameCharacter>* objectArray, const int size ) {
+void Dropping( std::shared_ptr<GameCharacter>* objectArray, const int size , bool stage = false ) {
     int loop_count = 0;
     for ( int i = 1 ; i < size+1 ; ) {
-        if ( loop_count > size/2 || !objectArray[i] || objectArray[i]->GetInformationNeibor()[0] == -1 || objectArray[i]->GetAppearBool() ) {
+        if ( loop_count > size || !objectArray[i] || objectArray[i]->GetInformationNeibor()[0] == -1 || objectArray[i]->GetAppearBool() ) {
             ++i;
             loop_count = 0;
             continue;
@@ -111,7 +125,7 @@ void Dropping( std::shared_ptr<GameCharacter>* objectArray, const int size ) {
         }
         objectArray[i]->SetAppearBool( true );
     }
-    CheckAppearance( objectArray, size );
+    CheckAppearance( objectArray, size , stage);
 
 }
 
@@ -134,12 +148,12 @@ void Dropping_method( std::shared_ptr<GameCharacter>* objectArray, const int siz
     return;
 }
 
-void CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int size ) {
+void CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int size , bool stage = false) {
 
     bool cont_to_check = false;
     bool flag = false;
     
-    std::cout<< "(initial) cont_to_check: "<< cont_to_check << std::endl;
+    // std::cout<< "(initial) cont_to_check: "<< cont_to_check << std::endl;
 
     for ( int i = 1 ; i < size+1 ; ++i ) {
         if( !objectArray[i] ) continue;
@@ -164,7 +178,7 @@ void CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
         cont_to_check = DisappaerMethodOfOneLine(objectArray, objectArray[i] , total_length ) || cont_to_check;
     }
 
-    std::cout<< "(final) cont_to_check: "<< cont_to_check << std::endl;
+    // std::cout<< "(final) cont_to_check: "<< cont_to_check << std::endl;
 
     for ( int i = 1 ; i < size+1 ; ++i ) {
         if( !objectArray[i] ) continue;
@@ -174,7 +188,7 @@ void CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
     if ( flag ) {
         // DebugModeOfAppearance( objectArray , size);
         MakeDisappear( objectArray , size );
-        Dropping( objectArray, size );
+        Dropping( objectArray, size , stage );
     
     }
 
@@ -218,7 +232,7 @@ void DisappearBySingleObject ( std::shared_ptr<GameCharacter>* objectArray, std:
     object->SetAppearBool( false );
     if( !object || object->GetInformationNeibor()[side] == -1 ) 
         return;
-    cout<<"set "<<object->GetInformationPosNumber()<<" to false"<<endl;
+    // cout<<"set "<<object->GetInformationPosNumber()<<" to false"<<endl;
     if ( length_left  >  0 )
         DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[side] ], side, length_left - 1) ;
     else

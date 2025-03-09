@@ -62,6 +62,9 @@ public:
     
     glm::vec2 GetInformationPosition() { return (this->m_information).GetPosition(); }
 
+    bool GetClick() {
+        return this->m_Click;
+    }
     void SwitchPosition( std::shared_ptr<GameCharacter>& other ) {
         Objectinformation temp = this->m_information;
         this->m_information = other->m_information;
@@ -94,6 +97,10 @@ public:
     void SetAppearBool( bool flag ) {
         this->m_Appear = flag;
     }
+
+    void SetClick( bool flag ) {
+        this->m_Click = flag;
+    }
     virtual void SetImage(const std::string& ImagePath);
 protected:
     void ResetPosition() { 
@@ -105,6 +112,7 @@ protected:
     std::string m_ImagePath;
     Objectinformation m_information ;
     bool m_Appear = true;
+    bool m_Click = false;
 };
 
 #endif // GAME_CHARACTER_HPP

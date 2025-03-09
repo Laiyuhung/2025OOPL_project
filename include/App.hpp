@@ -17,10 +17,13 @@
 // Declare of Phase Main Action
 bool PhaseInitialImage(std::shared_ptr<Character> &chara_obj);
 bool PhaseHomePage( std::shared_ptr<Character> &level1);
-bool PhaseStage1( std::shared_ptr<GameCharacter>* objectArray );
+bool PhaseStage1( std::shared_ptr<GameCharacter>* objectArray , const int size );
 void DebugPhaseStage1( std::shared_ptr<GameCharacter>* objectArray );
 
 // Declare of Game Main Character
+void AppearAll( std::shared_ptr<GameCharacter> *objectArray , const int size );
+void ClearAll( std::shared_ptr<GameCharacter> *objectArray , const int size );
+
 void RamdomChangeObject( std::shared_ptr<GameCharacter> object ); // only change image path not object itself
 void InitializeGameCharacter( std::shared_ptr<GameCharacter>* objectArray );
 void InitializeStageCharacter( std::shared_ptr<GameCharacter>* objectArray , int size);
@@ -29,10 +32,10 @@ void DebugModeOfPosition( std::shared_ptr<GameCharacter>* objectArray , int opti
 void DebugModeCancel( std::shared_ptr<GameCharacter>* objectArray , int option);
 void DebugModeOfAppearance( std::shared_ptr<GameCharacter>* objectArray , int size );
 
-void Dropping( std::shared_ptr<GameCharacter>* objectArray, const int size );
+void Dropping( std::shared_ptr<GameCharacter>* objectArray, const int size , bool stage);
 void Dropping_method( std::shared_ptr<GameCharacter>* objectArray, const int size , const int current_position );
 
-void CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, int size );
+void CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, int size , bool stage);
 int  CheckNextAppearance( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length );
 bool DisappaerMethodOfOneLine( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length );
 void DisappearBySingleObject ( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length_left);
