@@ -187,10 +187,17 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
                 total_length[j] = CheckNextAppearance( objectArray, objectArray[ neighbors[j] ], j, 1 ) ;
             }
         }
-        cont_to_check = DisappaerMethodOfOneLine(objectArray, objectArray[i] , total_length ) || cont_to_check;
+
+
+        cont_to_check = DisappearMethodOfRainbowBall(objectArray, objectArray[i] , total_length ) || cont_to_check;
+        cont_to_check = DisappearMethodOfTriangleFlower(objectArray, objectArray[i] , total_length ) || cont_to_check;
+        cont_to_check = DisappearMethodOfStarFlower(objectArray, objectArray[i] , total_length ) || cont_to_check;
+        cont_to_check = DisappearMethodOfStar(objectArray, objectArray[i] , total_length ) || cont_to_check;
+        cont_to_check = DisappearMethodOfStripe(objectArray, objectArray[i] , total_length ) || cont_to_check;
+        cont_to_check = DisappearMethodOfOneLine(objectArray, objectArray[i] , total_length ) || cont_to_check;
+
     }
 
-    // std::cout<< "(final) cont_to_check: "<< cont_to_check << std::endl;
 
     for ( int i = 1 ; i < size+1 ; ++i ) {
         if( !objectArray[i] ) continue;
@@ -221,19 +228,22 @@ int CheckNextAppearance( std::shared_ptr<GameCharacter>* objectArray, std::share
 
 }
 
-bool DisappaerMethodOfOneLine( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length ) {
+bool DisappearMethodOfOneLine( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length ) {
     
     bool cont_to_check = false ;
     for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
-        if ( (total_length[i] + total_length[j] ) >= 2 ) {
+        if ( (total_length[i] + total_length[j] ) == 2 ) {
             cont_to_check = true ;
             object->SetAppearBool( false );
-            
-            if( total_length[i] > 0 )
-                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i] - 1);
-
-            if( total_length[j] > 0 )
-                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j] - 1);
+            // if( total_length[i] > 0 )
+            //     DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i] - 1);
+            //
+            // if( total_length[j] > 0 )
+            //     DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j] - 1);
+        }
+        if ( total_length[i] > 0 && total_length[j] == 0 && (total_length[i] + total_length[j] ) == 2 )//side
+        {
+            cout<<"Line"<<endl;
         }
     }
 
@@ -241,11 +251,157 @@ bool DisappaerMethodOfOneLine( std::shared_ptr<GameCharacter>* objectArray, std:
 
 }
 
+bool DisappearMethodOfStripe( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length ) { //total_length = 6 side's consec.
+
+    bool cont_to_check = false ;
+    for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
+        if ( (total_length[i] + total_length[j] ) == 3 ) {
+            cont_to_check = true ;
+
+
+            if( !(total_length[i] > 0 && total_length[j] == 0) )//if [NOT] j side ->> MID OR I ->disappear
+            {
+
+                object->SetAppearBool( false ); //self disappear
+                //measure
+                // if( total_length[i] > 0 )
+                //     DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i] - 1);
+
+            }
+            else if ( total_length[i] > 0 && total_length[j] == 0 ) //side
+            {
+                cout<<"Stripe"<<endl;
+            }
+
+        }
+
+
+    }
+
+    return cont_to_check;
+
+}
+
+bool DisappearMethodOfStar( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length ) { //total_length = 6 side's consec.
+
+    bool cont_to_check = false ; //two side 1 + another 2
+    int check_side = -1;
+
+    for ( int i = 0  ; i < 6 ; ++i ) //another 2
+    {
+        if ( total_length[i] >= 2 )
+        {
+            check_side = i ;
+            // cout<<"check_side: "<<check_side<<" check_side_length: "<<total_length[i]<<endl;
+            break;
+        }
+    }
+
+    for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
+        if ( i != check_side && j != check_side && check_side != -1 )
+        {
+
+            if ( total_length[i] >= 1 && total_length[j] >= 1 ) {//two side 1
+                cont_to_check = true ;
+                // cout<<"i: "<<i<<" i_length: "<<total_length[i]<<" j: "<<j<<" j_length: "<<total_length[j]<<endl;
+                cout<<"Star"<<endl;
+
+                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[check_side] ], check_side, total_length[check_side]-1);
+                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
+                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
+                break;
+            }
+        }
+    }
+
+    return cont_to_check;
+
+}
+
+bool DisappearMethodOfStarFlower( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length ) { //total_length = 6 side's consec.
+
+    bool cont_to_check = false ; //two side 2
+    int check_sides = 0;
+
+
+    for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
+        if ( total_length[i] >= 1 && total_length[j] >= 1)
+        {
+            check_sides++ ;
+        }
+    }
+
+    if (check_sides >= 2)
+    {
+        for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j )
+        {
+            DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
+            DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[j]-1);
+        }
+        cout<<"Star Flower"<<endl;
+        cont_to_check = true ;
+    }
+
+    return cont_to_check;
+
+}
+
+bool DisappearMethodOfTriangleFlower( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length ) { //total_length = 6 side's consec.
+
+    bool cont_to_check = false ; //two side >=2
+    int check = 0;
+
+    for ( int i = 0  ; i < 6 ; ++i ) //two side >=2
+    {
+        if ( total_length[i] >= 2 )
+        {
+            check ++ ;
+        }
+    }
+
+    if (check >= 2) // ex. side 1 + side 4 both >=2 -- rainbow(first
+    {
+        cout<<"Triangle Flower"<<endl;
+        cont_to_check = true ;
+        for ( int i = 0  ; i < 6 ; ++i )
+        {
+            DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
+        }
+
+    }
+
+    return cont_to_check;
+
+}
+
+bool DisappearMethodOfRainbowBall( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length ) { //total_length = 6 side's consec.
+
+    bool cont_to_check = false ;
+    for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
+        if ( (total_length[i] + total_length[j] ) >= 4 ) {
+            cont_to_check = true ;
+            cout<<"Rainbow Ball"<<endl;
+
+            if( !(total_length[i] > 0 && total_length[j] == 0) )//if [NOT] j side ->> MID OR I ->disappear
+            {
+                object->SetAppearBool( false ); //self disappear
+            }
+
+        }
+
+
+    }
+
+    return cont_to_check;
+
+}
+
+
 void DisappearBySingleObject ( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length_left) {
     object->SetAppearBool( false );
     if( !object || object->GetInformationNeibor()[side] == -1 ) 
         return;
-    // cout<<"set "<<object->GetInformationPosNumber()<<" to false"<<endl;
+
     if ( length_left  >  0 )
         DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[side] ], side, length_left - 1) ;
     else
