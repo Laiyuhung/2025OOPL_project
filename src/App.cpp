@@ -74,6 +74,7 @@ void App::Update() {
                 m_Phase = Phase::HOME_PAGE;
                 m_Stage_Buttom_1->SetVisible( true );
                 DisAppearAll( m_Stage_1_Object , 37 );
+                m_Point_Show->SetVisible( false );
             }
             break;
     }
