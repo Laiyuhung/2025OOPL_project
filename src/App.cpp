@@ -26,6 +26,13 @@ void App::Start() {
         m_Root.AddChild( m_Stage_1_Object[i] );
     CheckAppearance( m_Stage_1_Object , 37 , false);
 
+    m_Point_Show = std::make_shared<TaskText>();
+    m_Point_Show->SetVisible( false );
+    m_Point_Show->SetZIndex(10);
+    m_Point_Show->SetPosition( {125, 210} );
+    m_Point_Show->SetValue(0);
+    m_Root.AddChild( m_Point_Show );
+
     m_PRM = std::make_shared<PhaseResourceManager>();
     m_Root.AddChildren(m_PRM->GetChildren());
     m_CurrentState = State::UPDATE;
@@ -55,11 +62,14 @@ void App::Update() {
                     if ( m_Stage_1_Object[i]->GetAppearBool() )
                         m_Stage_1_Object[i]->Appear();  
                 }
+                m_Point_Show->SetVisible( true );
+                m_Point_Show->SetValue( 0 );
+                m_Point_Show->UpdateText();
                 m_Phase = Phase::STAGE_1;
             }
             break;
         case Phase::STAGE_1:
-            if (PhaseStage1(m_Stage_1_Object, 37)){
+            if (PhaseStage1(m_Stage_1_Object, 37 , m_Point_Show )){
                 m_PRM->NextPhase(PHASE_HOME_PAGE);
                 m_Phase = Phase::HOME_PAGE;
                 m_Stage_Buttom_1->SetVisible( true );

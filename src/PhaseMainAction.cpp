@@ -26,7 +26,7 @@ bool PhaseHomePage( std::shared_ptr<Character> &level1){
     return false;
 }
 
-bool PhaseStage1( std::shared_ptr<GameCharacter>* objectArray , const int size ) {
+bool PhaseStage1( std::shared_ptr<GameCharacter>* objectArray , const int size , std::shared_ptr<TaskText> point) {
     for ( int i = 1 ; i < size+1 ; ++i ) {
         if ( objectArray[i]->IfClick() ) {
             std::cout << "which click: " << objectArray[i]->GetInformationPosNumber() << std::endl;
@@ -54,7 +54,9 @@ bool PhaseStage1( std::shared_ptr<GameCharacter>* objectArray , const int size )
                             objectArray[check] = objectArray[i];
                             objectArray[i] = NewObject;
                         }
-                        std::cout << "Point: " << stage_point_counter[1] << std::endl;
+                        point->SetValue( stage_point_counter[1] );
+                        point->UpdateText();
+                        // std::cout << "Point: " << stage_point_counter[1] << std::endl;
                         break;
                     }
                 }

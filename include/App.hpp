@@ -11,13 +11,14 @@
 #include "Character.hpp"
 #include "GameCharacter.hpp"
 #include "ObjectInformation.hpp"
+#include "TaskText.hpp"
 
 // #include "AnimatedCharacter.hpp"
 
 // Declare of Phase Main Action
 bool PhaseInitialImage(std::shared_ptr<Character> &chara_obj);
 bool PhaseHomePage( std::shared_ptr<Character> &level1);
-bool PhaseStage1( std::shared_ptr<GameCharacter>* objectArray , const int size );
+bool PhaseStage1( std::shared_ptr<GameCharacter>* objectArray , const int size , std::shared_ptr<TaskText> point);
 void DebugPhaseStage1( std::shared_ptr<GameCharacter>* objectArray );
 
 // Declare of Game Main Character
@@ -93,6 +94,7 @@ private:
 
     // std::shared_ptr<AnimatedCharacter> m_Bee;
     // std::shared_ptr<AnimatedCharacter> m_Ball;
+    std::shared_ptr<TaskText> m_Point_Show;
 
     std::shared_ptr<PhaseResourceManager> m_PRM;
 
