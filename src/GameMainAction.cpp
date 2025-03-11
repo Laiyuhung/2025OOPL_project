@@ -160,6 +160,12 @@ void Dropping_method( std::shared_ptr<GameCharacter>* objectArray, const int siz
     return;
 }
 
+bool IsSameColor(int blockType1, int blockType2) {
+    // cout<<blockType1<<"   "<< blockType2<<endl;
+    return (blockType1 % 10) == (blockType2 % 10);
+
+}
+
 bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int size , int stage ) {
 
     bool cont_to_check = false;
@@ -182,19 +188,18 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
         for ( int j = 0 ; j < 6 ; ++j ) { 
             if ( neighbors[j] == -1 ) 
                 continue;
-            if ( objectArray[ neighbors[j] ]->GetBlockType() == objectArray[i]->GetBlockType() ) {     
+            if ( IsSameColor(objectArray[ neighbors[j] ]->GetBlockType() , objectArray[i]->GetBlockType()) ) {
                 // std::cout<< "i: "<< i << " type: "<< objectArray[i]->GetBlockType() << " j: "<< objectArray[ neighbors[j] ]->GetInformationPosNumber() << " type: "<< objectArray[ neighbors[j] ]->GetBlockType() << std::endl;
                 total_length[j] = CheckNextAppearance( objectArray, objectArray[ neighbors[j] ], j, 1 ) ;
             }
         }
 
-
-        cont_to_check = DisappearMethodOfRainbowBall(objectArray, objectArray[i] , total_length ) || cont_to_check;
-        cont_to_check = DisappearMethodOfTriangleFlower(objectArray, objectArray[i] , total_length ) || cont_to_check;
-        cont_to_check = DisappearMethodOfStarFlower(objectArray, objectArray[i] , total_length ) || cont_to_check;
-        cont_to_check = DisappearMethodOfStar(objectArray, objectArray[i] , total_length ) || cont_to_check;
-        cont_to_check = DisappearMethodOfStripe(objectArray, objectArray[i] , total_length ) || cont_to_check;
         cont_to_check = DisappearMethodOfOneLine(objectArray, objectArray[i] , total_length ) || cont_to_check;
+        cont_to_check = DisappearMethodOfFlower(objectArray, objectArray[i] , total_length ) || cont_to_check;
+        cont_to_check = DisappearMethodOfStarFlower(objectArray, objectArray[i] , total_length ) || cont_to_check; //4
+        cont_to_check = DisappearMethodOfTriangleFlower(objectArray, objectArray[i] , total_length ) || cont_to_check; //3
+        cont_to_check = DisappearMethodOfStripe(objectArray, objectArray[i] , total_length ) || cont_to_check; //2
+        cont_to_check = DisappearMethodOfRainbowBall(objectArray, objectArray[i] , total_length ) || cont_to_check; //1
 
     }
 
@@ -220,7 +225,7 @@ int CheckNextAppearance( std::shared_ptr<GameCharacter>* objectArray, std::share
     if (!object || object->GetInformationNeibor()[side] == -1 || !objectArray[ object->GetInformationNeibor()[side] ] )
         return length;
     
-    if ( object->GetBlockType() == objectArray[ object->GetInformationNeibor()[side] ]->GetBlockType() && object->GetInformationNeibor()[side] != -1 ){
+    if ( IsSameColor(object->GetBlockType() , objectArray[ object->GetInformationNeibor()[side] ]->GetBlockType()) && object->GetInformationNeibor()[side] != -1 ){
         return CheckNextAppearance( objectArray, objectArray[ object->GetInformationNeibor()[side] ], side, length + 1 ) ;
     }
     else
@@ -235,11 +240,7 @@ bool DisappearMethodOfOneLine( std::shared_ptr<GameCharacter>* objectArray, std:
         if ( (total_length[i] + total_length[j] ) == 2 ) {
             cont_to_check = true ;
             object->SetAppearBool( false );
-            // if( total_length[i] > 0 )
-            //     DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i] - 1);
-            //
-            // if( total_length[j] > 0 )
-            //     DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j] - 1);
+
         }
         if ( total_length[i] > 0 && total_length[j] == 0 && (total_length[i] + total_length[j] ) == 2 )//side
         {
@@ -263,13 +264,43 @@ bool DisappearMethodOfStripe( std::shared_ptr<GameCharacter>* objectArray, std::
             {
 
                 object->SetAppearBool( false ); //self disappear
-                //measure
-                // if( total_length[i] > 0 )
-                //     DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i] - 1);
 
             }
             else if ( total_length[i] > 0 && total_length[j] == 0 ) //side
             {
+
+                int currentType = object->GetBlockType();
+
+                // 使用 IsSameColor() 來匹配顏色
+                if (IsSameColor(currentType, BLUE_NORMAL_OBJECT)) {
+                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/blueLine.png");
+                    object->SetBlock(BLUE_STRIPE_OBJECT);
+                }
+                else if (IsSameColor(currentType, BROWN_NORMAL_OBJECT)) {
+                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/brownLine.png");
+                    object->SetBlock(BROWN_STRIPE_OBJECT);
+                }
+                else if (IsSameColor(currentType, GREEN_NORMAL_OBJECT)) {
+                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/greenLine.png");
+                    object->SetBlock(GREEN_STRIPE_OBJECT);
+                }
+                else if (IsSameColor(currentType, PINK_NORMAL_OBJECT)) {
+                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/pinkLine.png");
+                    object->SetBlock(PINK_STRIPE_OBJECT);
+                }
+                else if (IsSameColor(currentType, ORANGE_NORMAL_OBJECT)) {
+                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/orangeLine.png");
+                    object->SetBlock(ORANGE_STRIPE_OBJECT);
+                }
+                else if (IsSameColor(currentType, WHITE_NORMAL_OBJECT)) {
+                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/whiteLine.png");
+                    object->SetBlock(WHITE_STRIPE_OBJECT);
+                }
+                else if (IsSameColor(currentType, YELLOW_NORMAL_OBJECT)) {
+                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/yellowLine.png");
+                    object->SetBlock(YELLOW_STRIPE_OBJECT);
+                }
+
                 cout<<"Stripe"<<endl;
             }
 
@@ -282,7 +313,7 @@ bool DisappearMethodOfStripe( std::shared_ptr<GameCharacter>* objectArray, std::
 
 }
 
-bool DisappearMethodOfStar( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length ) { //total_length = 6 side's consec.
+bool DisappearMethodOfFlower( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length ) { //total_length = 6 side's consec.
 
     bool cont_to_check = false ; //two side 1 + another 2
     int check_side = -1;
@@ -303,8 +334,39 @@ bool DisappearMethodOfStar( std::shared_ptr<GameCharacter>* objectArray, std::sh
 
             if ( total_length[i] >= 1 && total_length[j] >= 1 ) {//two side 1
                 cont_to_check = true ;
-                // cout<<"i: "<<i<<" i_length: "<<total_length[i]<<" j: "<<j<<" j_length: "<<total_length[j]<<endl;
-                cout<<"Star"<<endl;
+                cout<<"Flower"<<endl;
+
+                int currentType = object->GetBlockType();
+
+                // 使用 IsSameColor() 來匹配顏色
+                if (IsSameColor(currentType, BLUE_NORMAL_OBJECT)) {
+                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/blueFlower.png");
+                    object->SetBlock(BLUE_FLOWER_OBJECT);
+                }
+                else if (IsSameColor(currentType, BROWN_NORMAL_OBJECT)) {
+                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/brownFlower.png");
+                    object->SetBlock(BROWN_FLOWER_OBJECT);
+                }
+                else if (IsSameColor(currentType, GREEN_NORMAL_OBJECT)) {
+                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/greenFlower.png");
+                    object->SetBlock(GREEN_FLOWER_OBJECT);
+                }
+                else if (IsSameColor(currentType, PINK_NORMAL_OBJECT)) {
+                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/pinkFlower.png");
+                    object->SetBlock(PINK_FLOWER_OBJECT);
+                }
+                else if (IsSameColor(currentType, ORANGE_NORMAL_OBJECT)) {
+                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/orangeFlower.png");
+                    object->SetBlock(ORANGE_FLOWER_OBJECT);
+                }
+                else if (IsSameColor(currentType, WHITE_NORMAL_OBJECT)) {
+                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/whiteFlower.png");
+                    object->SetBlock(WHITE_FLOWER_OBJECT);
+                }
+                else if (IsSameColor(currentType, YELLOW_NORMAL_OBJECT)) {
+                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/yellowFlower.png");
+                    object->SetBlock(YELLOW_FLOWER_OBJECT);
+                }
 
                 DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[check_side] ], check_side, total_length[check_side]-1);
                 DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
@@ -338,6 +400,39 @@ bool DisappearMethodOfStarFlower( std::shared_ptr<GameCharacter>* objectArray, s
             DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
             DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[j]-1);
         }
+
+        int currentType = object->GetBlockType();
+
+        // 使用 IsSameColor() 來匹配顏色
+        if (IsSameColor(currentType, BLUE_NORMAL_OBJECT)) {
+            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/blueStarFlower.png");
+            object->SetBlock(BLUE_STARFLOWER_OBJECT);
+        }
+        else if (IsSameColor(currentType, BROWN_NORMAL_OBJECT)) {
+            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/brownStarFlower.png");
+            object->SetBlock(BROWN_STARFLOWER_OBJECT);
+        }
+        else if (IsSameColor(currentType, GREEN_NORMAL_OBJECT)) {
+            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/greenStarFlower.png");
+            object->SetBlock(GREEN_STARFLOWER_OBJECT);
+        }
+        else if (IsSameColor(currentType, PINK_NORMAL_OBJECT)) {
+            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/pinkStarFlower.png");
+            object->SetBlock(PINK_STARFLOWER_OBJECT);
+        }
+        else if (IsSameColor(currentType, ORANGE_NORMAL_OBJECT)) {
+            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/orangeStarFlower.png");
+            object->SetBlock(ORANGE_STARFLOWER_OBJECT);
+        }
+        else if (IsSameColor(currentType, WHITE_NORMAL_OBJECT)) {
+            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/whiteStarFlower.png");
+            object->SetBlock(WHITE_STARFLOWER_OBJECT);
+        }
+        else if (IsSameColor(currentType, YELLOW_NORMAL_OBJECT)) {
+            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/yellowStarFlower.png");
+            object->SetBlock(YELLOW_STARFLOWER_OBJECT);
+        }
+
         cout<<"Star Flower"<<endl;
         cont_to_check = true ;
     }
@@ -361,6 +456,38 @@ bool DisappearMethodOfTriangleFlower( std::shared_ptr<GameCharacter>* objectArra
 
     if (check >= 2) // ex. side 1 + side 4 both >=2 -- rainbow(first
     {
+        int currentType = object->GetBlockType();
+
+        // 使用 IsSameColor() 來匹配顏色
+        if (IsSameColor(currentType, BLUE_NORMAL_OBJECT)) {
+            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/blueTriangleFlower.png");
+            object->SetBlock(BLUE_TRIANGLEFLOWER_OBJECT);
+        }
+        else if (IsSameColor(currentType, BROWN_NORMAL_OBJECT)) {
+            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/brownTriangleFlower.png");
+            object->SetBlock(BROWN_TRIANGLEFLOWER_OBJECT);
+        }
+        else if (IsSameColor(currentType, GREEN_NORMAL_OBJECT)) {
+            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/greenTriangleFlower.png");
+            object->SetBlock(GREEN_TRIANGLEFLOWER_OBJECT);
+        }
+        else if (IsSameColor(currentType, PINK_NORMAL_OBJECT)) {
+            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/pinkTriangleFlower.png");
+            object->SetBlock(PINK_TRIANGLEFLOWER_OBJECT);
+        }
+        else if (IsSameColor(currentType, ORANGE_NORMAL_OBJECT)) {
+            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/orangeTriangleFlower.png");
+            object->SetBlock(ORANGE_TRIANGLEFLOWER_OBJECT);
+        }
+        else if (IsSameColor(currentType, WHITE_NORMAL_OBJECT)) {
+            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/whiteTriangleFlower.png");
+            object->SetBlock(WHITE_TRIANGLEFLOWER_OBJECT);
+        }
+        else if (IsSameColor(currentType, YELLOW_NORMAL_OBJECT)) {
+            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/yellowTriangleFlower.png");
+            object->SetBlock(YELLOW_TRIANGLEFLOWER_OBJECT);
+        }
+
         cout<<"Triangle Flower"<<endl;
         cont_to_check = true ;
         for ( int i = 0  ; i < 6 ; ++i )
@@ -380,11 +507,19 @@ bool DisappearMethodOfRainbowBall( std::shared_ptr<GameCharacter>* objectArray, 
     for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
         if ( (total_length[i] + total_length[j] ) >= 4 ) {
             cont_to_check = true ;
+
+
             cout<<"Rainbow Ball"<<endl;
 
             if( !(total_length[i] > 0 && total_length[j] == 0) )//if [NOT] j side ->> MID OR I ->disappear
             {
                 object->SetAppearBool( false ); //self disappear
+            }
+            else
+            {
+                cout<<"Rainbow Ball"<<endl;
+                // object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/RainbowBall.png");
+                object->SetBlock(RAINBOWBALL_OBJECT);
             }
 
         }
