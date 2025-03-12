@@ -56,6 +56,8 @@ public:
 
     int* GetInformationNeibor() { return (this->m_information).GetNeibor(); }
 
+    int GetType() { return this->m_BlockType; }
+
     int GetBlockType() { return this->m_Block; }
 
     bool GetAppearBool() { return this->m_Appear; }
@@ -92,8 +94,12 @@ public:
         (this->m_information).SetPosition( Position );
     }
 
-    void SetBlock(int block_type){
-        this->m_Block = block_type;
+    void SetBlock(int block_color){
+        this->m_Block = block_color;
+    }
+
+    void SetBlockType(int block_type) {
+        this->m_BlockType = block_type;
     }
 
     void SetAppearBool( bool flag ) {
@@ -115,6 +121,7 @@ protected:
     Objectinformation m_information ;
     bool m_Appear = true;
     bool m_Click = false;
+    int m_BlockType = 0;
 };
 
 #endif // GAME_CHARACTER_HPP

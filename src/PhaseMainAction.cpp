@@ -19,6 +19,7 @@ bool PhaseHomePage( std::shared_ptr<Character> &level1){
     if ( level1->GetVisibility() == true ){
         if (level1->IfClick()) { 
             std::cout << "Level1 Character clicked!" << std::endl;
+            stage_point_counter[1] = 0;
             level1->SetVisible( false );
             return true; 
         }

@@ -21,10 +21,11 @@ void App::Start() {
     m_Stage_Buttom_1->SetVisible(false);
     m_Root.AddChild( m_Stage_Buttom_1 );
 
-    InitializeStageCharacter( m_Stage_1_Object, 37);
-    for ( int i = 1 ; i < 38 ; ++i )
+    // InitializeStageCharacter( m_Stage_1_Object, 37);
+    for ( int i = 1 ; i < 38 ; ++i ) { 
+        m_Stage_1_Object[i] = std::make_shared<GameCharacter>( BLUE_NORMAL_OBJECT);
         m_Root.AddChild( m_Stage_1_Object[i] );
-    CheckAppearance( m_Stage_1_Object , 37 , false);
+    }
 
     m_Point_Show = std::make_shared<TaskText>();
     m_Point_Show->SetVisible( false );
@@ -45,13 +46,6 @@ void App::Update() {
                 m_PRM->NextPhase(PHASE_HOME_PAGE);
                 m_Phase = Phase::HOME_PAGE;
                 m_Stage_Buttom_1->SetVisible( true );
-
-                // m_Stage_1_Object[1]->SwitchPosition( m_Stage_1_Object[2] );
-                // std::shared_ptr<GameCharacter> temp = m_Stage_1_Object[1];
-                // m_Stage_1_Object[1] = m_Stage_1_Object[2];
-                // m_Stage_1_Object[2] = temp;
-
-                // std::cout << "wqd "<< m_Stage_1_Object[1]->GetBlockType() << " " << m_Stage_1_Object[2]->GetBlockType() << std::endl;
             }
             break;
         case Phase::HOME_PAGE:
@@ -62,6 +56,8 @@ void App::Update() {
                     if ( m_Stage_1_Object[i]->GetAppearBool() )
                         m_Stage_1_Object[i]->Appear();  
                 }
+                InitializeStageCharacter( m_Stage_1_Object, 37);
+                CheckAppearance( m_Stage_1_Object , 37 , 0);
                 m_Point_Show->SetVisible( true );
                 m_Point_Show->SetValue( 0 );
                 m_Point_Show->UpdateText();

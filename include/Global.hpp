@@ -6,47 +6,62 @@
 #define PHASE_HOME_PAGE 2
 #define PHASE_STAGE_1 3
 
-#define BLUE_NORMAL_OBJECT 1
-#define BROWN_NORMAL_OBJECT 2
-#define GREEN_NORMAL_OBJECT 3
-#define PINK_NORMAL_OBJECT 4
-#define ORANGE_NORMAL_OBJECT 5
-#define WHITE_NORMAL_OBJECT 6
-#define YELLOW_NORMAL_OBJECT 7
+#define BLUE_OBJECT 1
+#define BROWN_OBJECT 2
+#define GREEN_OBJECT 3
+#define PINK_OBJECT 4
+#define ORANGE_OBJECT 5
+#define WHITE_OBJECT 6
+#define YELLOW_OBJECT 7
 
-#define BLUE_STRIPE_OBJECT 101
-#define BROWN_STRIPE_OBJECT 102
-#define GREEN_STRIPE_OBJECT 103
-#define PINK_STRIPE_OBJECT 104
-#define ORANGE_STRIPE_OBJECT 105
-#define WHITE_STRIPE_OBJECT 106
-#define YELLOW_STRIPE_OBJECT 107
+#define NORMAL_OBJECT 1
+#define STRIPE_OBJECT 2
+#define FLOWER_OBJECT 3
+#define STARFLOWER_OBJECT 4
+#define TRIANGLEFLOWER_OBJECT 5
+#define RAINBOWBALL_OBJECT 6
 
-#define BLUE_FLOWER_OBJECT 201
-#define BROWN_FLOWER_OBJECT 202
-#define GREEN_FLOWER_OBJECT 203
-#define PINK_FLOWER_OBJECT 204
-#define ORANGE_FLOWER_OBJECT 205
-#define WHITE_FLOWER_OBJECT 206
-#define YELLOW_FLOWER_OBJECT 207
+#define BLUE_NORMAL_OBJECT GA_RESOURCE_DIR"/Image/GameObject/blueNormal.png"
+#define BROWN_NORMAL_OBJECT GA_RESOURCE_DIR"/Image/GameObject/brownNormal.png"
+#define GREEN_NORMAL_OBJECT GA_RESOURCE_DIR"/Image/GameObject/greenNormal.png" 
+#define PINK_NORMAL_OBJECT GA_RESOURCE_DIR"/Image/GameObject/pinkNormal.png"
+#define ORANGE_NORMAL_OBJECT GA_RESOURCE_DIR"/Image/GameObject/orangeNormal.png"
+#define WHITE_NORMAL_OBJECT GA_RESOURCE_DIR"/Image/GameObject/whiteNormal.png"
+#define YELLOW_NORMAL_OBJECT GA_RESOURCE_DIR"/Image/GameObject/yellowNormal.png"
 
-#define BLUE_STARFLOWER_OBJECT 201
-#define BROWN_STARFLOWER_OBJECT 202
-#define GREEN_STARFLOWER_OBJECT 203
-#define PINK_STARFLOWER_OBJECT 204
-#define ORANGE_STARFLOWER_OBJECT 205
-#define WHITE_STARFLOWER_OBJECT 206
-#define YELLOW_STARFLOWER_OBJECT 207
+#define BLUE_STRIPE_OBJECT GA_RESOURCE_DIR"/Image/GameObject/blueLine.png"
+#define BROWN_STRIPE_OBJECT GA_RESOURCE_DIR"/Image/GameObject/brownLine.png"
+#define GREEN_STRIPE_OBJECT GA_RESOURCE_DIR"/Image/GameObject/greenLine.png"
+#define PINK_STRIPE_OBJECT GA_RESOURCE_DIR"/Image/GameObject/pinkLine.png"
+#define ORANGE_STRIPE_OBJECT GA_RESOURCE_DIR"/Image/GameObject/orangeLine.png"
+#define WHITE_STRIPE_OBJECT GA_RESOURCE_DIR"/Image/GameObject/whiteLine.png"
+#define YELLOW_STRIPE_OBJECT GA_RESOURCE_DIR"/Image/GameObject/yellowLine.png"
 
-#define BLUE_TRIANGLEFLOWER_OBJECT 301
-#define BROWN_TRIANGLEFLOWER_OBJECT 302
-#define GREEN_TRIANGLEFLOWER_OBJECT 303
-#define PINK_TRIANGLEFLOWER_OBJECT 304
-#define ORANGE_TRIANGLEFLOWER_OBJECT 305
-#define WHITE_TRIANGLEFLOWER_OBJECT 306
-#define YELLOW_TRIANGLEFLOWER_OBJECT 307
+#define BLUE_FLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/blueFlower.png"
+#define BROWN_FLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/brownFlower.png"
+#define GREEN_FLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/greenFlower.png"
+#define PINK_FLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/pinkFlower.png"
+#define ORANGE_FLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/orangeFlower.png"
+#define WHITE_FLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/whiteFlower.png"
+#define YELLOW_FLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/yellowFlower.png"
 
-#define RAINBOWBALL_OBJECT 301
+#define BLUE_STARFLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/blueStarFlower.png"
+#define BROWN_STARFLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/brownStarFlower.png"
+#define GREEN_STARFLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/greenStarFlower.png"
+#define PINK_STARFLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/pinkStarFlower.png"
+#define ORANGE_STARFLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/orangeStarFlower.png"
+#define WHITE_STARFLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/whiteStarFlower.png"
+#define YELLOW_STARFLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/yellowStarFlower.png"
+
+#define BLUE_TRIANGLEFLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/blueTriangleFlower.png"
+#define BROWN_TRIANGLEFLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/brownTriangleFlower.png"
+#define GREEN_TRIANGLEFLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/greenTriangleFlower.png"
+#define PINK_TRIANGLEFLOWER_OBJECT  GA_RESOURCE_DIR"/Image/GameObject/pinkTriangleFlower.png"
+#define ORANGE_TRIANGLEFLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/orangeTriangleFlower.png"
+#define WHITE_TRIANGLEFLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/whiteTriangleFlower.png"
+#define YELLOW_TRIANGLEFLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/yellowTriangleFlower.png"
+
+#define RAINBOWBALL_OBJECT_LINK GA_RESOURCE_DIR"/Image/GameObject/rainbowBall.png"
 
 
 #include <glm/vec2.hpp> 

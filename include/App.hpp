@@ -26,7 +26,7 @@ void DisAppearAll( std::shared_ptr<GameCharacter> *objectArray , const int size 
 void AppearAll( std::shared_ptr<GameCharacter> *objectArray , const int size );
 void ClearAll( std::shared_ptr<GameCharacter> *objectArray , const int size );
 
-void RamdomChangeObject( std::shared_ptr<GameCharacter> object ); // only change image path not object itself
+void RamdomChangeObject( std::shared_ptr<GameCharacter> &object ); // only change image path not object itself
 void InitializeGameCharacter( std::shared_ptr<GameCharacter>* objectArray );
 void InitializeStageCharacter( std::shared_ptr<GameCharacter>* objectArray , int size);
 

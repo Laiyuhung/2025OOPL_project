@@ -30,7 +30,7 @@ void ClearAll( std::shared_ptr<GameCharacter> *objectArray , const int size ) {
     }
 }
 
-void RamdomChangeObject( std::shared_ptr<GameCharacter> object ) {
+void RamdomChangeObject( std::shared_ptr<GameCharacter> &object ) {
     static std::random_device rd;
     static std::mt19937 gen(rd()); 
     std::uniform_int_distribution<int> distrib(1, 7); 
@@ -39,33 +39,33 @@ void RamdomChangeObject( std::shared_ptr<GameCharacter> object ) {
 
     switch ( ramdom_number )
     {
-        case BLUE_NORMAL_OBJECT:
+        case BLUE_OBJECT:
             object->SetImage( GA_RESOURCE_DIR"/Image/GameObject/blueNormal.png" );
-            object->SetBlock( BLUE_NORMAL_OBJECT );
+            object->SetBlock( BLUE_OBJECT );
             break;
-        case BROWN_NORMAL_OBJECT:
+        case BROWN_OBJECT:
             object->SetImage( GA_RESOURCE_DIR"/Image/GameObject/brownNormal.png" );
-            object->SetBlock( BROWN_NORMAL_OBJECT );
+            object->SetBlock( BROWN_OBJECT );
             break;
-        case GREEN_NORMAL_OBJECT:
+        case GREEN_OBJECT:
             object->SetImage( GA_RESOURCE_DIR"/Image/GameObject/greenNormal.png" );
-            object->SetBlock( GREEN_NORMAL_OBJECT );
+            object->SetBlock( GREEN_OBJECT );
             break;
-        case PINK_NORMAL_OBJECT:
+        case PINK_OBJECT:
             object->SetImage( GA_RESOURCE_DIR"/Image/GameObject/pinkNormal.png" );
-            object->SetBlock( PINK_NORMAL_OBJECT );
+            object->SetBlock( PINK_OBJECT );
             break;
-        case ORANGE_NORMAL_OBJECT:
+        case ORANGE_OBJECT:
             object->SetImage( GA_RESOURCE_DIR"/Image/GameObject/orangeNormal.png" );
-            object->SetBlock( ORANGE_NORMAL_OBJECT );
+            object->SetBlock( ORANGE_OBJECT );
             break;
-        case WHITE_NORMAL_OBJECT:
+        case WHITE_OBJECT:
             object->SetImage( GA_RESOURCE_DIR"/Image/GameObject/whiteNormal.png" );
-            object->SetBlock( WHITE_NORMAL_OBJECT );
+            object->SetBlock( WHITE_OBJECT );
             break;
-        case YELLOW_NORMAL_OBJECT:
+        case YELLOW_OBJECT:
             object->SetImage( GA_RESOURCE_DIR"/Image/GameObject/yellowNormal.png" );
-            object->SetBlock( YELLOW_NORMAL_OBJECT );
+            object->SetBlock( YELLOW_OBJECT );
             break;
         default:
             break;
@@ -75,44 +75,15 @@ void InitializeStageCharacter(std::shared_ptr<GameCharacter>* objectArray, int s
     static std::random_device rd;
     static std::mt19937 gen(rd()); 
     std::uniform_int_distribution<int> distrib(1, 7); 
-    
-    int ramdom_number = distrib(gen);
     for ( int i = 1 ; i < size+1 ; ++i ) {
-        int random_number = std::rand() % 7 + 1;
-        if ( random_number == BLUE_NORMAL_OBJECT ) {
-            objectArray[i] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/blueNormal.png" );
-        } 
-        else if ( random_number == BROWN_NORMAL_OBJECT ) {
-            objectArray[i] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/brownNormal.png" );
-        } 
-
-        else if ( random_number == GREEN_NORMAL_OBJECT ) {
-            objectArray[i] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/greenNormal.png" );
-        } 
-
-        else if ( random_number == PINK_NORMAL_OBJECT ) {
-            objectArray[i] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/pinkNormal.png" );
-        } 
-
-        else if ( random_number == ORANGE_NORMAL_OBJECT ) {
-            objectArray[i] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/orangeNormal.png" );
-        } 
-
-        else if ( random_number == WHITE_NORMAL_OBJECT ) {
-            objectArray[i] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/whiteNormal.png" );
-        } 
-
-        else if ( random_number == YELLOW_NORMAL_OBJECT ) {
-            objectArray[i] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/yellowNormal.png" );
-        } 
-        
-        objectArray[i]->SetBlock( random_number );
+        RamdomChangeObject( objectArray[i] );
         objectArray[i]->SetInformation( stage1[i] );
         objectArray[i]->SetPosition( stage1_position[i] );
         objectArray[i]->SetZIndex(10);
         objectArray[i]->SetSize( {20, 25} );
         objectArray[i]->DisAppear();
         objectArray[i]->SetAppearBool( true );
+        objectArray[i]->SetBlockType( NORMAL_OBJECT );
     }
 }
 
@@ -193,13 +164,36 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
                 total_length[j] = CheckNextAppearance( objectArray, objectArray[ neighbors[j] ], j, 1 ) ;
             }
         }
+        
+        if ( DisappearMethodOfRainbowBall(objectArray, objectArray[i] , total_length ) ) {
+            objectArray[i]->SetBlockType( RAINBOWBALL_OBJECT );
+        }
+        else if ( DisappearMethodOfStripe(objectArray, objectArray[i] , total_length ) ) {
+            objectArray[i]->SetBlockType( STRIPE_OBJECT );
+        }
+        else if ( DisappearMethodOfTriangleFlower(objectArray, objectArray[i] , total_length ) ) {
+            objectArray[i]->SetBlockType( TRIANGLEFLOWER_OBJECT );
+        }
+        else if ( DisappearMethodOfStarFlower(objectArray, objectArray[i] , total_length ) ) {
+            objectArray[i]->SetBlockType( STARFLOWER_OBJECT );
+        }
+        else if ( DisappearMethodOfFlower(objectArray, objectArray[i] , total_length ) ) {
+            objectArray[i]->SetBlockType( FLOWER_OBJECT );
+        }
+        else if ( DisappearMethodOfOneLine(objectArray, objectArray[i] , total_length ) ) {
+            objectArray[i]->SetBlockType( NORMAL_OBJECT);
+        }
+        else {
+            objectArray[i]->SetBlockType( NORMAL_OBJECT );
+        }
 
-        cont_to_check = DisappearMethodOfOneLine(objectArray, objectArray[i] , total_length ) || cont_to_check;
-        cont_to_check = DisappearMethodOfFlower(objectArray, objectArray[i] , total_length ) || cont_to_check;
-        cont_to_check = DisappearMethodOfStarFlower(objectArray, objectArray[i] , total_length ) || cont_to_check; //4
-        cont_to_check = DisappearMethodOfTriangleFlower(objectArray, objectArray[i] , total_length ) || cont_to_check; //3
-        cont_to_check = DisappearMethodOfStripe(objectArray, objectArray[i] , total_length ) || cont_to_check; //2
-        cont_to_check = DisappearMethodOfRainbowBall(objectArray, objectArray[i] , total_length ) || cont_to_check; //1
+        if ( stage == 0 )
+            objectArray[i]->SetBlockType( NORMAL_OBJECT );
+        // cont_to_check = DisappearMethodOfOneLine(objectArray, objectArray[i] , total_length ) || cont_to_check;
+        // cont_to_check = DisappearMethodOfFlower(objectArray, objectArray[i] , total_length ) || cont_to_check;
+        // cont_to_check = DisappearMethodOfStarFlower(objectArray, objectArray[i] , total_length ) || cont_to_check; //4
+        // cont_to_check = DisappearMethodOfTriangleFlower(objectArray, objectArray[i] , total_length ) || cont_to_check; //3
+        // cont_to_check = DisappearMethodOfStripe(objectArray, objectArray[i] , total_length ) || cont_to_check; //2
 
     }
 
@@ -268,39 +262,6 @@ bool DisappearMethodOfStripe( std::shared_ptr<GameCharacter>* objectArray, std::
             }
             else if ( total_length[i] > 0 && total_length[j] == 0 ) //side
             {
-
-                int currentType = object->GetBlockType();
-
-                // 使用 IsSameColor() 來匹配顏色
-                if (IsSameColor(currentType, BLUE_NORMAL_OBJECT)) {
-                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/blueLine.png");
-                    object->SetBlock(BLUE_STRIPE_OBJECT);
-                }
-                else if (IsSameColor(currentType, BROWN_NORMAL_OBJECT)) {
-                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/brownLine.png");
-                    object->SetBlock(BROWN_STRIPE_OBJECT);
-                }
-                else if (IsSameColor(currentType, GREEN_NORMAL_OBJECT)) {
-                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/greenLine.png");
-                    object->SetBlock(GREEN_STRIPE_OBJECT);
-                }
-                else if (IsSameColor(currentType, PINK_NORMAL_OBJECT)) {
-                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/pinkLine.png");
-                    object->SetBlock(PINK_STRIPE_OBJECT);
-                }
-                else if (IsSameColor(currentType, ORANGE_NORMAL_OBJECT)) {
-                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/orangeLine.png");
-                    object->SetBlock(ORANGE_STRIPE_OBJECT);
-                }
-                else if (IsSameColor(currentType, WHITE_NORMAL_OBJECT)) {
-                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/whiteLine.png");
-                    object->SetBlock(WHITE_STRIPE_OBJECT);
-                }
-                else if (IsSameColor(currentType, YELLOW_NORMAL_OBJECT)) {
-                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/yellowLine.png");
-                    object->SetBlock(YELLOW_STRIPE_OBJECT);
-                }
-
                 cout<<"Stripe"<<endl;
             }
 
@@ -336,38 +297,6 @@ bool DisappearMethodOfFlower( std::shared_ptr<GameCharacter>* objectArray, std::
                 cont_to_check = true ;
                 cout<<"Flower"<<endl;
 
-                int currentType = object->GetBlockType();
-
-                // 使用 IsSameColor() 來匹配顏色
-                if (IsSameColor(currentType, BLUE_NORMAL_OBJECT)) {
-                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/blueFlower.png");
-                    object->SetBlock(BLUE_FLOWER_OBJECT);
-                }
-                else if (IsSameColor(currentType, BROWN_NORMAL_OBJECT)) {
-                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/brownFlower.png");
-                    object->SetBlock(BROWN_FLOWER_OBJECT);
-                }
-                else if (IsSameColor(currentType, GREEN_NORMAL_OBJECT)) {
-                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/greenFlower.png");
-                    object->SetBlock(GREEN_FLOWER_OBJECT);
-                }
-                else if (IsSameColor(currentType, PINK_NORMAL_OBJECT)) {
-                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/pinkFlower.png");
-                    object->SetBlock(PINK_FLOWER_OBJECT);
-                }
-                else if (IsSameColor(currentType, ORANGE_NORMAL_OBJECT)) {
-                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/orangeFlower.png");
-                    object->SetBlock(ORANGE_FLOWER_OBJECT);
-                }
-                else if (IsSameColor(currentType, WHITE_NORMAL_OBJECT)) {
-                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/whiteFlower.png");
-                    object->SetBlock(WHITE_FLOWER_OBJECT);
-                }
-                else if (IsSameColor(currentType, YELLOW_NORMAL_OBJECT)) {
-                    object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/yellowFlower.png");
-                    object->SetBlock(YELLOW_FLOWER_OBJECT);
-                }
-
                 DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[check_side] ], check_side, total_length[check_side]-1);
                 DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
                 DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
@@ -401,38 +330,6 @@ bool DisappearMethodOfStarFlower( std::shared_ptr<GameCharacter>* objectArray, s
             DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[j]-1);
         }
 
-        int currentType = object->GetBlockType();
-
-        // 使用 IsSameColor() 來匹配顏色
-        if (IsSameColor(currentType, BLUE_NORMAL_OBJECT)) {
-            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/blueStarFlower.png");
-            object->SetBlock(BLUE_STARFLOWER_OBJECT);
-        }
-        else if (IsSameColor(currentType, BROWN_NORMAL_OBJECT)) {
-            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/brownStarFlower.png");
-            object->SetBlock(BROWN_STARFLOWER_OBJECT);
-        }
-        else if (IsSameColor(currentType, GREEN_NORMAL_OBJECT)) {
-            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/greenStarFlower.png");
-            object->SetBlock(GREEN_STARFLOWER_OBJECT);
-        }
-        else if (IsSameColor(currentType, PINK_NORMAL_OBJECT)) {
-            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/pinkStarFlower.png");
-            object->SetBlock(PINK_STARFLOWER_OBJECT);
-        }
-        else if (IsSameColor(currentType, ORANGE_NORMAL_OBJECT)) {
-            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/orangeStarFlower.png");
-            object->SetBlock(ORANGE_STARFLOWER_OBJECT);
-        }
-        else if (IsSameColor(currentType, WHITE_NORMAL_OBJECT)) {
-            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/whiteStarFlower.png");
-            object->SetBlock(WHITE_STARFLOWER_OBJECT);
-        }
-        else if (IsSameColor(currentType, YELLOW_NORMAL_OBJECT)) {
-            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/yellowStarFlower.png");
-            object->SetBlock(YELLOW_STARFLOWER_OBJECT);
-        }
-
         cout<<"Star Flower"<<endl;
         cont_to_check = true ;
     }
@@ -456,38 +353,7 @@ bool DisappearMethodOfTriangleFlower( std::shared_ptr<GameCharacter>* objectArra
 
     if (check >= 2) // ex. side 1 + side 4 both >=2 -- rainbow(first
     {
-        int currentType = object->GetBlockType();
-
-        // 使用 IsSameColor() 來匹配顏色
-        if (IsSameColor(currentType, BLUE_NORMAL_OBJECT)) {
-            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/blueTriangleFlower.png");
-            object->SetBlock(BLUE_TRIANGLEFLOWER_OBJECT);
-        }
-        else if (IsSameColor(currentType, BROWN_NORMAL_OBJECT)) {
-            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/brownTriangleFlower.png");
-            object->SetBlock(BROWN_TRIANGLEFLOWER_OBJECT);
-        }
-        else if (IsSameColor(currentType, GREEN_NORMAL_OBJECT)) {
-            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/greenTriangleFlower.png");
-            object->SetBlock(GREEN_TRIANGLEFLOWER_OBJECT);
-        }
-        else if (IsSameColor(currentType, PINK_NORMAL_OBJECT)) {
-            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/pinkTriangleFlower.png");
-            object->SetBlock(PINK_TRIANGLEFLOWER_OBJECT);
-        }
-        else if (IsSameColor(currentType, ORANGE_NORMAL_OBJECT)) {
-            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/orangeTriangleFlower.png");
-            object->SetBlock(ORANGE_TRIANGLEFLOWER_OBJECT);
-        }
-        else if (IsSameColor(currentType, WHITE_NORMAL_OBJECT)) {
-            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/whiteTriangleFlower.png");
-            object->SetBlock(WHITE_TRIANGLEFLOWER_OBJECT);
-        }
-        else if (IsSameColor(currentType, YELLOW_NORMAL_OBJECT)) {
-            object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/yellowTriangleFlower.png");
-            object->SetBlock(YELLOW_TRIANGLEFLOWER_OBJECT);
-        }
-
+        object->SetBlockType( TRIANGLEFLOWER_OBJECT );
         cout<<"Triangle Flower"<<endl;
         cont_to_check = true ;
         for ( int i = 0  ; i < 6 ; ++i )
@@ -518,8 +384,6 @@ bool DisappearMethodOfRainbowBall( std::shared_ptr<GameCharacter>* objectArray, 
             else
             {
                 cout<<"Rainbow Ball"<<endl;
-                // object->SetImage(GA_RESOURCE_DIR "/Image/GameObject/RainbowBall.png");
-                object->SetBlock(RAINBOWBALL_OBJECT);
             }
 
         }
@@ -549,6 +413,140 @@ void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , const int size
         if ( !objectArray[i]->GetAppearBool() ) {
             objectArray[i]->DisAppear();
             ++stage_point_counter[stage];
+        } else {
+            if ( objectArray[i]->GetType() != NORMAL_OBJECT ) {
+                switch ( objectArray[i]->GetBlockType() )
+                {
+                    case BLUE_OBJECT:
+                        if ( objectArray[i]->GetType() == STRIPE_OBJECT ) {
+                            objectArray[i]->SetImage( BLUE_STRIPE_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == FLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( BLUE_FLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == STARFLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( BLUE_STARFLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == TRIANGLEFLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( BLUE_TRIANGLEFLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == RAINBOWBALL_OBJECT ) {
+                            objectArray[i]->SetImage( RAINBOWBALL_OBJECT_LINK );
+                            objectArray[i]->SetBlockType( 0 );
+                        }
+                        break;
+                    case BROWN_OBJECT:
+                        if ( objectArray[i]->GetType() == STRIPE_OBJECT ) {
+                            objectArray[i]->SetImage( BROWN_STRIPE_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == FLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( BROWN_FLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == STARFLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( BROWN_STARFLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == TRIANGLEFLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( BROWN_TRIANGLEFLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == RAINBOWBALL_OBJECT ) {
+                            objectArray[i]->SetImage( RAINBOWBALL_OBJECT_LINK );
+                            objectArray[i]->SetBlockType( 0 );
+                        }
+                        break;
+                    case GREEN_OBJECT:
+                        if ( objectArray[i]->GetType() == STRIPE_OBJECT ) {
+                            objectArray[i]->SetImage( GREEN_STRIPE_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == FLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( GREEN_FLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == STARFLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( GREEN_STARFLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == TRIANGLEFLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( GREEN_TRIANGLEFLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == RAINBOWBALL_OBJECT ) {
+                            objectArray[i]->SetImage( RAINBOWBALL_OBJECT_LINK );
+                            objectArray[i]->SetBlockType( 0 );
+                        }
+                        break;
+                    case PINK_OBJECT:
+                        if ( objectArray[i]->GetType() == STRIPE_OBJECT ) {
+                            objectArray[i]->SetImage( PINK_STRIPE_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == FLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( PINK_FLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == STARFLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( PINK_STARFLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == TRIANGLEFLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( PINK_TRIANGLEFLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == RAINBOWBALL_OBJECT ) {
+                            objectArray[i]->SetImage( RAINBOWBALL_OBJECT_LINK );
+                            objectArray[i]->SetBlockType( 0 );
+                        }
+                        break;
+                    case ORANGE_OBJECT:
+                        if ( objectArray[i]->GetType() == STRIPE_OBJECT ) {
+                            objectArray[i]->SetImage( ORANGE_STRIPE_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == FLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( ORANGE_FLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == STARFLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( ORANGE_STARFLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == TRIANGLEFLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( ORANGE_TRIANGLEFLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == RAINBOWBALL_OBJECT ) {
+                            objectArray[i]->SetImage( RAINBOWBALL_OBJECT_LINK );
+                            objectArray[i]->SetBlockType( 0 );
+                        }
+                        break;
+                    case WHITE_OBJECT:
+                        if ( objectArray[i]->GetType() == STRIPE_OBJECT ) {
+                            objectArray[i]->SetImage( WHITE_STRIPE_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == FLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( WHITE_FLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == STARFLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( WHITE_STARFLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == TRIANGLEFLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( WHITE_TRIANGLEFLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == RAINBOWBALL_OBJECT ) {
+                            objectArray[i]->SetImage( RAINBOWBALL_OBJECT_LINK );
+                            objectArray[i]->SetBlockType( 0 );
+                        }
+                        break;
+                    case YELLOW_OBJECT:
+                        if ( objectArray[i]->GetType() == STRIPE_OBJECT ) {
+                            objectArray[i]->SetImage( YELLOW_STRIPE_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == FLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( YELLOW_FLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == STARFLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( YELLOW_STARFLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == TRIANGLEFLOWER_OBJECT ) {
+                            objectArray[i]->SetImage( YELLOW_TRIANGLEFLOWER_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == RAINBOWBALL_OBJECT ) {
+                            objectArray[i]->SetImage( RAINBOWBALL_OBJECT_LINK );
+                            objectArray[i]->SetBlockType( 0 );
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            } 
         }
     }
     // std::this_thread::sleep_for(std::chrono::seconds(1));  
