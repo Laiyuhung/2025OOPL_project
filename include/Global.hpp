@@ -16,10 +16,12 @@
 
 #define NORMAL_OBJECT 1
 #define STRIPE_OBJECT 2
-#define FLOWER_OBJECT 3
-#define STARFLOWER_OBJECT 4
-#define TRIANGLEFLOWER_OBJECT 5
-#define RAINBOWBALL_OBJECT 6
+#define STRIPE_LEFT_RIGHT_OBJECT 3
+#define STRIPE_RIGHT_LEFT_OBJECT 4
+#define FLOWER_OBJECT 5
+#define STARFLOWER_OBJECT 6
+#define TRIANGLEFLOWER_OBJECT 7
+#define RAINBOWBALL_OBJECT 8
 
 #define BLUE_NORMAL_OBJECT GA_RESOURCE_DIR"/Image/GameObject/blueNormal.png"
 #define BROWN_NORMAL_OBJECT GA_RESOURCE_DIR"/Image/GameObject/brownNormal.png"
@@ -36,6 +38,22 @@
 #define ORANGE_STRIPE_OBJECT GA_RESOURCE_DIR"/Image/GameObject/orangeLine.png"
 #define WHITE_STRIPE_OBJECT GA_RESOURCE_DIR"/Image/GameObject/whiteLine.png"
 #define YELLOW_STRIPE_OBJECT GA_RESOURCE_DIR"/Image/GameObject/yellowLine.png"
+
+#define BLUE_STRIPE_LEFT_RIGHT_OBJECT GA_RESOURCE_DIR"/Image/GameObject/blueLineLeftRight.png"
+#define BROWN_STRIPE_LEFT_RIGHT_OBJECT GA_RESOURCE_DIR"/Image/GameObject/brownLineLeftRight.png"
+#define GREEN_STRIPE_LEFT_RIGHT_OBJECT GA_RESOURCE_DIR"/Image/GameObject/greenLineLeftRight.png"
+#define PINK_STRIPE_LEFT_RIGHT_OBJECT GA_RESOURCE_DIR"/Image/GameObject/pinkLineLeftRight.png"
+#define ORANGE_STRIPE_LEFT_RIGHT_OBJECT GA_RESOURCE_DIR"/Image/GameObject/orangeLineLeftRight.png"
+#define WHITE_STRIPE_LEFT_RIGHT_OBJECT GA_RESOURCE_DIR"/Image/GameObject/whiteLineLeftRight.png"
+#define YELLOW_STRIPE_LEFT_RIGHT_OBJECT GA_RESOURCE_DIR"/Image/GameObject/yellowLineLeftRight.png"
+
+#define BLUE_STRIPE_RIGHT_LEFT_OBJECT GA_RESOURCE_DIR"/Image/GameObject/blueLineRightLeft.png"
+#define BROWN_STRIPE_RIGHT_LEFT_OBJECT GA_RESOURCE_DIR"/Image/GameObject/brownLineRightLeft.png"
+#define GREEN_STRIPE_RIGHT_LEFT_OBJECT GA_RESOURCE_DIR"/Image/GameObject/greenLineRightLeft.png"
+#define PINK_STRIPE_RIGHT_LEFT_OBJECT GA_RESOURCE_DIR"/Image/GameObject/pinkLineRightLeft.png"
+#define ORANGE_STRIPE_RIGHT_LEFT_OBJECT GA_RESOURCE_DIR"/Image/GameObject/orangeLineRightLeft.png"
+#define WHITE_STRIPE_RIGHT_LEFT_OBJECT GA_RESOURCE_DIR"/Image/GameObject/whiteLineRightLeft.png"
+#define YELLOW_STRIPE_RIGHT_LEFT_OBJECT GA_RESOURCE_DIR"/Image/GameObject/yellowLineRightLeft.png"
 
 #define BLUE_FLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/blueFlower.png"
 #define BROWN_FLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/brownFlower.png"

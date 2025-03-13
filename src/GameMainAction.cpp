@@ -118,6 +118,9 @@ void Dropping_method( std::shared_ptr<GameCharacter>* objectArray, const int siz
     if ( current_position < size+1 ) {
         const int next_position = objectArray[current_position]->GetInformationNeibor()[0];
         bool flag = objectArray[next_position]->GetAppearBool();
+
+        objectArray[current_position]->SetSwitched(1);
+        objectArray[next_position]->SetSwitched(1);
         objectArray[current_position]->SwitchPosition( objectArray[next_position] );
 
         std::shared_ptr<GameCharacter> NewObject = objectArray[current_position];
@@ -141,8 +144,7 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
 
     bool cont_to_check = false;
     bool flag = false;
-    
-    // std::cout<< "(initial) cont_to_check: "<< cont_to_check << std::endl;
+
 
     for ( int i = 1 ; i < size+1 ; ++i ) {
         if( !objectArray[i] ) continue;
@@ -159,8 +161,8 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
         for ( int j = 0 ; j < 6 ; ++j ) { 
             if ( neighbors[j] == -1 ) 
                 continue;
-            if ( IsSameColor(objectArray[ neighbors[j] ]->GetBlockType() , objectArray[i]->GetBlockType()) ) {
-                // std::cout<< "i: "<< i << " type: "<< objectArray[i]->GetBlockType() << " j: "<< objectArray[ neighbors[j] ]->GetInformationPosNumber() << " type: "<< objectArray[ neighbors[j] ]->GetBlockType() << std::endl;
+            if ( IsSameColor(objectArray[ neighbors[j] ]->GetBlockType() , objectArray[i]->GetBlockType()) )
+            {
                 total_length[j] = CheckNextAppearance( objectArray, objectArray[ neighbors[j] ], j, 1 ) ;
             }
         }
@@ -168,8 +170,9 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
         if ( DisappearMethodOfRainbowBall(objectArray, objectArray[i] , total_length ) ) {
             objectArray[i]->SetBlockType( RAINBOWBALL_OBJECT );
         }
-        else if ( DisappearMethodOfStripe(objectArray, objectArray[i] , total_length ) ) {
-            objectArray[i]->SetBlockType( STRIPE_OBJECT );
+
+        else if ( DisappearMethodOfFlower(objectArray, objectArray[i] , total_length ) ) {
+            objectArray[i]->SetBlockType( FLOWER_OBJECT );
         }
         else if ( DisappearMethodOfTriangleFlower(objectArray, objectArray[i] , total_length ) ) {
             objectArray[i]->SetBlockType( TRIANGLEFLOWER_OBJECT );
@@ -177,9 +180,20 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
         else if ( DisappearMethodOfStarFlower(objectArray, objectArray[i] , total_length ) ) {
             objectArray[i]->SetBlockType( STARFLOWER_OBJECT );
         }
-        else if ( DisappearMethodOfFlower(objectArray, objectArray[i] , total_length ) ) {
-            objectArray[i]->SetBlockType( FLOWER_OBJECT );
+
+        else if ( DisappearMethodOfStripe(objectArray, objectArray[i] , total_length ) != -1 ) {
+
+            int stripe_side = DisappearMethodOfStripe(objectArray, objectArray[i] , total_length );
+            // cout<<"side: "<<stripe_side<<endl;
+            if ( stripe_side == 0 || stripe_side == 3)
+                objectArray[i]->SetBlockType( STRIPE_OBJECT );
+            else if ( stripe_side == 1 || stripe_side == 4)
+                objectArray[i]->SetBlockType( STRIPE_RIGHT_LEFT_OBJECT );
+            else if ( stripe_side == 2 || stripe_side == 5)
+                objectArray[i]->SetBlockType( STRIPE_LEFT_RIGHT_OBJECT );
+
         }
+
         else if ( DisappearMethodOfOneLine(objectArray, objectArray[i] , total_length ) ) {
             objectArray[i]->SetBlockType( NORMAL_OBJECT);
         }
@@ -195,6 +209,7 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
     for ( int i = 1 ; i < size+1 ; ++i ) {
         if( !objectArray[i] ) continue;
         if( !objectArray[i]->GetAppearBool() ) flag = true;
+        // objectArray[i]->SetSwitched(0);
     }
 
     if ( flag ) {
@@ -203,6 +218,8 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
         Dropping( objectArray, size , stage );
     
     }
+
+
     return flag;
 
 }
@@ -240,23 +257,59 @@ bool DisappearMethodOfOneLine( std::shared_ptr<GameCharacter>* objectArray, std:
 
 }
 
-bool DisappearMethodOfStripe( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length ) { //total_length = 6 side's consec.
+// int CheckSwitchedInfo( std::shared_ptr<GameCharacter>& object )
+// {
+//     return object->GetSwitchedInfo();
+// }
 
-    bool cont_to_check = false ;
+int DisappearMethodOfStripe( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length ) { //total_length = 6 side's consec.
+
+
     for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
-        if ( (total_length[i] + total_length[j] ) == 3 ) {
-            cont_to_check = true ;
+        // do not make true if it was checked
+        if ( (total_length[i] + total_length[j] ) == 3 && object->GetAppearBool() == true) {
 
-            //if [NOT] j side ->> MID OR I ->disappear
-            if( !(total_length[i] > 0 && total_length[j] == 0) ) {
-                object->SetAppearBool( false ); //self disappear
+            cout<<"GetSwitchedInfo(): "<<object->GetSwitchedInfo()<<endl;
+            cout << "Stripe" << endl;
+
+            // check initial switch -> find switch side
+            if (object->GetSwitchedInfo() == 2)
+            {
+
+                //all disappear(except switched blocks)
+                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
+                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
+
+                //find initial neighbor side
+                for ( int switch_side = 0  ; switch_side < 6 ; ++switch_side )
+                {
+                    if (objectArray[ object->GetInformationNeibor()[switch_side]]->GetSwitchedInfo() == 2 )
+                    {
+                        cout<<"return: "<<switch_side<<endl;
+                        return switch_side;
+                    }
+                }
             }
-            else if ( total_length[i] > 0 && total_length[j] == 0 ) {
-                cout << "Stripe" << endl;
+            else if (object->GetSwitchedInfo() == 1)
+            {
+                //all disappear(except switched blocks)
+                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
+                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
+
+                // cout<<"return: "<<0<<endl;
+                return 0;
             }
+
+            else //initial(not started)
+            {
+
+                object->SetAppearBool( false );
+            }
+
+
         }
     }
-    return cont_to_check;
+    return -1;
 }
 
 bool DisappearMethodOfFlower( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length ) { //total_length = 6 side's consec.
@@ -355,16 +408,26 @@ bool DisappearMethodOfRainbowBall( std::shared_ptr<GameCharacter>* objectArray, 
     bool cont_to_check = false ;
     for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
         if ( (total_length[i] + total_length[j] ) >= 4 ) {
-            cont_to_check = true ;
-            cout<<"Rainbow Ball"<<endl;
-            //if [NOT] j side ->> MID OR I ->disappear
-            if( !(total_length[i] > 0 && total_length[j] == 0) ) {
-                //self disappear
+
+
+            // if( !(total_length[i] > 0 && total_length[j] == 0) ) {
+            //     //self disappear
+            //     object->SetAppearBool( false );
+            // }
+            if (object->GetSwitchedInfo() > 0 && object->GetAppearBool() == true )
+            {
+                cout<<"Rainbow Ball"<<endl;
+                cont_to_check = true ;
+                //all disappear(except switched blocks)
+                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
+                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
+                return cont_to_check;
+            }
+            else //initial(not started)
+            {
                 object->SetAppearBool( false );
             }
-            else {
-                cout<<"Rainbow Ball"<<endl;
-            }
+
         }
     }
     return cont_to_check;
@@ -397,6 +460,12 @@ void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , const int size
                         if ( objectArray[i]->GetType() == STRIPE_OBJECT ) {
                             objectArray[i]->SetImage( BLUE_STRIPE_OBJECT );
                         }
+                        else if ( objectArray[i]->GetType() == STRIPE_LEFT_RIGHT_OBJECT ) {
+                            objectArray[i]->SetImage( BLUE_STRIPE_LEFT_RIGHT_OBJECT);
+                        }
+                        else if ( objectArray[i]->GetType() == STRIPE_RIGHT_LEFT_OBJECT ) {
+                            objectArray[i]->SetImage( BLUE_STRIPE_RIGHT_LEFT_OBJECT );
+                        }
                         else if ( objectArray[i]->GetType() == FLOWER_OBJECT ) {
                             objectArray[i]->SetImage( BLUE_FLOWER_OBJECT );
                         }
@@ -414,6 +483,12 @@ void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , const int size
                     case BROWN_OBJECT:
                         if ( objectArray[i]->GetType() == STRIPE_OBJECT ) {
                             objectArray[i]->SetImage( BROWN_STRIPE_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == STRIPE_LEFT_RIGHT_OBJECT ) {
+                            objectArray[i]->SetImage( BROWN_STRIPE_LEFT_RIGHT_OBJECT);
+                        }
+                        else if ( objectArray[i]->GetType() == STRIPE_RIGHT_LEFT_OBJECT ) {
+                            objectArray[i]->SetImage( BROWN_STRIPE_RIGHT_LEFT_OBJECT );
                         }
                         else if ( objectArray[i]->GetType() == FLOWER_OBJECT ) {
                             objectArray[i]->SetImage( BROWN_FLOWER_OBJECT );
@@ -433,6 +508,12 @@ void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , const int size
                         if ( objectArray[i]->GetType() == STRIPE_OBJECT ) {
                             objectArray[i]->SetImage( GREEN_STRIPE_OBJECT );
                         }
+                        else if ( objectArray[i]->GetType() == STRIPE_LEFT_RIGHT_OBJECT ) {
+                            objectArray[i]->SetImage( GREEN_STRIPE_LEFT_RIGHT_OBJECT);
+                        }
+                        else if ( objectArray[i]->GetType() == STRIPE_RIGHT_LEFT_OBJECT ) {
+                            objectArray[i]->SetImage( GREEN_STRIPE_RIGHT_LEFT_OBJECT );
+                        }
                         else if ( objectArray[i]->GetType() == FLOWER_OBJECT ) {
                             objectArray[i]->SetImage( GREEN_FLOWER_OBJECT );
                         }
@@ -450,6 +531,12 @@ void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , const int size
                     case PINK_OBJECT:
                         if ( objectArray[i]->GetType() == STRIPE_OBJECT ) {
                             objectArray[i]->SetImage( PINK_STRIPE_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == STRIPE_LEFT_RIGHT_OBJECT ) {
+                            objectArray[i]->SetImage( PINK_STRIPE_LEFT_RIGHT_OBJECT);
+                        }
+                        else if ( objectArray[i]->GetType() == STRIPE_RIGHT_LEFT_OBJECT ) {
+                            objectArray[i]->SetImage( PINK_STRIPE_RIGHT_LEFT_OBJECT );
                         }
                         else if ( objectArray[i]->GetType() == FLOWER_OBJECT ) {
                             objectArray[i]->SetImage( PINK_FLOWER_OBJECT );
@@ -469,6 +556,12 @@ void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , const int size
                         if ( objectArray[i]->GetType() == STRIPE_OBJECT ) {
                             objectArray[i]->SetImage( ORANGE_STRIPE_OBJECT );
                         }
+                        else if ( objectArray[i]->GetType() == STRIPE_LEFT_RIGHT_OBJECT ) {
+                            objectArray[i]->SetImage( ORANGE_STRIPE_LEFT_RIGHT_OBJECT);
+                        }
+                        else if ( objectArray[i]->GetType() == STRIPE_RIGHT_LEFT_OBJECT ) {
+                            objectArray[i]->SetImage( ORANGE_STRIPE_RIGHT_LEFT_OBJECT );
+                        }
                         else if ( objectArray[i]->GetType() == FLOWER_OBJECT ) {
                             objectArray[i]->SetImage( ORANGE_FLOWER_OBJECT );
                         }
@@ -486,6 +579,12 @@ void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , const int size
                     case WHITE_OBJECT:
                         if ( objectArray[i]->GetType() == STRIPE_OBJECT ) {
                             objectArray[i]->SetImage( WHITE_STRIPE_OBJECT );
+                        }
+                        else if ( objectArray[i]->GetType() == STRIPE_LEFT_RIGHT_OBJECT ) {
+                            objectArray[i]->SetImage( WHITE_STRIPE_LEFT_RIGHT_OBJECT);
+                        }
+                        else if ( objectArray[i]->GetType() == STRIPE_RIGHT_LEFT_OBJECT ) {
+                            objectArray[i]->SetImage( WHITE_STRIPE_RIGHT_LEFT_OBJECT );
                         }
                         else if ( objectArray[i]->GetType() == FLOWER_OBJECT ) {
                             objectArray[i]->SetImage( WHITE_FLOWER_OBJECT );
@@ -505,6 +604,12 @@ void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , const int size
                         if ( objectArray[i]->GetType() == STRIPE_OBJECT ) {
                             objectArray[i]->SetImage( YELLOW_STRIPE_OBJECT );
                         }
+                        else if ( objectArray[i]->GetType() == STRIPE_LEFT_RIGHT_OBJECT ) {
+                            objectArray[i]->SetImage( YELLOW_STRIPE_LEFT_RIGHT_OBJECT);
+                        }
+                        else if ( objectArray[i]->GetType() == STRIPE_RIGHT_LEFT_OBJECT ) {
+                            objectArray[i]->SetImage( YELLOW_STRIPE_RIGHT_LEFT_OBJECT );
+                        }
                         else if ( objectArray[i]->GetType() == FLOWER_OBJECT ) {
                             objectArray[i]->SetImage( YELLOW_FLOWER_OBJECT );
                         }
@@ -518,6 +623,7 @@ void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , const int size
                             objectArray[i]->SetImage( RAINBOWBALL_OBJECT_LINK );
                             objectArray[i]->SetBlockType( 0 );
                         }
+                        objectArray[i]->SetSwitched(0);
                         break;
                     default:
                         break;

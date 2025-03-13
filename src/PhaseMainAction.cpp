@@ -32,7 +32,7 @@ bool PhaseStage1( std::shared_ptr<GameCharacter>* objectArray , const int size ,
         if ( objectArray[i]->IfClick() ) {
             std::cout << "which click: " << objectArray[i]->GetInformationPosNumber() << std::endl;
             if ( is_click == 0  ) {
-                is_click = i;
+                is_click = i; // 1st clicked
             }
             else {
                 std::cout << "test_else\n";
@@ -49,8 +49,12 @@ bool PhaseStage1( std::shared_ptr<GameCharacter>* objectArray , const int size ,
                         objectArray[check] = objectArray[i];
                         objectArray[i] = NewObject;
 
-                        if ( !CheckAppearance( objectArray, size, 1 ) ) {
+                        if ( !CheckAppearance( objectArray, size, 1) ) {
+
+                            objectArray[i]->SetSwitched(2);
+                            objectArray[check]->SetSwitched(2);
                             objectArray[i]->SwitchPosition( objectArray[check] );
+
                             std::shared_ptr<GameCharacter> NewObject = objectArray[check];
                             objectArray[check] = objectArray[i];
                             objectArray[i] = NewObject;

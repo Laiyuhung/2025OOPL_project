@@ -71,14 +71,23 @@ public:
         Objectinformation temp = this->m_information;
         this->m_information = other->m_information;
         other->m_information = temp;
+
         
         this->SetPosition( this->GetInformationPosition() );
         other->SetPosition( other->GetInformationPosition() );
 
+
         temp.~Objectinformation();
 
     }
-
+    int GetSwitchedInfo()
+    {
+        return this->m_Switched;
+    }
+    void SetSwitched( int flag )
+    {
+        this->m_Switched = flag;
+    }
     void SetInformation( Objectinformation& other ) {
         this->m_information = other;
     }
@@ -116,6 +125,7 @@ protected:
     }
 
     int m_Block = -1 ;
+    int m_Switched = 0;
     glm::vec2 m_Size = { 50.0f, 100.0f };
     std::string m_ImagePath;
     Objectinformation m_information ;
