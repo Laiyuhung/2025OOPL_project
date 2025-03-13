@@ -93,21 +93,23 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
     }
     for ( int i = 1 ; i < size+1 ; ++i )
     {
-        if ( (stripe_side = DisappearMethodOfStripe(objectArray, objectArray[i] , total_length[i].data(), 1 )) != -1 ) {
+        if ( (DisappearMethodOfStripe(objectArray, objectArray[i] , total_length[i].data(), 1 )) != -1 ) {
             objectArray[i]->SetBlockType( STRIPE_OBJECT );
         }
     }
     for ( int i = 1 ; i < size+1 ; ++i )
     {
+        // cout<<"no  "<<i<<"length1  "<<total_length[i].data()[0]<<endl;
         if ( DisappearMethodOfOneLine(objectArray, objectArray[i] , total_length[i].data() ) ) {
             objectArray[i]->SetBlockType( NORMAL_OBJECT);
         }
+        // else {
+        //     objectArray[i]->SetBlockType( NORMAL_OBJECT );
+        //     }
     }
     // for ( int i = 1 ; i < size+1 ; ++i )
     // {
-    //     else {
-    //         objectArray[i]->SetBlockType( NORMAL_OBJECT );
-    //     }
+    //
     // }
     for ( int i = 1 ; i < size+1 ; ++i )
     {

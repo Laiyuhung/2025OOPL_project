@@ -38,21 +38,37 @@ bool DisappearMethodOfOneLine( std::shared_ptr<GameCharacter>* objectArray, std:
     
     bool cont_to_check = false ;
     for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
-        // if ( (total_length[i] + total_length[j] ) == 2  && object->GetAppearBool() == true) {
-        //
-        //
-        //
-        // }
-        if ( total_length[i] ==1 && total_length[j] == 1 && object->GetAppearBool() == true)//mid
-        {
-            cont_to_check = true ;
-            object->SetAppearBool( false );
-            DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, 0);
-            DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], j, 0);
-            cout << "Line" << endl;
+        if ( (total_length[i] + total_length[j] ) == 2 ) {
+
+
+            // if( !(total_length[i] > 0 && total_length[j] == 0) ) {
+            //     //self disappear
+            //     object->SetAppearBool( false );
+            // }
+            if (object->GetSwitchedInfo() > 0 && object->GetAppearBool() == true )
+            {
+                object->SetAppearBool( false );
+                cout<<"Line"<<endl;
+                cont_to_check = true ;
+                //all disappear(except switched blocks)
+                if (total_length[i] > 0)
+                    DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
+
+                cout<<"aaaa"<<endl;
+
+                if (total_length[j] > 0)
+                    DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
+
+                cout<<"nnnn"<<endl;
+                return cont_to_check;
+            }
+            else //initial(not started)
+            {
+                object->SetAppearBool( false );
+            }
+
         }
     }
-
     return cont_to_check;
 
 }
@@ -246,11 +262,35 @@ bool DisappearMethodOfRainbowBall( std::shared_ptr<GameCharacter>* objectArray, 
 
 void DisappearBySingleObject ( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length_left) {
     object->SetAppearBool( false );
-    if( !object || object->GetInformationNeibor()[side] == -1 ) 
+    cout<<"object disapp."<<endl;
+
+    if( !object || object->GetInformationNeibor()[side] == -1 )
         return;
 
     if ( length_left  >  0 )
+    {
+        cout<<"side: "<<side<<" length_left: "<<length_left<<endl;
         DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[side] ], side, length_left - 1) ;
+    }
+
+
+}
+
+bool checkAppearanceOfObject ( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length_left)
+{
+
+    cout <<" GetInformationPosNumber(): "<< object->GetInformationPosNumber()<<" GetAppear(): "<< object->GetAppearBool()<<endl;
+    if( !object || object->GetInformationNeibor()[side] == -1 )
+        return false;
+
+    if ( object->GetAppearBool() == true )
+    {
+        if( length_left >  0 )
+            return checkAppearanceOfObject ( objectArray, objectArray[ object->GetInformationNeibor()[side] ], side, length_left - 1) ;
+        else
+            return true;
+    }
+
     else
-        return;
+        return false ;
 }

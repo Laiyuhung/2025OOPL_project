@@ -40,6 +40,8 @@ bool DisappearMethodOfTriangleFlower( std::shared_ptr<GameCharacter>* objectArra
 bool DisappearMethodOfRainbowBall( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length );
 void DisappearBySingleObject ( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length_left);
 
+bool checkAppearanceOfObject ( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length_left);
+
 // Declare of Drop
 void Dropping( std::shared_ptr<GameCharacter>* objectArray, const int size , int stage);
 void Dropping_method( std::shared_ptr<GameCharacter>* objectArray, const int size , const int current_position );
