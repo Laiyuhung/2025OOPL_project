@@ -51,16 +51,7 @@ void App::Update() {
         case Phase::HOME_PAGE:
             if (PhaseHomePage(m_Stage_Buttom_1)){
                 m_PRM->NextPhase(PHASE_STAGE_1);
-                for ( int i = 1 ; i < 38 ; ++i ) {
-                    // std::cout << "i : " << i << " " << m_Stage_1_Object[i]->GetPosition().x << " " <<  m_Stage_1_Object[i]->GetPosition().y<< std::endl;
-                    if ( m_Stage_1_Object[i]->GetAppearBool() )
-                        m_Stage_1_Object[i]->Appear();  
-                }
-                InitializeStageCharacter( m_Stage_1_Object, 37);
-                CheckAppearance( m_Stage_1_Object , 37 , 0);
-                m_Point_Show->SetVisible( true );
-                m_Point_Show->SetValue( 0 );
-                m_Point_Show->UpdateText();
+                SetUp( 1 , m_Stage_1_Object , 37 , m_Point_Show );
                 m_Phase = Phase::STAGE_1;
             }
             break;
