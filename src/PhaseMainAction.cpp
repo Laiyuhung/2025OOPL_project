@@ -44,6 +44,10 @@ bool PhaseStage1( std::shared_ptr<GameCharacter>* objectArray , const int size ,
                 is_click = 0;
                 for ( int j = 0 ; j < 6 ; ++j ) {
                     if( objectArray[i]->GetInformationNeibor()[j] == check ) {
+                        objectArray[i]->SetSwitched(2);
+                        objectArray[check]->SetSwitched(2);
+                        std::cout<<"pos: "<<i<<"  "<<check<<std::endl;
+                        std::cout<<"set SetSwitched to 2"<<std::endl;
                         objectArray[i]->SwitchPosition( objectArray[check] );
                         std::shared_ptr<GameCharacter> NewObject = objectArray[check];
                         objectArray[check] = objectArray[i];
@@ -51,8 +55,7 @@ bool PhaseStage1( std::shared_ptr<GameCharacter>* objectArray , const int size ,
 
                         if ( !CheckAppearance( objectArray, size, 1) ) {
 
-                            objectArray[i]->SetSwitched(2);
-                            objectArray[check]->SetSwitched(2);
+
                             objectArray[i]->SwitchPosition( objectArray[check] );
 
                             std::shared_ptr<GameCharacter> NewObject = objectArray[check];

@@ -120,6 +120,8 @@ void Dropping_method( std::shared_ptr<GameCharacter>* objectArray, const int siz
         bool flag = objectArray[next_position]->GetAppearBool();
 
         objectArray[current_position]->SetSwitched(1);
+        // cout<<"pos: "<<current_position<<"  "<<next_position<<endl;
+        // cout<<"set SetSwitched to 1"<<endl;
         objectArray[next_position]->SetSwitched(1);
         objectArray[current_position]->SwitchPosition( objectArray[next_position] );
 
@@ -387,7 +389,7 @@ bool DisappearMethodOfTriangleFlower( std::shared_ptr<GameCharacter>* objectArra
         }
     }
 
-    if (check >= 2) // ex. side 1 + side 4 both >=2 -- rainbow(first
+    if (check >= 2)
     {
         object->SetBlockType( TRIANGLEFLOWER_OBJECT );
         cout<<"Triangle Flower"<<endl;
