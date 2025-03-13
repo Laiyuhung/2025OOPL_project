@@ -164,7 +164,7 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
                 total_length[j] = CheckNextAppearance( objectArray, objectArray[ neighbors[j] ], j, 1 ) ;
             }
         }
-        
+
         if ( DisappearMethodOfRainbowBall(objectArray, objectArray[i] , total_length ) ) {
             objectArray[i]->SetBlockType( RAINBOWBALL_OBJECT );
         }
@@ -189,12 +189,6 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
 
         if ( stage == 0 )
             objectArray[i]->SetBlockType( NORMAL_OBJECT );
-        // cont_to_check = DisappearMethodOfOneLine(objectArray, objectArray[i] , total_length ) || cont_to_check;
-        // cont_to_check = DisappearMethodOfFlower(objectArray, objectArray[i] , total_length ) || cont_to_check;
-        // cont_to_check = DisappearMethodOfStarFlower(objectArray, objectArray[i] , total_length ) || cont_to_check; //4
-        // cont_to_check = DisappearMethodOfTriangleFlower(objectArray, objectArray[i] , total_length ) || cont_to_check; //3
-        // cont_to_check = DisappearMethodOfStripe(objectArray, objectArray[i] , total_length ) || cont_to_check; //2
-
     }
 
 
@@ -238,7 +232,7 @@ bool DisappearMethodOfOneLine( std::shared_ptr<GameCharacter>* objectArray, std:
         }
         if ( total_length[i] > 0 && total_length[j] == 0 && (total_length[i] + total_length[j] ) == 2 )//side
         {
-            cout<<"Line"<<endl;
+            cout << "Line" << endl;
         }
     }
 
@@ -253,25 +247,16 @@ bool DisappearMethodOfStripe( std::shared_ptr<GameCharacter>* objectArray, std::
         if ( (total_length[i] + total_length[j] ) == 3 ) {
             cont_to_check = true ;
 
-
-            if( !(total_length[i] > 0 && total_length[j] == 0) )//if [NOT] j side ->> MID OR I ->disappear
-            {
-
+            //if [NOT] j side ->> MID OR I ->disappear
+            if( !(total_length[i] > 0 && total_length[j] == 0) ) {
                 object->SetAppearBool( false ); //self disappear
-
             }
-            else if ( total_length[i] > 0 && total_length[j] == 0 ) //side
-            {
-                cout<<"Stripe"<<endl;
+            else if ( total_length[i] > 0 && total_length[j] == 0 ) {
+                cout << "Stripe" << endl;
             }
-
         }
-
-
     }
-
     return cont_to_check;
-
 }
 
 bool DisappearMethodOfFlower( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length ) { //total_length = 6 side's consec.
@@ -342,11 +327,9 @@ bool DisappearMethodOfTriangleFlower( std::shared_ptr<GameCharacter>* objectArra
 
     bool cont_to_check = false ; //two side >=2
     int check = 0;
-
-    for ( int i = 0  ; i < 6 ; ++i ) //two side >=2
-    {
-        if ( total_length[i] >= 2 )
-        {
+    // two side >= 2
+    for ( int i = 0  ; i < 6 ; ++i ) {
+        if ( total_length[i] >= 2 ) {
             check ++ ;
         }
     }
@@ -373,26 +356,18 @@ bool DisappearMethodOfRainbowBall( std::shared_ptr<GameCharacter>* objectArray, 
     for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
         if ( (total_length[i] + total_length[j] ) >= 4 ) {
             cont_to_check = true ;
-
-
             cout<<"Rainbow Ball"<<endl;
-
-            if( !(total_length[i] > 0 && total_length[j] == 0) )//if [NOT] j side ->> MID OR I ->disappear
-            {
-                object->SetAppearBool( false ); //self disappear
+            //if [NOT] j side ->> MID OR I ->disappear
+            if( !(total_length[i] > 0 && total_length[j] == 0) ) {
+                //self disappear
+                object->SetAppearBool( false );
             }
-            else
-            {
+            else {
                 cout<<"Rainbow Ball"<<endl;
             }
-
         }
-
-
     }
-
     return cont_to_check;
-
 }
 
 
@@ -415,6 +390,7 @@ void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , const int size
             ++stage_point_counter[stage];
         } else {
             if ( objectArray[i]->GetType() != NORMAL_OBJECT ) {
+                ++stage_point_counter[stage];
                 switch ( objectArray[i]->GetBlockType() )
                 {
                     case BLUE_OBJECT:
