@@ -381,3 +381,13 @@ void MakeDisappearWithStripeInRightLeft( std::shared_ptr<GameCharacter>* objectA
             break;
     }
 }
+
+void MakeDisappearWithRainbow( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage ) {
+    objectArray[current_pos]->DisAppear();
+    PointUpdate( stage , GetPoint(stage) + 1 );
+    for ( int i = 1 ; i < size+1 ; ++i ) {
+        if ( objectArray[current_pos]->GetInformationNeibor()[i] != -1 ) {
+            MakeDisappearWithObject( objectArray , objectArray[current_pos]->GetInformationNeibor()[i] , size , stage );
+        }
+    }
+}

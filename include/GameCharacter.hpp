@@ -88,7 +88,7 @@ public:
     bool GetGenerate() {
         return this->m_Generate;
     }
-    
+
     void SetSwitched( int flag )
     {
         this->m_Switched = flag;
@@ -108,7 +108,7 @@ public:
         (this->m_information).SetPosition( Position );
     }
 
-    void SetBlock(int block_color){
+    void SetBlock(int block_color) {
         this->m_Block = block_color;
     }
 
@@ -145,4 +145,3 @@ protected:
 };
 
 #endif // GAME_CHARACTER_HPP
-    
