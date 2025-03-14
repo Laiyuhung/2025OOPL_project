@@ -14,10 +14,12 @@ using namespace std;
 void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , const int size , int stage) {
     for ( int i = 1 ; i < size+1 ; ++i ) {
         objectArray[i]->SetSwitched(0);
+        if ( objectArray[i]->GetVisibility() == false ) {
+            continue;
+        }
         // cout<<"set "<<i<<" SetSwitched to 0"<<endl;
         if ( !objectArray[i]->GetAppearBool() && ( objectArray[i]->GetType() == NORMAL_OBJECT || objectArray[i]->GetGenerate() ) ) {
             MakeDisappearWithObject( objectArray , i , size , stage );
-            PointUpdate( stage , GetPoint(stage) + 1 );
             objectArray[i]->SetGenerate( false );
         }
         else {
@@ -29,6 +31,11 @@ void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , const int size
             }
         }
 
+    }
+    for ( int i = 1 ; i < size+1 ; ++i ) {
+        if ( !objectArray[i]->GetAppearBool() ) {
+            PointUpdate( stage , GetPoint(stage) + 1 );
+        }
     }
     cout<<"score: "<<GetPoint(stage)<<endl;
 }
@@ -128,17 +135,17 @@ int DisappearMethodOfStripe( std::shared_ptr<GameCharacter>* objectArray, std::s
             {
                 object->SetAppearBool( false );
                 //all disappear(except switched blocks)
-                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
-                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
+                if (total_length[i] > 0)
+                    DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
+                if (total_length[j] > 0)
+                    DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
 
                 //find initial neighbor side
                 for ( int switch_side = 0  ; switch_side < 6 ; ++switch_side )
                 {
                     if (objectArray[ object->GetInformationNeibor()[switch_side]]->GetSwitchedInfo() == 2 )
                     {
-                        // cout<<object->GetInformationPosNumber()<<" GetSwitchedInfo(): "<<object->GetSwitchedInfo()<<endl;
                         cout << "Stripe" << endl;
-                        // cout<<"return: "<<switch_side<<endl;
                         return switch_side;
                     }
                 }
@@ -147,8 +154,10 @@ int DisappearMethodOfStripe( std::shared_ptr<GameCharacter>* objectArray, std::s
             {
                 //all disappear
                 object->SetAppearBool( false );
-                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
-                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
+                if (total_length[i] > 0)
+                    DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
+                if (total_length[j] > 0)
+                    DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
 
                 cout << "Stripe" << endl;
                 return 0;
@@ -234,8 +243,10 @@ bool DisappearMethodOfStarFlower( std::shared_ptr<GameCharacter>* objectArray, s
     {
         for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j )
         {
-            DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
-            DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[j]-1);
+            if (total_length[i] > 0)
+                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
+            if (total_length[j] > 0)
+                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
         }
         object->SetAppearBool( false );
         cout<<"Star Flower"<<endl;
@@ -268,7 +279,7 @@ bool DisappearMethodOfTriangleFlower( std::shared_ptr<GameCharacter>* objectArra
         cont_to_check = true ;
         for ( int i = 0  ; i < 6 ; ++i )
         {
-            cout<<i<<" side total length: "<<total_length[i]<<endl;
+            // cout<<i<<" side total length: "<<total_length[i]<<endl;
             if (total_length[i] > 0)
                 DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
         }
@@ -294,8 +305,10 @@ bool DisappearMethodOfRainbowBall( std::shared_ptr<GameCharacter>* objectArray, 
                 cout<<"Rainbow Ball"<<endl;
                 cont_to_check = true ;
                 //all disappear(except switched blocks)
-                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
-                DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
+                if (total_length[i] > 0)
+                    DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
+                if (total_length[j] > 0)
+                    DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
                 return cont_to_check;
             }
 
@@ -308,14 +321,14 @@ bool DisappearMethodOfRainbowBall( std::shared_ptr<GameCharacter>* objectArray, 
 
 void DisappearBySingleObject ( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length_left) {
     object->SetAppearBool( false );
-    cout<<"object disapp."<<endl;
+    // cout<<"object disapp."<<endl;
 
-    if( !object || object->GetInformationNeibor()[side] == -1 )
+    if( !object  )
         return;
 
     if ( length_left  >  0 )
     {
-        cout<<"side: "<<side<<" length_left: "<<length_left<<endl;
+        // cout<<"side: "<<side<<" length_left: "<<length_left<<endl;
         DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[side] ], side, length_left - 1) ;
     }
 
@@ -366,8 +379,6 @@ bool checkSwitchedAllInfoWithZero ( std::shared_ptr<GameCharacter>* objectArray,
 }
 
 void MakeDisappearWithObject( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage ) {
-    if ( objectArray[current_pos]-> GetVisibility() == false )
-        return;
     switch ( objectArray[current_pos]->GetType() ) {
         case STRIPE_OBJECT:
             MakeDisappearWithStripe( objectArray , current_pos , size , stage );
@@ -392,11 +403,11 @@ void MakeDisappearWithObject( std::shared_ptr<GameCharacter>* objectArray , int 
         //     break;
         case NORMAL_OBJECT:
             objectArray[current_pos]->DisAppear();
-            PointUpdate( stage , GetPoint(stage) + 1 );
+            objectArray[current_pos]->SetAppearBool( false );
             break;
         default:
             objectArray[current_pos]->DisAppear();
-            PointUpdate( stage , GetPoint(stage) + 1 );
+            objectArray[current_pos]->SetAppearBool( false );
             break;
     }
 }
@@ -404,8 +415,7 @@ void MakeDisappearWithObject( std::shared_ptr<GameCharacter>* objectArray , int 
 void MakeDisappearWithStripe( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage ) {
     objectArray[current_pos]->DisAppear();
     objectArray[current_pos]->SetAppearBool( false );
-    objectArray[current_pos]->SetBlockType( NORMAL_OBJECT );
-    PointUpdate( stage , GetPoint(stage) + 1 );
+    cout << "STRIPE\n";
     for ( int i = current_pos , j = current_pos ; ; ) {
         if ( objectArray[i]->GetInformationNeibor()[0] != -1 ) {
             MakeDisappearWithObject( objectArray , objectArray[i]->GetInformationNeibor()[0] , size , stage );
@@ -423,8 +433,7 @@ void MakeDisappearWithStripe( std::shared_ptr<GameCharacter>* objectArray , int 
 void MakeDisappearWithStripeInLeftRight( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage ) {
     objectArray[current_pos]->DisAppear();
     objectArray[current_pos]->SetAppearBool( false );
-    objectArray[current_pos]->SetBlockType( NORMAL_OBJECT );
-    PointUpdate( stage , GetPoint(stage) + 1 );
+    cout << "LEFT_RIGHT\n";
     for ( int i = current_pos , j = current_pos ; ; ) {
         if ( objectArray[i]->GetInformationNeibor()[2] != -1 ) {
             MakeDisappearWithObject( objectArray , objectArray[i]->GetInformationNeibor()[2] , size , stage );
@@ -442,8 +451,7 @@ void MakeDisappearWithStripeInLeftRight( std::shared_ptr<GameCharacter>* objectA
 void MakeDisappearWithStripeInRightLeft( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage ) {
     objectArray[current_pos]->DisAppear();
     objectArray[current_pos]->SetAppearBool( false );
-    objectArray[current_pos]->SetBlockType( NORMAL_OBJECT );
-    PointUpdate( stage , GetPoint(stage) + 1 );
+    cout << "RIGHT_LEFT\n";
     for ( int i = current_pos , j = current_pos ; ; ) {
         if ( objectArray[i]->GetInformationNeibor()[1] != -1 ) {
             MakeDisappearWithObject( objectArray , objectArray[i]->GetInformationNeibor()[1] , size , stage );

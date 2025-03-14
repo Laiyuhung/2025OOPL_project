@@ -13,7 +13,7 @@ using namespace std;
 
 bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int size , int stage )
 {
-    cout<<"checking Appearance"<<endl;
+    // cout<<"checking Appearance"<<endl;
     bool cont_to_check = false;
     bool flag = false;
     int stripe_side;
@@ -23,7 +23,7 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
         objectArray[i]->SetAppearBool( true );
     }
 
-    cout<<"mid of checking Appearance"<<endl;
+    // cout<<"mid of checking Appearance"<<endl;
     std::vector<std::vector<int>> total_length(size + 1, std::vector<int>(6, 0));
     for ( int i = 1 ; i < size+1 ; ++i )
     {
@@ -126,7 +126,7 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
         if( !objectArray[i]->GetAppearBool() ) flag = true;
     }
 
-    cout<<"end checking Appearance"<<endl;
+    // cout<<"end checking Appearance"<<endl;
 
     if ( flag ) {
         // DebugModeOfAppearance( objectArray , size);
