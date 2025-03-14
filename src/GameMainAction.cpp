@@ -44,11 +44,12 @@ void SetUp( int stage , std::shared_ptr<GameCharacter>* objectArray , const int 
     }
     InitializeStageCharacter( objectArray, size);
     CheckAppearance( objectArray , size , 0);
-    // objectArray[37]->SetImage( RAINBOWBALL_OBJECT_LINK );
-    // objectArray[37]->SetBlockType( NORMAL_OBJECT );
-    // objectArray[37]->SetCurrentType( RAINBOWBALL_OBJECT );
-    // objectArray[37]->SetAppearBool( true );
-    // objectArray[37]->SetGenerate( true );
+    objectArray[37]->SetImage( ORANGE_STARFLOWER_OBJECT );
+    objectArray[37]->SetBlockType( NORMAL_OBJECT );
+    objectArray[37]->SetCurrentType( STARFLOWER_OBJECT);
+    objectArray[37]->SetBlock( ORANGE_OBJECT );
+    objectArray[37]->SetAppearBool( true );
+    objectArray[37]->SetGenerate( true );
     // objectArray[36]->SetImage( BLUE_STRIPE_OBJECT );
     // objectArray[36]->SetBlockType( NORMAL_OBJECT );
     // objectArray[36]->SetBlock( BLUE_OBJECT );

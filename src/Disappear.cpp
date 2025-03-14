@@ -396,17 +396,17 @@ void MakeDisappearWithObject( std::shared_ptr<GameCharacter>* objectArray , int 
             MakeDisappearWithStripeInRightLeft( objectArray , current_pos , size , stage );
             break;
         case RAINBOWBALL_OBJECT:
-            MakeDisappearWithRainbow(objectArray,  current_pos , size , stage );
+            MakeDisappearWithRainbow( objectArray,  current_pos , size , stage );
             break;
-        // case FLOWER_OBJECT:
-        //     MakeDisappearWithFlower(objectArray, objectArray[current_pos], total_length[current_pos].data() );
-        //     break;
-        // case TRIANGLEFLOWER_OBJECT:
-        //     MakeDisappearWithTriangleFlower(objectArray, objectArray[current_pos], total_length[current_pos].data() );
-        //     break;
-        // case STARFLOWER_OBJECT:
-        //     MakeDisappearWithStarFlower(objectArray, objectArray[current_pos], total_length[current_pos].data() );
-        //     break;
+        case FLOWER_OBJECT:
+            MakeDisappearWithFlower( objectArray,  current_pos , size , stage );
+            break;
+        case TRIANGLEFLOWER_OBJECT:
+            MakeDisappearWithTriangleFlower( objectArray,  current_pos , size , stage  );
+            break;
+        case STARFLOWER_OBJECT:
+            MakeDisappearWithStarFlower( objectArray,  current_pos , size , stage  );
+            break;
         case NORMAL_OBJECT:
             objectArray[current_pos]->DisAppear();
             objectArray[current_pos]->SetAppearBool( false );
@@ -484,4 +484,73 @@ void MakeDisappearWithRainbow( std::shared_ptr<GameCharacter>* objectArray , int
             MakeDisappearWithObject( objectArray , i , size , stage );
         }
     }
+}
+
+void MakeDisappearWithTriangleFlower( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage ) {
+    objectArray[current_pos]->DisAppear();
+    objectArray[current_pos]->SetAppearBool( false );
+    cout << "TRIANGLE_FLOWER\n";
+    for ( int i = 0 ; i < 6 ; ++i )
+    {
+        if (objectArray[current_pos]->GetInformationNeibor()[i] != -1)
+            MakeDisappearWithObject( objectArray , objectArray[current_pos]->GetInformationNeibor()[i] , size , stage );
+    }
+    if (objectArray[current_pos]->GetInformationNeibor()[0] != -1 && objectArray[objectArray[current_pos]->GetInformationNeibor()[0] ] ->GetInformationNeibor()[5] != -1)
+        MakeDisappearWithObject( objectArray , objectArray[objectArray[current_pos]->GetInformationNeibor()[0] ] ->GetInformationNeibor()[5] , size , stage );
+
+    if (objectArray[current_pos]->GetInformationNeibor()[2] != -1 && objectArray[objectArray[current_pos]->GetInformationNeibor()[2] ] ->GetInformationNeibor()[1] != -1)
+        MakeDisappearWithObject( objectArray , objectArray[objectArray[current_pos]->GetInformationNeibor()[2] ] ->GetInformationNeibor()[1] , size , stage );
+
+    if (objectArray[current_pos]->GetInformationNeibor()[4] != -1 && objectArray[objectArray[current_pos]->GetInformationNeibor()[4] ] ->GetInformationNeibor()[3] != -1)
+        MakeDisappearWithObject( objectArray , objectArray[objectArray[current_pos]->GetInformationNeibor()[4] ] ->GetInformationNeibor()[3] , size , stage );
+
+}
+
+void MakeDisappearWithFlower( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage ) {
+    objectArray[current_pos]->DisAppear();
+    objectArray[current_pos]->SetAppearBool( false );
+    cout << "FLOWER\n";
+    for ( int i = 0 ; i < 6 ; ++i )
+    {
+        if (objectArray[current_pos]->GetInformationNeibor()[i] != -1){
+            MakeDisappearWithObject( objectArray , objectArray[current_pos]->GetInformationNeibor()[i] , size , stage );
+            cout<<i<<" ";
+        }
+
+    }
+    if (objectArray[current_pos]->GetInformationNeibor()[0] != -1 && objectArray[objectArray[current_pos]->GetInformationNeibor()[0] ] ->GetInformationNeibor()[5] != -1){
+        MakeDisappearWithObject( objectArray , objectArray[objectArray[current_pos]->GetInformationNeibor()[0] ] ->GetInformationNeibor()[5] , size , stage );
+    }
+    if (objectArray[current_pos]->GetInformationNeibor()[0] != -1 && objectArray[objectArray[current_pos]->GetInformationNeibor()[0] ] ->GetInformationNeibor()[1] != -1){
+        MakeDisappearWithObject( objectArray , objectArray[objectArray[current_pos]->GetInformationNeibor()[0] ] ->GetInformationNeibor()[1] , size , stage );
+    }
+    if (objectArray[current_pos]->GetInformationNeibor()[3] != -1 && objectArray[objectArray[current_pos]->GetInformationNeibor()[3] ] ->GetInformationNeibor()[2] != -1){
+        MakeDisappearWithObject( objectArray , objectArray[objectArray[current_pos]->GetInformationNeibor()[3] ] ->GetInformationNeibor()[2] , size , stage );
+    }
+    if (objectArray[current_pos]->GetInformationNeibor()[3] != -1 && objectArray[objectArray[current_pos]->GetInformationNeibor()[3] ] ->GetInformationNeibor()[4] != -1){
+        MakeDisappearWithObject( objectArray , objectArray[objectArray[current_pos]->GetInformationNeibor()[3] ] ->GetInformationNeibor()[4] , size , stage );
+    }
+    if (objectArray[current_pos]->GetInformationNeibor()[1] != -1 && objectArray[objectArray[current_pos]->GetInformationNeibor()[1] ] ->GetInformationNeibor()[2] != -1){
+        MakeDisappearWithObject( objectArray , objectArray[objectArray[current_pos]->GetInformationNeibor()[1] ] ->GetInformationNeibor()[2] , size , stage );
+    }
+    if (objectArray[current_pos]->GetInformationNeibor()[5] != -1 && objectArray[objectArray[current_pos]->GetInformationNeibor()[5] ] ->GetInformationNeibor()[4] != -1){
+        MakeDisappearWithObject( objectArray , objectArray[objectArray[current_pos]->GetInformationNeibor()[5] ] ->GetInformationNeibor()[4] , size , stage );
+    }
+}
+
+void MakeDisappearWithStarFlower( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage ) {
+    objectArray[current_pos]->DisAppear();
+    objectArray[current_pos]->SetAppearBool( false );
+    cout << "STAR_FLOWER\n";
+    for ( int i = 0 ; i < 6 ; ++i )
+    {
+        if (objectArray[current_pos]->GetInformationNeibor()[i] != -1){
+            MakeDisappearWithObject( objectArray , objectArray[current_pos]->GetInformationNeibor()[i] , size , stage );
+        
+            if (objectArray[objectArray[current_pos]->GetInformationNeibor()[i]] ->GetInformationNeibor()[i] != -1)  
+                MakeDisappearWithObject( objectArray , objectArray[objectArray[current_pos]->GetInformationNeibor()[i]] ->GetInformationNeibor()[i] , size , stage );
+
+        }
+    }
+
 }
