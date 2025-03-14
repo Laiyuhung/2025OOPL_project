@@ -26,6 +26,7 @@ void Dropping( std::shared_ptr<GameCharacter>* objectArray, const int size , int
     for ( int i = 1 ; i < size+1 ; ++i ) {
         if ( !objectArray[i]->GetAppearBool() ) {
             RamdomChangeObject( objectArray[i] );
+            objectArray[i]->SetBlockType( NORMAL_OBJECT );
         }
         objectArray[i]->SetAppearBool( true );
     }

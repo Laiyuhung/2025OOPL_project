@@ -18,20 +18,23 @@ void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , const int size
             continue;
         }
         // cout<<"set "<<i<<" SetSwitched to 0"<<endl;
-        if ( !objectArray[i]->GetAppearBool() && ( objectArray[i]->GetType() == NORMAL_OBJECT || objectArray[i]->GetGenerate() ) ) {
+        if ( !objectArray[i]->GetAppearBool() && ( objectArray[i]->GetCurrentType() == NORMAL_OBJECT || objectArray[i]->GetGenerate() ) ) {
             MakeDisappearWithObject( objectArray , i , size , stage );
             objectArray[i]->SetGenerate( false );
         }
-        else {
-            if ( objectArray[i]->GetType() != NORMAL_OBJECT && !objectArray[i]->GetAppearBool() ) {
-                PointUpdate( stage , GetPoint(stage) + 1 );
-                objectArray[i]->SetAppearBool(true);
-                CheckSpecialObject( objectArray, i, stage );
-                objectArray[i]->SetGenerate( true );
-            }
-        }
-
     }
+
+    for ( int i = 1 ; i < size+1 ; ++i ) {
+        if ( objectArray[i]->GetType() != NORMAL_OBJECT && !objectArray[i]->GetAppearBool() ) {
+            PointUpdate( stage , GetPoint(stage) + 1 );
+            objectArray[i]->SetAppearBool(true);
+            CheckSpecialObject( objectArray, i, stage );
+            objectArray[i]->SetGenerate( true );
+            objectArray[i]->SetCurrentType( objectArray[i]->GetType() );
+            objectArray[i]->SetBlockType( NORMAL_OBJECT );
+        } 
+    }
+
     for ( int i = 1 ; i < size+1 ; ++i ) {
         if ( !objectArray[i]->GetAppearBool() ) {
             PointUpdate( stage , GetPoint(stage) + 1 );
@@ -379,7 +382,10 @@ bool checkSwitchedAllInfoWithZero ( std::shared_ptr<GameCharacter>* objectArray,
 }
 
 void MakeDisappearWithObject( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage ) {
-    switch ( objectArray[current_pos]->GetType() ) {
+    if ( objectArray[current_pos]->GetVisibility() == false ) {
+        return;
+    }
+    switch ( objectArray[current_pos]->GetCurrentType() ) {
         case STRIPE_OBJECT:
             MakeDisappearWithStripe( objectArray , current_pos , size , stage );
             break;
@@ -389,9 +395,9 @@ void MakeDisappearWithObject( std::shared_ptr<GameCharacter>* objectArray , int 
         case STRIPE_RIGHT_LEFT_OBJECT:
             MakeDisappearWithStripeInRightLeft( objectArray , current_pos , size , stage );
             break;
-        // case RAINBOWBALL_OBJECT:
-        //     MakeDisappearWithRainbow(objectArray, objectArray[current_pos], total_length[current_pos].data() );
-        //     break;
+        case RAINBOWBALL_OBJECT:
+            MakeDisappearWithRainbow(objectArray,  current_pos , size , stage );
+            break;
         // case FLOWER_OBJECT:
         //     MakeDisappearWithFlower(objectArray, objectArray[current_pos], total_length[current_pos].data() );
         //     break;
@@ -469,11 +475,13 @@ void MakeDisappearWithStripeInRightLeft( std::shared_ptr<GameCharacter>* objectA
 void MakeDisappearWithRainbow( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage ) {
     objectArray[current_pos]->DisAppear();
     objectArray[current_pos]->SetAppearBool( false );
-    objectArray[current_pos]->SetBlockType( NORMAL_OBJECT );
-    PointUpdate( stage , GetPoint(stage) + 1 );
+    if ( objectArray[current_pos]->GetBlockType() == 0 ) {
+        objectArray[current_pos]->SetBlock( BLUE_OBJECT );
+    }
+    cout << "RAINBOW\n";
     for ( int i = 1 ; i < size+1 ; ++i ) {
-        if ( objectArray[current_pos]->GetInformationNeibor()[i] != -1 ) {
-            MakeDisappearWithObject( objectArray , objectArray[current_pos]->GetInformationNeibor()[i] , size , stage );
+        if ( i != current_pos && objectArray[current_pos]->GetBlockType() == objectArray[i]->GetBlockType() ) {
+            MakeDisappearWithObject( objectArray , i , size , stage );
         }
     }
 }

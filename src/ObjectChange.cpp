@@ -63,6 +63,7 @@ void InitializeStageCharacter(std::shared_ptr<GameCharacter>* objectArray, int s
         objectArray[i]->DisAppear();
         objectArray[i]->SetAppearBool( true );
         objectArray[i]->SetBlockType( NORMAL_OBJECT );
+        objectArray[i]->SetCurrentType( NORMAL_OBJECT );
     }
 }
 
@@ -90,7 +91,7 @@ void CheckSpecialObject( std::shared_ptr<GameCharacter>* objectArray, int i, int
             }
             else if ( objectArray[i]->GetType() == RAINBOWBALL_OBJECT ) {
                 objectArray[i]->SetImage( RAINBOWBALL_OBJECT_LINK );
-                objectArray[i]->SetBlockType( 0 );
+                objectArray[i]->SetBlock( 0 );
             }
             break;
         case BROWN_OBJECT:
@@ -114,7 +115,7 @@ void CheckSpecialObject( std::shared_ptr<GameCharacter>* objectArray, int i, int
             }
             else if ( objectArray[i]->GetType() == RAINBOWBALL_OBJECT ) {
                 objectArray[i]->SetImage( RAINBOWBALL_OBJECT_LINK );
-                objectArray[i]->SetBlockType( 0 );
+                objectArray[i]->SetBlock( 0 );
             }
             break;
         case GREEN_OBJECT:
@@ -138,7 +139,7 @@ void CheckSpecialObject( std::shared_ptr<GameCharacter>* objectArray, int i, int
             }
             else if ( objectArray[i]->GetType() == RAINBOWBALL_OBJECT ) {
                 objectArray[i]->SetImage( RAINBOWBALL_OBJECT_LINK );
-                objectArray[i]->SetBlockType( 0 );
+                objectArray[i]->SetBlock( 0 );
             }
             break;
         case PINK_OBJECT:
@@ -162,7 +163,7 @@ void CheckSpecialObject( std::shared_ptr<GameCharacter>* objectArray, int i, int
             }
             else if ( objectArray[i]->GetType() == RAINBOWBALL_OBJECT ) {
                 objectArray[i]->SetImage( RAINBOWBALL_OBJECT_LINK );
-                objectArray[i]->SetBlockType( 0 );
+                objectArray[i]->SetBlock( 0 );
             }
             break;
         case ORANGE_OBJECT:
@@ -186,7 +187,7 @@ void CheckSpecialObject( std::shared_ptr<GameCharacter>* objectArray, int i, int
             }
             else if ( objectArray[i]->GetType() == RAINBOWBALL_OBJECT ) {
                 objectArray[i]->SetImage( RAINBOWBALL_OBJECT_LINK );
-                objectArray[i]->SetBlockType( 0 );
+                objectArray[i]->SetBlock( 0 );
             }
             break;
         case WHITE_OBJECT:
@@ -210,7 +211,7 @@ void CheckSpecialObject( std::shared_ptr<GameCharacter>* objectArray, int i, int
             }
             else if ( objectArray[i]->GetType() == RAINBOWBALL_OBJECT ) {
                 objectArray[i]->SetImage( RAINBOWBALL_OBJECT_LINK );
-                objectArray[i]->SetBlockType( 0 );
+                objectArray[i]->SetBlock( 0 );
             }
             break;
         case YELLOW_OBJECT:
@@ -234,7 +235,7 @@ void CheckSpecialObject( std::shared_ptr<GameCharacter>* objectArray, int i, int
             }
             else if ( objectArray[i]->GetType() == RAINBOWBALL_OBJECT ) {
                 objectArray[i]->SetImage( RAINBOWBALL_OBJECT_LINK );
-                objectArray[i]->SetBlockType( 0 );
+                objectArray[i]->SetBlock( 0 );
             }
 
             break;

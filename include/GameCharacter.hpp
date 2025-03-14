@@ -58,6 +58,8 @@ public:
 
     int GetType() { return this->m_BlockType; }
 
+    int GetCurrentType() { return this->m_CurrentType; }
+
     int GetBlockType() { return this->m_Block; }
 
     bool GetAppearBool() { return this->m_Appear; }
@@ -67,6 +69,15 @@ public:
     bool GetClick() {
         return this->m_Click;
     }
+    int GetSwitchedInfo()
+    {
+        return this->m_Switched;
+    }
+
+    bool GetGenerate() {
+        return this->m_Generate;
+    }
+
     void SwitchPosition( std::shared_ptr<GameCharacter>& other ) {
         Objectinformation temp = this->m_information;
         this->m_information = other->m_information;
@@ -80,15 +91,10 @@ public:
         temp.~Objectinformation();
 
     }
-    int GetSwitchedInfo()
-    {
-        return this->m_Switched;
-    }
 
-    bool GetGenerate() {
-        return this->m_Generate;
+    void SetCurrentType( int type ) {
+        this->m_CurrentType = type;
     }
-
     void SetSwitched( int flag )
     {
         this->m_Switched = flag;
@@ -141,6 +147,7 @@ protected:
     bool m_Appear = true;
     bool m_Click = false;
     int m_BlockType = 0;
+    int m_CurrentType = 0;
     bool m_Generate = false;
 };
 

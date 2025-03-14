@@ -31,7 +31,8 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
             continue;
         int *neighbors = objectArray[i]->GetInformationNeibor() ;//GET NEIGHBOR
         objectArray[i]->GetBlockType() ;
-        if ( objectArray[i]->GetType() == RAINBOWBALL_OBJECT ) {
+        if ( objectArray[i]->GetType() == RAINBOWBALL_OBJECT && objectArray[i]->GetSwitchedInfo() == MOVE_BY_SWITCH ) {
+            objectArray[i]->SetAppearBool( false );
             MakeDisappear( objectArray , size , stage);
             Dropping( objectArray, size , stage );
             return true;
@@ -64,7 +65,6 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
     {
         if ( DisappearMethodOfFlower(objectArray, objectArray[i] , total_length[i].data() ) ) {
             objectArray[i]->SetBlockType( FLOWER_OBJECT );
-
         }
     }
     for ( int i = 1 ; i < size+1 ; ++i )

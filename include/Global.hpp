@@ -6,6 +6,10 @@
 #define PHASE_HOME_PAGE 2
 #define PHASE_STAGE_1 3
 
+#define NO_MOVE 0
+#define MOVE_BY_DROP 1
+#define MOVE_BY_SWITCH 2
+
 #define BLUE_OBJECT 1
 #define BROWN_OBJECT 2
 #define GREEN_OBJECT 3
