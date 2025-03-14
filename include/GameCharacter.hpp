@@ -84,6 +84,11 @@ public:
     {
         return this->m_Switched;
     }
+
+    bool GetGenerate() {
+        return this->m_Generate;
+    }
+    
     void SetSwitched( int flag )
     {
         this->m_Switched = flag;
@@ -118,6 +123,10 @@ public:
     void SetClick( bool flag ) {
         this->m_Click = flag;
     }
+
+    void SetGenerate( bool flag ) {
+        this->m_Generate = flag;
+    }
     virtual void SetImage(const std::string& ImagePath);
 protected:
     void ResetPosition() { 
@@ -132,6 +141,7 @@ protected:
     bool m_Appear = true;
     bool m_Click = false;
     int m_BlockType = 0;
+    bool m_Generate = false;
 };
 
 #endif // GAME_CHARACTER_HPP

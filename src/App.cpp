@@ -24,6 +24,7 @@ void App::Start() {
     // InitializeStageCharacter( m_Stage_1_Object, 37);
     for ( int i = 1 ; i < 38 ; ++i ) { 
         m_Stage_1_Object[i] = std::make_shared<GameCharacter>( BLUE_NORMAL_OBJECT);
+        m_Stage_1_Object[i]->SetVisible( false );
         m_Root.AddChild( m_Stage_1_Object[i] );
     }
 

@@ -151,3 +151,4 @@ int CheckNextAppearance( std::shared_ptr<GameCharacter>* objectArray, std::share
         return length ;
 
 }
+

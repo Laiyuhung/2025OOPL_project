@@ -25,3 +25,9 @@ void DebugModeCancel( std::shared_ptr<GameCharacter>* objectArray , int option) 
     objectArray[option]->DisAppear();
     std::cout << "x : " << objectArray[option]->GetPosition().x << " y : " << objectArray[option]->GetPosition().y << "\n";
 }
+
+void DebugModeShowMapObject(std::shared_ptr<GameCharacter>* objectArray , int size ) {
+    for ( int i = 1 ; i < size+1 ; ++i ) {
+        cout << "Pos number: " << objectArray[i]->GetInformationPosNumber() << " Appear Bool: " << objectArray[i]->GetAppearBool() << endl;
+    }
+}

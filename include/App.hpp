@@ -1,8 +1,5 @@
 #ifndef APP_HPP
 #define APP_HPP
-
-#include <vector>
-
 #include "pch.hpp" // IWYU pragma: export
 
 #include "Util/Renderer.hpp"
@@ -29,6 +26,7 @@ int  CheckNextAppearance( std::shared_ptr<GameCharacter>* objectArray, std::shar
 void DebugModeOfPosition( std::shared_ptr<GameCharacter>* objectArray , int option);
 void DebugModeCancel( std::shared_ptr<GameCharacter>* objectArray , int option);
 void DebugModeOfAppearance( std::shared_ptr<GameCharacter>* objectArray , int size );
+void DebugModeShowMapObject(std::shared_ptr<GameCharacter>* objectArray , int size );
 
 // Declare of Disappear
 void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , int size , int stage );
@@ -39,8 +37,14 @@ bool DisappearMethodOfStarFlower( std::shared_ptr<GameCharacter>* objectArray, s
 bool DisappearMethodOfTriangleFlower( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length );
 bool DisappearMethodOfRainbowBall( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length );
 void DisappearBySingleObject ( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length_left);
-
-bool checkAppearanceOfObject ( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length_left);
+void MakeDisappearWithObject( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage );
+void MakeDisappearWithStripe( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage );
+void MakeDisappearWithRainbow( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage );
+void MakeDisappearWithFlower( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage );
+void MakeDisappearWithStarFlower( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage );
+void MakeDisappearWithTriangleFlower( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage );
+void MakeDisappearWithStripeInLeftRight( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage );
+void MakeDisappearWithStripeInRightLeft( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage );
 
 // Declare of Drop
 void Dropping( std::shared_ptr<GameCharacter>* objectArray, const int size , int stage);
@@ -62,7 +66,7 @@ void CheckSpecialObject( std::shared_ptr<GameCharacter>* objectArray, int i, int
 
 // Declare of Point
 void PointUpdate( int stage , int point );
-int GetPoint( int stage );
+int  GetPoint( int stage );
 
 class App {
 public:
