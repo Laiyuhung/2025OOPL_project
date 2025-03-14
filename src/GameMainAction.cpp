@@ -60,6 +60,12 @@ void CheckClickSwitch( std::shared_ptr<GameCharacter>* objectArray, int check, i
             std::shared_ptr<GameCharacter> NewObject = objectArray[check];
             objectArray[check] = objectArray[i];
             objectArray[i] = NewObject;
+            if ( objectArray[check]->GetType() == RAINBOWBALL_OBJECT ) {
+                objectArray[check]->SetBlock( objectArray[i]->GetBlockType() );
+            }
+            if ( objectArray[i]->GetType() == RAINBOWBALL_OBJECT ) {
+                objectArray[i]->SetBlock( objectArray[check]->GetBlockType() );
+            }
             if ( !CheckAppearance( objectArray, size, 1) ) {
                 objectArray[i]->SwitchPosition( objectArray[check] );
                 std::shared_ptr<GameCharacter> NewObject = objectArray[check];

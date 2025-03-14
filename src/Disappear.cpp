@@ -15,16 +15,15 @@ void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , const int size
     for ( int i = 1 ; i < size+1 ; ++i ) {
         objectArray[i]->SetSwitched(0);
         // cout<<"set "<<i<<" SetSwitched to 0"<<endl;
-        // if ( !objectArray[i] ) continue; 
         if ( !objectArray[i]->GetAppearBool() && ( objectArray[i]->GetType() == NORMAL_OBJECT || objectArray[i]->GetGenerate() ) ) {
             MakeDisappearWithObject( objectArray , i , size , stage );
-            objectArray[i]->SetGenerate( false );
             PointUpdate( stage , GetPoint(stage) + 1 );
+            objectArray[i]->SetGenerate( false );
         }
         else {
             if ( objectArray[i]->GetType() != NORMAL_OBJECT && !objectArray[i]->GetAppearBool() ) {
-                objectArray[i]->SetAppearBool(true);
                 PointUpdate( stage , GetPoint(stage) + 1 );
+                objectArray[i]->SetAppearBool(true);
                 CheckSpecialObject( objectArray, i, stage );
                 objectArray[i]->SetGenerate( true );
             }
@@ -37,15 +36,23 @@ void MakeDisappear( std::shared_ptr<GameCharacter>* objectArray , const int size
 bool DisappearMethodOfOneLine( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length ) {
     
     bool cont_to_check = false ;
+
     for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
         if ( (total_length[i] + total_length[j] ) == 2 ) {
 
+            bool left_check = true ;
+            bool right_check = true ;
 
-            // if( !(total_length[i] > 0 && total_length[j] == 0) ) {
-            //     //self disappear
-            //     object->SetAppearBool( false );
-            // }
-            if (object->GetSwitchedInfo() > 0 && object->GetAppearBool() == true )
+            //check all side appear
+            if (total_length[i] > 0)
+                left_check = checkAppearanceOfObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
+
+            if (total_length[j] > 0)
+                right_check = checkAppearanceOfObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
+
+
+            //all side appear checked(true)
+            if ( object->GetAppearBool() == true && left_check == true && right_check == true )
             {
                 object->SetAppearBool( false );
                 cout<<"Line"<<endl;
@@ -54,19 +61,40 @@ bool DisappearMethodOfOneLine( std::shared_ptr<GameCharacter>* objectArray, std:
                 if (total_length[i] > 0)
                     DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
 
-                cout<<"aaaa"<<endl;
+                if (total_length[j] > 0)
+                    DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
+
+                return cont_to_check;
+            }
+            // else //initial(not started)
+            // {
+            //     object->SetAppearBool( false );
+            // }
+
+        }
+        else if (total_length[i] + total_length[j]  > 2) // check all lines initial(line stripe rainbowball)
+        {
+            bool left_check_switch = true ;
+            bool right_check_switch = true ;
+
+            //check all side appear
+            if (total_length[i] > 0)
+                left_check_switch = checkSwitchedAllInfoWithZero( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
+
+            if (total_length[j] > 0)
+                right_check_switch = checkSwitchedAllInfoWithZero( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
+
+            if (left_check_switch == true && right_check_switch == true && object->GetAppearBool() == true)
+            {
+                cont_to_check = true ;
+                if (total_length[i] > 0)
+                    DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
 
                 if (total_length[j] > 0)
                     DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
 
-                cout<<"nnnn"<<endl;
                 return cont_to_check;
             }
-            else //initial(not started)
-            {
-                object->SetAppearBool( false );
-            }
-
         }
     }
     return cont_to_check;
@@ -85,10 +113,18 @@ int DisappearMethodOfStripe( std::shared_ptr<GameCharacter>* objectArray, std::s
         // do not make true if it was checked
         if ( (total_length[i] + total_length[j] ) == 3 ) {
 
+            bool left_check = true ;
+            bool right_check = true ;
 
+            //check all side appear
+            if (total_length[i] > 0)
+                left_check = checkAppearanceOfObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
+
+            if (total_length[j] > 0)
+                right_check = checkAppearanceOfObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
 
             // check initial switch -> find switch side
-            if (object->GetSwitchedInfo() == 2 && priority == 2 && object->GetAppearBool() == true)
+            if (object->GetSwitchedInfo() == 2 && priority == 2 && object->GetAppearBool() == true  && left_check == true && right_check == true)
             {
                 object->SetAppearBool( false );
                 //all disappear(except switched blocks)
@@ -100,33 +136,23 @@ int DisappearMethodOfStripe( std::shared_ptr<GameCharacter>* objectArray, std::s
                 {
                     if (objectArray[ object->GetInformationNeibor()[switch_side]]->GetSwitchedInfo() == 2 )
                     {
-                        cout<<object->GetInformationPosNumber()<<" GetSwitchedInfo(): "<<object->GetSwitchedInfo()<<endl;
+                        // cout<<object->GetInformationPosNumber()<<" GetSwitchedInfo(): "<<object->GetSwitchedInfo()<<endl;
                         cout << "Stripe" << endl;
-                        cout<<"return: "<<switch_side<<endl;
+                        // cout<<"return: "<<switch_side<<endl;
                         return switch_side;
                     }
                 }
             }
-            else if (object->GetSwitchedInfo() == 1 && priority == 1 && object->GetAppearBool() == true)
+            else if (object->GetSwitchedInfo() == 1 && priority == 1 && object->GetAppearBool() == true  && left_check == true && right_check == true)
             {
+                //all disappear
                 object->SetAppearBool( false );
-                //all disappear(except switched blocks)
-                cout<<"test"<<endl;
                 DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
                 DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
 
-                cout<<object->GetInformationPosNumber()<<" GetSwitchedInfo(): "<<object->GetSwitchedInfo()<<endl;
                 cout << "Stripe" << endl;
-                cout<<"return: "<<0<<endl;
                 return 0;
             }
-
-            else //initial(not started)
-            {
-
-                object->SetAppearBool( false );
-            }
-
 
         }
     }
@@ -142,17 +168,32 @@ bool DisappearMethodOfFlower( std::shared_ptr<GameCharacter>* objectArray, std::
     {
         if ( total_length[i] >= 2 )
         {
-            check_side = i ;
-            // cout<<"check_side: "<<check_side<<" check_side_length: "<<total_length[i]<<endl;
-            break;
+            bool checkside_check = true ;
+            checkside_check = checkAppearanceOfObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
+
+            if (checkside_check == true)
+            {
+                check_side = i ;
+                break;
+            }
+
         }
     }
 
     for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
         if ( i != check_side && j != check_side && check_side != -1 )
         {
+            bool left_check = true ;
+            bool right_check = true ;
 
-            if ( total_length[i] >= 1 && total_length[j] >= 1  && object->GetAppearBool() == true) {//two side 1
+            //check all side appear
+            if (total_length[i] > 0)
+                left_check = checkAppearanceOfObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
+
+            if (total_length[j] > 0)
+                right_check = checkAppearanceOfObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
+
+            if ( total_length[i] >= 1 && total_length[j] >= 1  && object->GetAppearBool() == true  && left_check == true && right_check == true && check_side != -1) {//two side 1
                 cont_to_check = true ;
                 object->SetAppearBool( false );
                 cout<<"Flower"<<endl;
@@ -162,6 +203,8 @@ bool DisappearMethodOfFlower( std::shared_ptr<GameCharacter>* objectArray, std::
                 DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
                 break;
             }
+
+
         }
     }
 
@@ -178,9 +221,14 @@ bool DisappearMethodOfStarFlower( std::shared_ptr<GameCharacter>* objectArray, s
     for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
         if ( total_length[i] >= 1 && total_length[j] >= 1)
         {
-            check_sides++ ;
+            bool left_check = checkAppearanceOfObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
+            bool right_check = checkAppearanceOfObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
+
+            if (left_check == true && right_check == true )
+                check_sides++ ;
         }
     }
+
 
     if (check_sides >= 2 && object->GetAppearBool() == true)
     {
@@ -205,7 +253,10 @@ bool DisappearMethodOfTriangleFlower( std::shared_ptr<GameCharacter>* objectArra
     // two side >= 2
     for ( int i = 0  ; i < 6 ; ++i ) {
         if ( total_length[i] >= 2 ) {
-            check ++ ;
+            bool left_check = checkAppearanceOfObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
+
+            if (left_check == true)
+                check ++ ;
         }
     }
 
@@ -228,18 +279,16 @@ bool DisappearMethodOfTriangleFlower( std::shared_ptr<GameCharacter>* objectArra
 
 }
 
-bool DisappearMethodOfRainbowBall( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length ) { //total_length = 6 side's consec.
+bool DisappearMethodOfRainbowBall( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length, int priority ) { 
 
     bool cont_to_check = false ;
     for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
         if ( (total_length[i] + total_length[j] ) >= 4 ) {
 
+            bool left_check = checkAppearanceOfObject( objectArray, objectArray[ object->GetInformationNeibor()[i] ], i, total_length[i]-1);
+            bool right_check = checkAppearanceOfObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
 
-            // if( !(total_length[i] > 0 && total_length[j] == 0) ) {
-            //     //self disappear
-            //     object->SetAppearBool( false );
-            // }
-            if (object->GetSwitchedInfo() > 0 && object->GetAppearBool() == true )
+            if (object->GetSwitchedInfo() == priority && object->GetAppearBool() == true && left_check == true && right_check == true)
             {
                 object->SetAppearBool( false );
                 cout<<"Rainbow Ball"<<endl;
@@ -249,10 +298,7 @@ bool DisappearMethodOfRainbowBall( std::shared_ptr<GameCharacter>* objectArray, 
                 DisappearBySingleObject( objectArray, objectArray[ object->GetInformationNeibor()[j] ], j, total_length[j]-1);
                 return cont_to_check;
             }
-            else //initial(not started)
-            {
-                object->SetAppearBool( false );
-            }
+
 
         }
     }
@@ -278,15 +324,40 @@ void DisappearBySingleObject ( std::shared_ptr<GameCharacter>* objectArray, std:
 
 bool checkAppearanceOfObject ( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length_left)
 {
+    bool return_bool = true;
 
-    cout <<" GetInformationPosNumber(): "<< object->GetInformationPosNumber()<<" GetAppear(): "<< object->GetAppearBool()<<endl;
-    if( !object || object->GetInformationNeibor()[side] == -1 )
+    if( !object  )
         return false;
 
     if ( object->GetAppearBool() == true )
     {
         if( length_left >  0 )
-            return checkAppearanceOfObject ( objectArray, objectArray[ object->GetInformationNeibor()[side] ], side, length_left - 1) ;
+        {
+            return_bool = checkAppearanceOfObject ( objectArray, objectArray[ object->GetInformationNeibor()[side] ], side, length_left - 1);
+            return return_bool;
+        }
+        else
+        {
+            return object->GetAppearBool();
+        }
+    }
+
+    else{
+        // cout<<"return_bool: false"<<endl;
+        return false ;
+    }
+}
+
+bool checkSwitchedAllInfoWithZero ( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length_left)
+{
+
+    if( !object  )
+        return false;
+
+    if ( object->GetSwitchedInfo() == 0 )
+    {
+        if( length_left >  0 )
+            return checkSwitchedAllInfoWithZero ( objectArray, objectArray[ object->GetInformationNeibor()[side] ], side, length_left - 1) ;
         else
             return true;
     }
@@ -295,9 +366,8 @@ bool checkAppearanceOfObject ( std::shared_ptr<GameCharacter>* objectArray, std:
 }
 
 void MakeDisappearWithObject( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage ) {
-    if ( objectArray[current_pos]->GetVisibility() == false )
+    if ( objectArray[current_pos]-> GetVisibility() == false )
         return;
-    
     switch ( objectArray[current_pos]->GetType() ) {
         case STRIPE_OBJECT:
             MakeDisappearWithStripe( objectArray , current_pos , size , stage );
@@ -333,6 +403,8 @@ void MakeDisappearWithObject( std::shared_ptr<GameCharacter>* objectArray , int 
 
 void MakeDisappearWithStripe( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage ) {
     objectArray[current_pos]->DisAppear();
+    objectArray[current_pos]->SetAppearBool( false );
+    objectArray[current_pos]->SetBlockType( NORMAL_OBJECT );
     PointUpdate( stage , GetPoint(stage) + 1 );
     for ( int i = current_pos , j = current_pos ; ; ) {
         if ( objectArray[i]->GetInformationNeibor()[0] != -1 ) {
@@ -350,6 +422,8 @@ void MakeDisappearWithStripe( std::shared_ptr<GameCharacter>* objectArray , int 
 
 void MakeDisappearWithStripeInLeftRight( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage ) {
     objectArray[current_pos]->DisAppear();
+    objectArray[current_pos]->SetAppearBool( false );
+    objectArray[current_pos]->SetBlockType( NORMAL_OBJECT );
     PointUpdate( stage , GetPoint(stage) + 1 );
     for ( int i = current_pos , j = current_pos ; ; ) {
         if ( objectArray[i]->GetInformationNeibor()[2] != -1 ) {
@@ -367,6 +441,8 @@ void MakeDisappearWithStripeInLeftRight( std::shared_ptr<GameCharacter>* objectA
 
 void MakeDisappearWithStripeInRightLeft( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage ) {
     objectArray[current_pos]->DisAppear();
+    objectArray[current_pos]->SetAppearBool( false );
+    objectArray[current_pos]->SetBlockType( NORMAL_OBJECT );
     PointUpdate( stage , GetPoint(stage) + 1 );
     for ( int i = current_pos , j = current_pos ; ; ) {
         if ( objectArray[i]->GetInformationNeibor()[1] != -1 ) {
@@ -384,6 +460,8 @@ void MakeDisappearWithStripeInRightLeft( std::shared_ptr<GameCharacter>* objectA
 
 void MakeDisappearWithRainbow( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage ) {
     objectArray[current_pos]->DisAppear();
+    objectArray[current_pos]->SetAppearBool( false );
+    objectArray[current_pos]->SetBlockType( NORMAL_OBJECT );
     PointUpdate( stage , GetPoint(stage) + 1 );
     for ( int i = 1 ; i < size+1 ; ++i ) {
         if ( objectArray[current_pos]->GetInformationNeibor()[i] != -1 ) {

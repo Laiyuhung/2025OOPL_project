@@ -31,6 +31,11 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
             continue;
         int *neighbors = objectArray[i]->GetInformationNeibor() ;//GET NEIGHBOR
         objectArray[i]->GetBlockType() ;
+        if ( objectArray[i]->GetType() == RAINBOWBALL_OBJECT ) {
+            MakeDisappear( objectArray , size , stage);
+            Dropping( objectArray, size , stage );
+            return true;
+        }
 
         for ( int j = 0 ; j < 6 ; ++j ) { 
             if ( neighbors[j] == -1 ) 
@@ -44,7 +49,14 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
 
     for ( int i = 1 ; i < size+1 ; ++i )
     {
-        if ( DisappearMethodOfRainbowBall(objectArray, objectArray[i] , total_length[i].data() ) ) {
+        if ( DisappearMethodOfRainbowBall(objectArray, objectArray[i] , total_length[i].data(), 2 ) ) {
+            objectArray[i]->SetBlockType( RAINBOWBALL_OBJECT );
+        }
+    }
+
+    for ( int i = 1 ; i < size+1 ; ++i )
+    {
+        if ( DisappearMethodOfRainbowBall(objectArray, objectArray[i] , total_length[i].data(), 1 ) ) {
             objectArray[i]->SetBlockType( RAINBOWBALL_OBJECT );
         }
     }
@@ -71,8 +83,6 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
     {
         if ( (stripe_side = DisappearMethodOfStripe(objectArray, objectArray[i] , total_length[i].data(), 2 )) != -1 ) {
 
-            // int stripe_side = DisappearMethodOfStripe(objectArray, objectArray[i] , total_length );
-            // cout<<"side: "<<stripe_side<<endl;
             if ( stripe_side == 0 || stripe_side == 3)
             {
                 cout<<"aaa"<<endl;
@@ -99,18 +109,11 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
     }
     for ( int i = 1 ; i < size+1 ; ++i )
     {
-        // cout<<"no  "<<i<<"length1  "<<total_length[i].data()[0]<<endl;
         if ( DisappearMethodOfOneLine(objectArray, objectArray[i] , total_length[i].data() ) ) {
             objectArray[i]->SetBlockType( NORMAL_OBJECT);
         }
-        // else {
-        //     objectArray[i]->SetBlockType( NORMAL_OBJECT );
-        //     }
     }
-    // for ( int i = 1 ; i < size+1 ; ++i )
-    // {
-    //
-    // }
+
     for ( int i = 1 ; i < size+1 ; ++i )
     {
         if ( stage == 0 )
@@ -121,7 +124,6 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
     for ( int i = 1 ; i < size+1 ; ++i ) {
         if( !objectArray[i] ) continue;
         if( !objectArray[i]->GetAppearBool() ) flag = true;
-        // objectArray[i]->SetSwitched(0);
     }
 
     cout<<"end checking Appearance"<<endl;
@@ -130,7 +132,6 @@ bool CheckAppearance( std::shared_ptr<GameCharacter>* objectArray, const int siz
         // DebugModeOfAppearance( objectArray , size);
         MakeDisappear( objectArray , size , stage);
         Dropping( objectArray, size , stage );
-    
     }
 
 

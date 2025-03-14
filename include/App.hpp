@@ -35,8 +35,9 @@ int  DisappearMethodOfStripe( std::shared_ptr<GameCharacter>* objectArray, std::
 bool DisappearMethodOfFlower( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length );
 bool DisappearMethodOfStarFlower( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length );
 bool DisappearMethodOfTriangleFlower( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length );
-bool DisappearMethodOfRainbowBall( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length );
+bool DisappearMethodOfRainbowBall( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int* total_length, int priority );
 void DisappearBySingleObject ( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length_left);
+
 void MakeDisappearWithObject( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage );
 void MakeDisappearWithStripe( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage );
 void MakeDisappearWithRainbow( std::shared_ptr<GameCharacter>* objectArray , int current_pos , const int size , const int stage );
@@ -49,6 +50,10 @@ void MakeDisappearWithStripeInRightLeft( std::shared_ptr<GameCharacter>* objectA
 // Declare of Drop
 void Dropping( std::shared_ptr<GameCharacter>* objectArray, const int size , int stage);
 void Dropping_method( std::shared_ptr<GameCharacter>* objectArray, const int size , const int current_position );
+
+bool checkAppearanceOfObject ( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length_left);
+bool checkSwitchedAllInfoWithZero ( std::shared_ptr<GameCharacter>* objectArray, std::shared_ptr<GameCharacter>& object, int side, int length_left);
+
 
 // Declare of Game Main Action
 void DisAppearAll( std::shared_ptr<GameCharacter> *objectArray , const int size );
