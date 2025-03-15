@@ -21,12 +21,14 @@ void App::Start() {
     m_Stage_Buttom_1->SetVisible(false);
     m_Root.AddChild( m_Stage_Buttom_1 );
 
-    // InitializeStageCharacter( m_Stage_1_Object, 37);
     for ( int i = 1 ; i < 38 ; ++i ) { 
         m_Stage_1_Object[i] = std::make_shared<GameCharacter>( BLUE_NORMAL_OBJECT);
         m_Stage_1_Object[i]->SetVisible( false );
         m_Root.AddChild( m_Stage_1_Object[i] );
     }
+    m_Stage_Object = std::make_shared<StageObject>( 37 , m_Stage_1_Object );
+    m_Stage_Object->SetStage( 0 );
+    m_Root.AddChild( m_Stage_Object );
 
     m_Point_Show = std::make_shared<TaskText>();
     m_Point_Show->SetVisible( false );
@@ -52,16 +54,21 @@ void App::Update() {
         case Phase::HOME_PAGE:
             if (PhaseHomePage(m_Stage_Buttom_1)){
                 m_PRM->NextPhase(PHASE_STAGE_1);
-                SetUp( 1 , m_Stage_1_Object , 37 , m_Point_Show );
+                m_Stage_Object->SetUp();
+                m_Stage_Object->AppearAll();
+                m_Stage_Object->SetStage( 1 );
+                m_Point_Show->SetValue( 0 );
+                m_Point_Show->SetVisible( true );
+                m_Point_Show->UpdateText();
                 m_Phase = Phase::STAGE_1;
             }
             break;
         case Phase::STAGE_1:
-            if (PhaseStage1(m_Stage_1_Object, 37 , m_Point_Show )){
+            if (PhaseStage1(m_Stage_Object, m_Stage_Object->GetSize() , m_Point_Show )){
                 m_PRM->NextPhase(PHASE_HOME_PAGE);
                 m_Phase = Phase::HOME_PAGE;
                 m_Stage_Buttom_1->SetVisible( true );
-                DisAppearAll( m_Stage_1_Object , 37 );
+                m_Stage_Object->DisAppearAll();
                 m_Point_Show->SetVisible( false );
             }
             break;

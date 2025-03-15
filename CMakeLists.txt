@@ -33,18 +33,18 @@ list(TRANSFORM INCLUDE_FILES PREPEND ${INCLUDE_DIR}/)
 
 add_executable(${PROJECT_NAME}
     ${SRC_DIR}/main.cpp
-    ${SRC_DIR}/PhaseResourceManager.cpp
     ${SRC_DIR}/Character.cpp
-    ${SRC_DIR}/PhaseMainAction.cpp
-    ${SRC_DIR}/GameCharacter.cpp
-    ${SRC_DIR}/GameMainAction.cpp
-    ${SRC_DIR}/Global.cpp
-    ${SRC_DIR}/CheckObject.cpp
     ${SRC_DIR}/DebugMode.cpp
-    ${SRC_DIR}/Disappear.cpp
-    ${SRC_DIR}/Drop.cpp
-    ${SRC_DIR}/ObjectChange.cpp
-    ${SRC_DIR}/Point.cpp
+    ${SRC_DIR}/GameCharacter.cpp
+    ${SRC_DIR}/Global.cpp
+    ${SRC_DIR}/PhaseMainAction.cpp
+    ${SRC_DIR}/PhaseResourceManager.cpp
+    ${SRC_DIR}/StageObject.cpp
+    # ${SRC_DIR}/CheckObject.cpp
+    # ${SRC_DIR}/Disappear.cpp
+    # ${SRC_DIR}/Drop.cpp
+    # ${SRC_DIR}/ObjectChange.cpp
+    # ${SRC_DIR}/Point.cpp
     ${SRC_FILES}
     ${HEADER_FILES}
 )
