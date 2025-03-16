@@ -989,12 +989,12 @@ void StageObject::SetUp() {
     }
     InitializeStageCharacter();
     CheckAppearance( 0 );
-    m_Stage_Object[37]->SetImage( RAINBOWBALL_OBJECT_LINK );
-    m_Stage_Object[37]->SetBlockType( NORMAL_OBJECT );
-    m_Stage_Object[37]->SetCurrentType( RAINBOWBALL_OBJECT );
-    m_Stage_Object[37]->SetBlock( 0 );
-    m_Stage_Object[37]->SetAppearBool( true );
-    m_Stage_Object[37]->SetGenerate( true );
+    // m_Stage_Object[37]->SetImage( RAINBOWBALL_OBJECT_LINK );
+    // m_Stage_Object[37]->SetBlockType( NORMAL_OBJECT );
+    // m_Stage_Object[37]->SetCurrentType( RAINBOWBALL_OBJECT );
+    // m_Stage_Object[37]->SetBlock( 0 );
+    // m_Stage_Object[37]->SetAppearBool( true );
+    // m_Stage_Object[37]->SetGenerate( true );
 }
 
 void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText> point ) {
