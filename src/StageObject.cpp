@@ -86,7 +86,7 @@ bool StageObject::CheckAppearance( int s ) {
             continue;
         int *neighbors = m_Stage_Object[i]->GetInformationNeibor();//GET NEIGHBOR
         m_Stage_Object[i]->GetBlockType() ;
-        if ( m_Stage_Object[i]->GetType() == RAINBOWBALL_OBJECT && m_Stage_Object[i]->GetSwitchedInfo() == MOVE_BY_SWITCH ) {
+        if ( m_Stage_Object[i]->GetCurrentType() == RAINBOWBALL_OBJECT && m_Stage_Object[i]->GetSwitchedInfo() == MOVE_BY_SWITCH ) {
             m_Stage_Object[i]->SetAppearBool( false );
             MakeDisappear();
             Dropping();
@@ -986,12 +986,12 @@ void StageObject::SetUp() {
     }
     InitializeStageCharacter();
     CheckAppearance( 0 );
-    // m_Stage_Object[37]->SetImage( ORANGE_STARFLOWER_OBJECT );
-    // m_Stage_Object[37]->SetBlockType( NORMAL_OBJECT );
-    // m_Stage_Object[37]->SetCurrentType( STARFLOWER_OBJECT);
-    // m_Stage_Object[37]->SetBlock( ORANGE_OBJECT );
-    // m_Stage_Object[37]->SetAppearBool( true );
-    // m_Stage_Object[37]->SetGenerate( true );
+    m_Stage_Object[37]->SetImage( RAINBOWBALL_OBJECT_LINK );
+    m_Stage_Object[37]->SetBlockType( NORMAL_OBJECT );
+    m_Stage_Object[37]->SetCurrentType( RAINBOWBALL_OBJECT );
+    m_Stage_Object[37]->SetBlock( 0 );
+    m_Stage_Object[37]->SetAppearBool( true );
+    m_Stage_Object[37]->SetGenerate( true );
 }
 
 void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText> point ) {
@@ -1005,10 +1005,10 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
             std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[check];
             m_Stage_Object[check] = m_Stage_Object[i];
             m_Stage_Object[i] = NewObject;
-            if ( m_Stage_Object[check]->GetType() == RAINBOWBALL_OBJECT ) {
+            if ( m_Stage_Object[check]->GetCurrentType() == RAINBOWBALL_OBJECT ) {
                 m_Stage_Object[check]->SetBlock( m_Stage_Object[i]->GetBlockType() );
             }
-            if ( m_Stage_Object[i]->GetType() == RAINBOWBALL_OBJECT ) {
+            if ( m_Stage_Object[i]->GetCurrentType() == RAINBOWBALL_OBJECT ) {
                 m_Stage_Object[i]->SetBlock( m_Stage_Object[check]->GetBlockType() );
             }
             if ( !CheckAppearance( 1 ) ) {
