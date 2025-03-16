@@ -557,31 +557,42 @@ void StageObject::MakeDisappearWithStripeFlower( int current_pos ) {
     cout << "STRIPE_FLOWER\n";
 
     // m_Stage_Object[current_pos]->GetCurrentType();
-    int extend_side = -1 ;
+    int extend_side[2] = {-1} ;
     int side = -1 ;
     if (m_Stage_Object[current_pos]->GetType() == STRIPE_OBJECT )
     {
-        extend_side = 1 ;
+        extend_side[0] = 1 ;
+        extend_side[1] = 2 ;
         side = 0 ;
 
     }
     else if (m_Stage_Object[current_pos]->GetType() == STRIPE_LEFT_RIGHT_OBJECT )
     {
-        extend_side = 0 ;
+        extend_side[0] = 0 ;
+        extend_side[1] = 1 ;
         side = 2 ;
     }
     else if (m_Stage_Object[current_pos]->GetType() == STRIPE_RIGHT_LEFT_OBJECT )
     {
-        extend_side = 2 ;
+        extend_side[0] = 2 ;
+        extend_side[1] = 0 ;
         side = 1 ;
     }
     m_Stage_Object[current_pos]->SetBlockType(NORMAL_OBJECT);
 
-    if (m_Stage_Object[current_pos]->GetInformationNeibor()[extend_side] != -1) {
-        m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[extend_side] ]->DisAppear();
-        m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[extend_side] ]->SetAppearBool( false );
+    int final_extend = -1;
 
-        for ( int i = m_Stage_Object[current_pos]->GetInformationNeibor()[extend_side] , j = m_Stage_Object[current_pos]->GetInformationNeibor()[extend_side] ; ; ) {
+    if (extend_side[0] != -1)
+        final_extend = extend_side[0];
+    else if (extend_side[1] != -1)
+        final_extend = extend_side[1];
+
+
+    if (m_Stage_Object[current_pos]->GetInformationNeibor()[final_extend] != -1) {
+        m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[final_extend] ]->DisAppear();
+        m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[final_extend] ]->SetAppearBool( false );
+
+        for ( int i = m_Stage_Object[current_pos]->GetInformationNeibor()[final_extend] , j = m_Stage_Object[current_pos]->GetInformationNeibor()[final_extend] ; ; ) {
             if ( m_Stage_Object[i]->GetInformationNeibor()[side] != -1 ) {
                 MakeDisappearWithObject( m_Stage_Object[i]->GetInformationNeibor()[side] );
                 i = m_Stage_Object[i]->GetInformationNeibor()[side];
@@ -595,17 +606,17 @@ void StageObject::MakeDisappearWithStripeFlower( int current_pos ) {
         }
     }
 
-    if (m_Stage_Object[current_pos]->GetInformationNeibor()[extend_side+3] != -1) {
-        m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[extend_side+3] ]->DisAppear();
-        m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[extend_side+3] ]->SetAppearBool( false );
+    if (m_Stage_Object[current_pos]->GetInformationNeibor()[final_extend+3] != -1) {
+        m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[final_extend+3] ]->DisAppear();
+        m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[final_extend+3] ]->SetAppearBool( false );
 
-        for ( int i = m_Stage_Object[current_pos]->GetInformationNeibor()[extend_side + 3] , j = m_Stage_Object[current_pos]->GetInformationNeibor()[extend_side + 3] ; ; ) {
+        for ( int i = m_Stage_Object[current_pos]->GetInformationNeibor()[final_extend + 3] , j = m_Stage_Object[current_pos]->GetInformationNeibor()[final_extend + 3] ; ; ) {
             if ( m_Stage_Object[i]->GetInformationNeibor()[side] != -1 ) {
                 MakeDisappearWithObject( m_Stage_Object[i]->GetInformationNeibor()[side] );
                 i = m_Stage_Object[i]->GetInformationNeibor()[side];
             }
             if ( m_Stage_Object[j]->GetInformationNeibor()[side + 3] != -1 ) {
-                MakeDisappearWithObject( m_Stage_Object[j]->GetInformationNeibor()[3] );
+                MakeDisappearWithObject( m_Stage_Object[j]->GetInformationNeibor()[side + 3] );
                 j = m_Stage_Object[j]->GetInformationNeibor()[side + 3];
             }
             if ( m_Stage_Object[i]->GetInformationNeibor()[side] == -1 && m_Stage_Object[j]->GetInformationNeibor()[side + 3] == -1 )
@@ -689,13 +700,34 @@ void StageObject::MakeDisappearWithStripeInRightLeft( int current_pos ) {
     }
 }
 
-void StageObject::MakeDisappearWithRainbow( int current_pos ) {
+void StageObject::MakeDisappearWithRainbow( int current_pos ) { //get type: next move
     m_Stage_Object[current_pos]->DisAppear();
     m_Stage_Object[current_pos]->SetAppearBool( false );
-    if ( m_Stage_Object[current_pos]->GetBlockType() == 0 ) {
+
+    if ( m_Stage_Object[current_pos]->GetBlockType() == 0 ) { // no color
         m_Stage_Object[current_pos]->SetBlock( BLUE_OBJECT );
     }
-    cout << "RAINBOW\n";
+
+    cout << "RAINBOW BALL\n";
+
+    if (m_Stage_Object[current_pos]->GetType() == RAINBOWBALL_OBJECT) {
+        for ( int i = 1 ; i < m_Size+1 ; ++i ) {
+                MakeDisappearWithObject( i );
+        }
+        return ;
+    }
+
+    if (m_Stage_Object[current_pos]->GetType() != 0) {
+        // change same color to special type
+        for ( int i = 1 ; i < m_Size+1 ; ++i ) {
+            if ( i != current_pos && m_Stage_Object[current_pos]->GetBlockType() == m_Stage_Object[i]->GetBlockType() ) {
+                m_Stage_Object[i]->SetCurrentType( m_Stage_Object[current_pos]->GetType() );
+            }
+        }
+    }
+
+    m_Stage_Object[current_pos]->SetBlockType(NORMAL_OBJECT);
+
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
         if ( i != current_pos && m_Stage_Object[current_pos]->GetBlockType() == m_Stage_Object[i]->GetBlockType() ) {
             MakeDisappearWithObject( i );
@@ -1150,9 +1182,13 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
             m_Stage_Object[i] = NewObject;
             if ( m_Stage_Object[check]->GetCurrentType() == RAINBOWBALL_OBJECT ) {
                 m_Stage_Object[check]->SetBlock( m_Stage_Object[i]->GetBlockType() );
+                m_Stage_Object[check]->SetBlockType( m_Stage_Object[i]->GetCurrentType() );
+                cout<<"find rainbow ball"<<endl;
             }
             if ( m_Stage_Object[i]->GetCurrentType() == RAINBOWBALL_OBJECT ) {
-                m_Stage_Object[i]->SetBlock( m_Stage_Object[check]->GetBlockType() );
+                m_Stage_Object[i]->SetBlock( m_Stage_Object[check]->GetBlockType() ); //color
+                m_Stage_Object[i]->SetBlockType( m_Stage_Object[check]->GetCurrentType() );
+                cout<<"find rainbow ball"<<endl;
             }
 
             // flower + flower
