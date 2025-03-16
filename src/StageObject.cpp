@@ -190,6 +190,14 @@ bool StageObject::CheckAppearance( int s ) {
         MakeDisappear();
         Dropping();
     }
+    //check need shuffle or not
+    // else
+    // {
+    //     CheckShuffleDemands();
+    //     // if (CheckShuffleDemands()) {
+    //     //     // CheckAppearance( 0 );
+    //     // }
+    // }
     return flag;
 }
 
@@ -1180,6 +1188,7 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
             std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[check];
             m_Stage_Object[check] = m_Stage_Object[i];
             m_Stage_Object[i] = NewObject;
+
             if ( m_Stage_Object[check]->GetCurrentType() == RAINBOWBALL_OBJECT ) {
                 m_Stage_Object[check]->SetBlock( m_Stage_Object[i]->GetBlockType() );
                 m_Stage_Object[check]->SetBlockType( m_Stage_Object[i]->GetCurrentType() );
@@ -1239,4 +1248,135 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
             break;
         }
     }
+}
+
+bool StageObject::CheckShuffleDemands() {
+
+    for ( int i = 1 ; i < m_Size +1 ; ++i) { //center
+
+        cout<<"now checking: "<<i<<endl;
+
+        for ( int j = 0 ; j < 6 ; ++j) { //switched side
+
+            if (m_Stage_Object[i]->GetInformationNeibor()[j] != -1) {
+
+                cout<<"side: "<<j<<" neighbor: "<<m_Stage_Object[i]->GetInformationNeibor()[j]<<endl;
+                cout<<"pno. "<<m_Stage_Object[i]->GetInformationPosNumber()<<endl;
+                cout<<"pno2. "<<m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]]->GetInformationPosNumber()<<endl;
+
+                m_Stage_Object[i]->SwitchPosition(  m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]] );
+                std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]];
+                m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]] = m_Stage_Object[i];
+                m_Stage_Object[i] = NewObject;
+
+                cout<<"no. "<<m_Stage_Object[i]->GetInformationPosNumber()<<endl;
+                cout<<"no2. "<<m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]]->GetInformationPosNumber()<<endl;
+
+
+
+                if (CheckLineMaking())
+                {
+                    m_Stage_Object[i]->SwitchPosition(  m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]] );
+                    std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]];
+                    m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]] = m_Stage_Object[i];
+                    m_Stage_Object[i] = NewObject;
+
+                    return false;
+                }
+
+                if (CheckRainbowUsing())
+                {
+                    m_Stage_Object[i]->SwitchPosition(  m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]] );
+                    std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]];
+                    m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]] = m_Stage_Object[i];
+                    m_Stage_Object[i] = NewObject;
+
+                    return false;
+                }
+                if (CheckSpecialBlocksNeighbor())
+                {
+                    m_Stage_Object[i]->SwitchPosition(  m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]] );
+                    std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]];
+                    m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]] = m_Stage_Object[i];
+                    m_Stage_Object[i] = NewObject;
+
+                    return false;
+                }
+
+                m_Stage_Object[i]->SwitchPosition(  m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]] );
+                std::shared_ptr<GameCharacter> NewObjecttwo = m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]];
+                m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]] = m_Stage_Object[i];
+                m_Stage_Object[i] = NewObjecttwo;
+            }
+        }
+
+    }
+
+    return true;
+}
+
+bool StageObject::CheckLineMaking() {
+
+    // cout<<"123";
+
+    for ( int current_pos = 1 ; current_pos < m_Size +1 ; ++current_pos) {//center
+        for ( int check_side = 0 ; check_side < 3 ; ++check_side) { //check_side
+
+
+            cout<<"pos: "<<current_pos<<" check_side: "<<check_side<<endl;
+            // cout<<"neighbor: "<<m_Stage_Object[current_pos]->GetInformationNeibor()[check_side]<<endl;
+
+
+            int length = 1 ;
+            if ( IsSameColor(m_Stage_Object[current_pos]->GetBlockType() ,  m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[check_side] ]->GetBlockType()) &&  m_Stage_Object[current_pos]->GetInformationNeibor()[check_side] != -1 ){
+                length += CheckNextAppearance(  m_Stage_Object[current_pos]->GetInformationNeibor()[check_side] , check_side, 1 ) ;
+            }
+
+            if ( IsSameColor(m_Stage_Object[current_pos]->GetBlockType() ,  m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[check_side+3] ]->GetBlockType()) &&  m_Stage_Object[current_pos]->GetInformationNeibor()[check_side+3] != -1 ){
+                length += CheckNextAppearance(  m_Stage_Object[current_pos]->GetInformationNeibor()[check_side] , check_side, 1 ) ;
+            }
+
+            cout<<"length: "<<length<<endl;
+            if (length >= 3)
+                return true;
+
+        }
+    }
+
+    return false;
+}
+
+bool StageObject::CheckRainbowUsing() {
+    for ( int current_pos = 1 ; current_pos < m_Size +1 ; ++current_pos) {
+        //check if has neighbor
+        if (m_Stage_Object[current_pos]->GetCurrentType() == RAINBOWBALL_OBJECT) {
+
+            for ( int j = 0 ; j < 6 ; ++j) {
+                if (m_Stage_Object[current_pos]->GetInformationNeibor()[j] != -1)
+                    return true;
+            }
+        }
+    }
+    return false;
+
+}
+
+bool StageObject::CheckSpecialBlocksNeighbor() {
+    for ( int current_pos = 1 ; current_pos < m_Size +1 ; ++current_pos) {
+
+        if (m_Stage_Object[current_pos]->GetCurrentType() >= STRIPE_OBJECT && m_Stage_Object[current_pos]->GetCurrentType() <= TRIANGLEFLOWER_OBJECT) {
+            //check if neighbor is special block
+            for ( int j = 0 ; j < 6 ; ++j) {
+                if (m_Stage_Object[current_pos]->GetInformationNeibor()[j] != -1) {
+
+                    if ( m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[j] ]->GetCurrentType() >= STRIPE_OBJECT && m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[j] ]->GetCurrentType() <= TRIANGLEFLOWER_OBJECT) {
+                        return false;
+                    }
+                }
+
+            }
+        }
+    }
+    return false;
+
 }

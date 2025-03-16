@@ -65,6 +65,11 @@ class StageObject : public Util::GameObject {
         bool DisappearMethodOfRainbowBall(  int current_pos, int* total_length, int priority );
         void DisappearBySingleObject ( int current_pos, int side, int length_left);
 
+        bool CheckShuffleDemands();
+        bool CheckLineMaking();
+        bool CheckRainbowUsing();
+        bool CheckSpecialBlocksNeighbor();
+
         void Dropping_method( const int current_position );
         bool checkAppearanceOfObject ( int i, int side, int length_left);
         bool checkSwitchedAllInfoWithZero ( int i, int side, int length_left);
