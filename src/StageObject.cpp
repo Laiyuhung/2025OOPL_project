@@ -136,8 +136,9 @@ bool StageObject::CheckAppearance( int s ) {
     }
     for ( int i = 1 ; i < m_Size+1 ; ++i )
     {
-        if ( (stripe_side = DisappearMethodOfStripe(i , total_length[i].data(), 2 )) != -1 ) {
-
+        stripe_side = DisappearMethodOfStripe(i , total_length[i].data(), 2 );
+        // cout << stripe_side << endl;
+        if ( stripe_side != -1 ) {
             if ( stripe_side == 0 || stripe_side == 3)
             {
                 m_Stage_Object[i]->SetBlockType( STRIPE_OBJECT );
@@ -689,11 +690,9 @@ bool StageObject::DisappearMethodOfOneLine( int current_pos , int *total_length 
 }
 
 int StageObject::DisappearMethodOfStripe( int current_pos, int* total_length, int priority ) {
-
     for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
         // do not make true if it was checked
         if ( (total_length[i] + total_length[j] ) == 3 ) {
-    
             bool left_check = true ;
             bool right_check = true ;
     
@@ -717,6 +716,7 @@ int StageObject::DisappearMethodOfStripe( int current_pos, int* total_length, in
                 //find initial neighbor side
                 for ( int switch_side = 0  ; switch_side < 6 ; ++switch_side )
                 {
+
                     if ( m_Stage_Object[current_pos]->GetInformationNeibor()[switch_side] != -1) {
                         if (m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[switch_side] ]->GetSwitchedInfo() == 2 )
                         {
@@ -1001,7 +1001,7 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
     for ( int j = 0 ; j < 6 ; ++j ) {
         if( m_Stage_Object[i]->GetInformationNeibor()[j] == check ) {
             m_Stage_Object[i]->SetSwitched(2);
-            m_Stage_Object[i]->SetSwitched(2);
+            m_Stage_Object[check]->SetSwitched(2);
             std::cout<<"pos: "<<i<<"  "<<check<<std::endl;
             std::cout<<"set SetSwitched to 2"<<std::endl;
             m_Stage_Object[i]->SwitchPosition( m_Stage_Object[check] );
