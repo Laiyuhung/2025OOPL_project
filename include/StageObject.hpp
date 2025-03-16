@@ -53,6 +53,9 @@ class StageObject : public Util::GameObject {
         void MakeDisappearWithTriangleFlower( int current_pos );
         void MakeDisappearWithStripeInLeftRight( int current_pos );
         void MakeDisappearWithStripeInRightLeft( int current_pos );
+        void MakeDisappearWithFlowerCombined( int current_pos );
+        void MakeDisappearWithStripeFlower( int current_pos );
+        void MakeDisappearWithStripeCombined( int current_pos );
 
         bool DisappearMethodOfOneLine( int current_pos, int* total_length );
         int  DisappearMethodOfStripe(  int current_pos, int* total_length, int priority );

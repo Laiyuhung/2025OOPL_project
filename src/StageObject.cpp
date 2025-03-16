@@ -11,9 +11,9 @@
 using namespace std;
 void StageObject::RandomChangeObject( int current_pos ) {
     static std::random_device rd;
-    static std::mt19937 gen(rd()); 
-    std::uniform_int_distribution<int> distrib(1, 7); 
-    
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> distrib(1, 7);
+
     int ramdom_number = distrib(gen);
 
     switch ( ramdom_number )
@@ -53,8 +53,8 @@ void StageObject::RandomChangeObject( int current_pos ) {
 
 void StageObject::InitializeStageCharacter() {
     static std::random_device rd;
-    static std::mt19937 gen(rd()); 
-    std::uniform_int_distribution<int> distrib(1, 7); 
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> distrib(1, 7);
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
         RandomChangeObject( i );
         m_Stage_Object[i]->SetInformation( stage1[i] );
@@ -86,15 +86,16 @@ bool StageObject::CheckAppearance( int s ) {
             continue;
         int *neighbors = m_Stage_Object[i]->GetInformationNeibor();//GET NEIGHBOR
         m_Stage_Object[i]->GetBlockType() ;
-        if ( m_Stage_Object[i]->GetType() == RAINBOWBALL_OBJECT && m_Stage_Object[i]->GetSwitchedInfo() == MOVE_BY_SWITCH ) {
+        // hand switch rainbowBall + FLOWER_COMBINED + FLOWER_STRIPE + STRIPE_COMBINED
+        if ( (m_Stage_Object[i]->GetCurrentType() == RAINBOWBALL_OBJECT || m_Stage_Object[i]->GetCurrentType() == FLOWER_COMBINED_OBJECT || m_Stage_Object[i]->GetCurrentType() == FLOWER_STRIPE_OBJECT || m_Stage_Object[i]->GetCurrentType() == STRIPE_COMBINED_OBJECT) && m_Stage_Object[i]->GetSwitchedInfo() == MOVE_BY_SWITCH ) {
             m_Stage_Object[i]->SetAppearBool( false );
             MakeDisappear();
             Dropping();
             return true;
         }
 
-        for ( int j = 0 ; j < 6 ; ++j ) { 
-            if ( neighbors[j] == -1 ) 
+        for ( int j = 0 ; j < 6 ; ++j ) {
+            if ( neighbors[j] == -1 )
                 continue;
             if ( IsSameColor(m_Stage_Object[ neighbors[j] ]->GetBlockType() , m_Stage_Object[i]->GetBlockType()) )
             {
@@ -136,8 +137,9 @@ bool StageObject::CheckAppearance( int s ) {
     }
     for ( int i = 1 ; i < m_Size+1 ; ++i )
     {
-        if ( (stripe_side = DisappearMethodOfStripe(i , total_length[i].data(), 2 )) != -1 ) {
-
+        stripe_side = DisappearMethodOfStripe(i , total_length[i].data(), 2 );
+        // cout << stripe_side << endl;
+        if ( stripe_side != -1 ) {
             if ( stripe_side == 0 || stripe_side == 3)
             {
                 m_Stage_Object[i]->SetBlockType( STRIPE_OBJECT );
@@ -385,7 +387,7 @@ void StageObject::MakeDisappear() {
             m_Stage_Object[i]->SetGenerate( true );
             m_Stage_Object[i]->SetCurrentType( m_Stage_Object[i]->GetType() );
             m_Stage_Object[i]->SetBlockType( NORMAL_OBJECT );
-        } 
+        }
     }
 
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
@@ -404,7 +406,7 @@ void StageObject::Dropping() {
             loop_count = 0;
             continue;
         }
-        if ( !m_Stage_Object[i]->GetAppearBool() && m_Stage_Object[i]->GetInformationNeibor()[0] != -1 ) 
+        if ( !m_Stage_Object[i]->GetAppearBool() && m_Stage_Object[i]->GetInformationNeibor()[0] != -1 )
             Dropping_method( i );
         ++loop_count ;
     }
@@ -415,9 +417,9 @@ void StageObject::Dropping() {
         }
         m_Stage_Object[i]->SetAppearBool( true );
     }
-    if ( m_Stage != 0 ) 
+    if ( m_Stage != 0 )
         AppearAll();
-    
+
     CheckAppearance( m_Stage );
 }
 
@@ -455,7 +457,17 @@ void StageObject::MakeDisappearWithObject( int current_pos ) {
     if ( m_Stage_Object[current_pos]->GetVisibility() == false ) {
         return;
     }
+    // cout<<"pos: "<<current_pos<<" type: "<<m_Stage_Object[current_pos]->GetCurrentType()<<endl;
     switch ( m_Stage_Object[current_pos]->GetCurrentType() ) {
+        case FLOWER_COMBINED_OBJECT:
+            MakeDisappearWithFlowerCombined( current_pos );
+        break;
+        case FLOWER_STRIPE_OBJECT:
+            MakeDisappearWithStripeFlower( current_pos );
+        break;
+        case STRIPE_COMBINED_OBJECT:
+            MakeDisappearWithStripeCombined( current_pos );
+        break;
         case STRIPE_OBJECT:
             MakeDisappearWithStripe( current_pos );
             break;
@@ -502,6 +514,126 @@ void StageObject::MakeDisappearWithStripe( int current_pos ) {
             j = m_Stage_Object[j]->GetInformationNeibor()[3];
         }
         if ( m_Stage_Object[i]->GetInformationNeibor()[0] == -1 && m_Stage_Object[j]->GetInformationNeibor()[3] == -1 )
+            break;
+    }
+}
+void StageObject::MakeDisappearWithFlowerCombined( int current_pos ) {
+    m_Stage_Object[current_pos]->DisAppear();
+    m_Stage_Object[current_pos]->SetAppearBool( false );
+    m_Stage_Object[current_pos]->SetCurrentType(1);
+    m_Stage_Object[current_pos]->SetBlockType(1);
+    cout << "FLOWER_COMBINED\n";
+
+    cout<<"flower position: "<<current_pos<<endl;
+    // int disap = 0;
+    for ( int i = 0 ; i < 6 ; ++i )
+    {
+        if (m_Stage_Object[current_pos]->GetInformationNeibor()[i] != -1)
+        {
+            MakeDisappearWithObject( m_Stage_Object[current_pos]->GetInformationNeibor()[i]  );
+            // cout<<"disappear no. : "<< m_Stage_Object[current_pos]->GetInformationNeibor()[i]<<endl;
+
+            for ( int j = 0 ; j < 6 ; ++j ) {
+                if (m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[i] ] ->GetInformationNeibor()[j] != -1)
+                {
+                    MakeDisappearWithObject( m_Stage_Object[current_pos]->GetInformationNeibor()[j]  );
+                    // cout<<"disappear no. : "<< m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[i] ] ->GetInformationNeibor()[j]<<endl;
+                }
+            }
+        }
+    }
+}
+
+void StageObject::MakeDisappearWithStripeFlower( int current_pos ) {
+    m_Stage_Object[current_pos]->DisAppear();
+    m_Stage_Object[current_pos]->SetAppearBool( false );
+    cout << "STRIPE_FLOWER\n";
+
+    // m_Stage_Object[current_pos]->GetCurrentType();
+    int extend_side = -1 ;
+    int side = -1 ;
+    if (m_Stage_Object[current_pos]->GetType() == STRIPE_OBJECT )
+    {
+        extend_side = 1 ;
+        side = 0 ;
+
+    }
+    else if (m_Stage_Object[current_pos]->GetType() == STRIPE_LEFT_RIGHT_OBJECT )
+    {
+        extend_side = 0 ;
+        side = 2 ;
+    }
+    else if (m_Stage_Object[current_pos]->GetType() == STRIPE_RIGHT_LEFT_OBJECT )
+    {
+        extend_side = 2 ;
+        side = 1 ;
+    }
+    // cout<<"extend_side: "<<extend_side<<" side: "<<side<<endl;
+    cout<<"extend_side no: "<<m_Stage_Object[current_pos]->GetInformationNeibor()[extend_side]<<"    "<<m_Stage_Object[current_pos]->GetInformationNeibor()[extend_side + 3]<<endl;
+    m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[extend_side] ]->DisAppear();
+    m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[extend_side] ]->SetAppearBool( false );
+    m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[extend_side + 3] ]->DisAppear();
+    m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[extend_side + 3] ]->SetAppearBool( false );
+
+    for ( int i = m_Stage_Object[current_pos]->GetInformationNeibor()[extend_side] , j = m_Stage_Object[current_pos]->GetInformationNeibor()[extend_side] ; ; ) {
+        if ( m_Stage_Object[i]->GetInformationNeibor()[side] != -1 ) {
+            MakeDisappearWithObject( m_Stage_Object[i]->GetInformationNeibor()[side] );
+            i = m_Stage_Object[i]->GetInformationNeibor()[side];
+        }
+        if ( m_Stage_Object[j]->GetInformationNeibor()[side + 3] != -1 ) {
+            MakeDisappearWithObject( m_Stage_Object[j]->GetInformationNeibor()[side + 3] );
+            j = m_Stage_Object[j]->GetInformationNeibor()[side + 3];
+        }
+        if ( m_Stage_Object[i]->GetInformationNeibor()[side] == -1 && m_Stage_Object[j]->GetInformationNeibor()[side + 3] == -1 )
+            break;
+    }
+
+    for ( int i = m_Stage_Object[current_pos]->GetInformationNeibor()[extend_side + 3] , j = m_Stage_Object[current_pos]->GetInformationNeibor()[extend_side + 3] ; ; ) {
+        if ( m_Stage_Object[i]->GetInformationNeibor()[side] != -1 ) {
+            MakeDisappearWithObject( m_Stage_Object[i]->GetInformationNeibor()[side] );
+            i = m_Stage_Object[i]->GetInformationNeibor()[side];
+        }
+        if ( m_Stage_Object[j]->GetInformationNeibor()[side + 3] != -1 ) {
+            MakeDisappearWithObject( m_Stage_Object[j]->GetInformationNeibor()[3] );
+            j = m_Stage_Object[j]->GetInformationNeibor()[side + 3];
+        }
+        if ( m_Stage_Object[i]->GetInformationNeibor()[side] == -1 && m_Stage_Object[j]->GetInformationNeibor()[side + 3] == -1 )
+            break;
+    }
+}
+
+void StageObject::MakeDisappearWithStripeCombined( int current_pos ) {
+    m_Stage_Object[current_pos]->DisAppear();
+    m_Stage_Object[current_pos]->SetAppearBool( false );
+    cout << "STRIPE_COMBINED\n";
+
+    int side = -1 ;
+    if (m_Stage_Object[current_pos]->GetType() == STRIPE_OBJECT )
+    {
+        side = 0 ;
+
+    }
+    else if (m_Stage_Object[current_pos]->GetType() == STRIPE_LEFT_RIGHT_OBJECT )
+    {
+        side = 2 ;
+    }
+    else if (m_Stage_Object[current_pos]->GetType() == STRIPE_RIGHT_LEFT_OBJECT )
+    {
+        side = 1 ;
+    }
+
+    cout<<"side: "<<side<<endl;
+
+    for ( int i = current_pos , j = current_pos ; ; ) {
+        if ( m_Stage_Object[i]->GetInformationNeibor()[side] != -1 ) {
+            MakeDisappearWithObject( m_Stage_Object[i]->GetInformationNeibor()[side] );
+            i = m_Stage_Object[i]->GetInformationNeibor()[side];
+        }
+        if ( m_Stage_Object[j]->GetInformationNeibor()[side+3] != -1 ) {
+            MakeDisappearWithObject( m_Stage_Object[j]->GetInformationNeibor()[side+3] );
+            j = m_Stage_Object[j]->GetInformationNeibor()[side+3];
+        }
+        if ( m_Stage_Object[i]->GetInformationNeibor()[side] == -1 && m_Stage_Object[j]->GetInformationNeibor()[side+3] == -1 )
             break;
     }
 }
@@ -616,8 +748,8 @@ void StageObject::MakeDisappearWithStarFlower( int current_pos ) {
     {
         if (m_Stage_Object[current_pos]->GetInformationNeibor()[i] != -1){
             MakeDisappearWithObject( m_Stage_Object[current_pos]->GetInformationNeibor()[i]  );
-        
-            if (m_Stage_Object[m_Stage_Object[current_pos]->GetInformationNeibor()[i]] ->GetInformationNeibor()[i] != -1)  
+
+            if (m_Stage_Object[m_Stage_Object[current_pos]->GetInformationNeibor()[i]] ->GetInformationNeibor()[i] != -1)
                 MakeDisappearWithObject( m_Stage_Object[m_Stage_Object[current_pos]->GetInformationNeibor()[i]] ->GetInformationNeibor()[i] );
 
         }
@@ -689,21 +821,19 @@ bool StageObject::DisappearMethodOfOneLine( int current_pos , int *total_length 
 }
 
 int StageObject::DisappearMethodOfStripe( int current_pos, int* total_length, int priority ) {
-
     for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
         // do not make true if it was checked
         if ( (total_length[i] + total_length[j] ) == 3 ) {
-    
             bool left_check = true ;
             bool right_check = true ;
-    
+
             //check all side appear
             if (total_length[i] > 0)
                 left_check = checkAppearanceOfObject( m_Stage_Object[current_pos]->GetInformationNeibor()[i], i, total_length[i]-1);
-    
+
             if (total_length[j] > 0)
                 right_check = checkAppearanceOfObject( m_Stage_Object[current_pos]->GetInformationNeibor()[j] , j, total_length[j]-1);
-    
+
             // check initial switch -> find switch side
             if (m_Stage_Object[current_pos]->GetSwitchedInfo() == 2 && priority == 2 && m_Stage_Object[current_pos]->GetAppearBool() == true  && left_check == true && right_check == true)
             {
@@ -713,10 +843,11 @@ int StageObject::DisappearMethodOfStripe( int current_pos, int* total_length, in
                     DisappearBySingleObject( m_Stage_Object[current_pos]->GetInformationNeibor()[i] , i, total_length[i]-1);
                 if (total_length[j] > 0)
                     DisappearBySingleObject( m_Stage_Object[current_pos]->GetInformationNeibor()[j] , j, total_length[j]-1);
-    
+
                 //find initial neighbor side
                 for ( int switch_side = 0  ; switch_side < 6 ; ++switch_side )
                 {
+
                     if ( m_Stage_Object[current_pos]->GetInformationNeibor()[switch_side] != -1) {
                         if (m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[switch_side] ]->GetSwitchedInfo() == 2 )
                         {
@@ -734,11 +865,11 @@ int StageObject::DisappearMethodOfStripe( int current_pos, int* total_length, in
                     DisappearBySingleObject( m_Stage_Object[current_pos]->GetInformationNeibor()[i], i, total_length[i]-1);
                 if (total_length[j] > 0)
                     DisappearBySingleObject( m_Stage_Object[current_pos]->GetInformationNeibor()[j], j, total_length[j]-1);
-    
+
                 cout << "Stripe" << endl;
                 return 0;
             }
-    
+
         }
     }
     return -1;
@@ -768,6 +899,7 @@ bool StageObject::DisappearMethodOfFlower( int current_pos, int* total_length ) 
     for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
         if ( i != check_side && j != check_side && check_side != -1 )
         {
+            // cout<<"i: "<<i<<" j: "<<j<<endl;
             bool left_check = true ;
             bool right_check = true ;
 
@@ -797,7 +929,7 @@ bool StageObject::DisappearMethodOfFlower( int current_pos, int* total_length ) 
 }
 
 bool StageObject::DisappearMethodOfStarFlower(  int current_pos, int* total_length ) {
- 
+
     bool cont_to_check = false ; //two side 2
     int check_sides = 0;
 
@@ -970,7 +1102,7 @@ bool StageObject::checkSwitchedAllInfoWithZero ( int i, int side, int length_lef
 int StageObject::CheckNextAppearance( int i, int side, int length ) {
     if (!m_Stage_Object[i] || m_Stage_Object[i]->GetInformationNeibor()[side] == -1 || !m_Stage_Object[ m_Stage_Object[i]->GetInformationNeibor()[side] ] )
         return length;
-    
+
     if ( IsSameColor(m_Stage_Object[i]->GetBlockType() ,  m_Stage_Object[ m_Stage_Object[i]->GetInformationNeibor()[side] ]->GetBlockType()) &&  m_Stage_Object[i]->GetInformationNeibor()[side] != -1 ){
         return CheckNextAppearance(  m_Stage_Object[i]->GetInformationNeibor()[side] , side, length + 1 ) ;
     }
@@ -985,14 +1117,14 @@ bool StageObject::IsSameColor(int blockType1, int blockType2) {
 void StageObject::SetUp() {
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
         if ( m_Stage_Object[i]->GetAppearBool() )
-        m_Stage_Object[i]->Appear(); 
+        m_Stage_Object[i]->Appear();
     }
     InitializeStageCharacter();
     CheckAppearance( 0 );
-    // m_Stage_Object[37]->SetImage( ORANGE_STARFLOWER_OBJECT );
+    // m_Stage_Object[37]->SetImage( RAINBOWBALL_OBJECT_LINK );
     // m_Stage_Object[37]->SetBlockType( NORMAL_OBJECT );
-    // m_Stage_Object[37]->SetCurrentType( STARFLOWER_OBJECT);
-    // m_Stage_Object[37]->SetBlock( ORANGE_OBJECT );
+    // m_Stage_Object[37]->SetCurrentType( RAINBOWBALL_OBJECT);
+    // m_Stage_Object[37]->SetBlock( 0 );
     // m_Stage_Object[37]->SetAppearBool( true );
     // m_Stage_Object[37]->SetGenerate( true );
 }
@@ -1001,19 +1133,61 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
     for ( int j = 0 ; j < 6 ; ++j ) {
         if( m_Stage_Object[i]->GetInformationNeibor()[j] == check ) {
             m_Stage_Object[i]->SetSwitched(2);
-            m_Stage_Object[i]->SetSwitched(2);
+            m_Stage_Object[check]->SetSwitched(2);
             std::cout<<"pos: "<<i<<"  "<<check<<std::endl;
+            // std::cout<<"type: "<<m_Stage_Object[i]->GetCurrentType()<<"  "<<m_Stage_Object[check]->GetCurrentType()<<std::endl;
             std::cout<<"set SetSwitched to 2"<<std::endl;
+
             m_Stage_Object[i]->SwitchPosition( m_Stage_Object[check] );
             std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[check];
             m_Stage_Object[check] = m_Stage_Object[i];
             m_Stage_Object[i] = NewObject;
-            if ( m_Stage_Object[check]->GetType() == RAINBOWBALL_OBJECT ) {
+            if ( m_Stage_Object[check]->GetCurrentType() == RAINBOWBALL_OBJECT ) {
                 m_Stage_Object[check]->SetBlock( m_Stage_Object[i]->GetBlockType() );
             }
-            if ( m_Stage_Object[i]->GetType() == RAINBOWBALL_OBJECT ) {
+            if ( m_Stage_Object[i]->GetCurrentType() == RAINBOWBALL_OBJECT ) {
                 m_Stage_Object[i]->SetBlock( m_Stage_Object[check]->GetBlockType() );
             }
+
+            // flower + flower
+            if ( m_Stage_Object[check]->GetCurrentType() >= FLOWER_OBJECT && m_Stage_Object[check]->GetCurrentType() <= TRIANGLEFLOWER_OBJECT && m_Stage_Object[i]->GetCurrentType() >= FLOWER_OBJECT && m_Stage_Object[i]->GetCurrentType() <= TRIANGLEFLOWER_OBJECT ) {
+                m_Stage_Object[i]->SetBlockType( m_Stage_Object[check]->GetCurrentType());
+                m_Stage_Object[check]->SetBlockType( m_Stage_Object[i]->GetCurrentType());
+                m_Stage_Object[i]->SetCurrentType( FLOWER_COMBINED_OBJECT );
+                m_Stage_Object[check]->SetCurrentType( FLOWER_COMBINED_OBJECT );
+                cout<<"find flower combined"<<endl;
+            }
+
+            //to be opt.
+            // flower + stripe 1
+            if ( m_Stage_Object[check]->GetCurrentType() >= STRIPE_OBJECT && m_Stage_Object[check]->GetCurrentType() <= STRIPE_RIGHT_LEFT_OBJECT &&  m_Stage_Object[i]->GetCurrentType() >= FLOWER_OBJECT && m_Stage_Object[i]->GetCurrentType() <= TRIANGLEFLOWER_OBJECT  ) {
+                m_Stage_Object[i]->SetBlockType( m_Stage_Object[check]->GetCurrentType());
+                m_Stage_Object[check]->SetBlockType( m_Stage_Object[i]->GetCurrentType());
+                m_Stage_Object[check]->SetCurrentType( FLOWER_STRIPE_OBJECT );
+                m_Stage_Object[i]->SetCurrentType( NORMAL_OBJECT );
+                cout<<"find flower stripe"<<endl;
+            }
+
+            //to be opt.
+            // flower + stripe 2
+            if ( m_Stage_Object[check]->GetCurrentType() >= FLOWER_OBJECT && m_Stage_Object[check]->GetCurrentType() <= TRIANGLEFLOWER_OBJECT &&  m_Stage_Object[i]->GetCurrentType() >= STRIPE_OBJECT && m_Stage_Object[i]->GetCurrentType() <= STRIPE_RIGHT_LEFT_OBJECT   ) {
+                m_Stage_Object[i]->SetBlockType( m_Stage_Object[i]->GetCurrentType());
+                m_Stage_Object[check]->SetBlockType( m_Stage_Object[i]->GetCurrentType());
+                m_Stage_Object[i]->SetCurrentType( FLOWER_STRIPE_OBJECT );
+                m_Stage_Object[check]->SetCurrentType( NORMAL_OBJECT );
+                cout<<"find flower stripe"<<endl;
+            }
+
+            //to be opt.
+            // stripe + stripe
+            if ( m_Stage_Object[check]->GetCurrentType() >= STRIPE_OBJECT && m_Stage_Object[check]->GetCurrentType() <= STRIPE_RIGHT_LEFT_OBJECT &&  m_Stage_Object[i]->GetCurrentType() >= STRIPE_OBJECT && m_Stage_Object[i]->GetCurrentType() <= STRIPE_RIGHT_LEFT_OBJECT   ) {
+                m_Stage_Object[i]->SetBlockType( m_Stage_Object[i]->GetCurrentType());
+                m_Stage_Object[check]->SetBlockType( m_Stage_Object[check]->GetCurrentType());
+                m_Stage_Object[check]->SetCurrentType( STRIPE_COMBINED_OBJECT );
+                m_Stage_Object[i]->SetCurrentType( STRIPE_COMBINED_OBJECT );
+                cout<<"find stripe combined"<<endl;
+            }
+
             if ( !CheckAppearance( 1 ) ) {
                 m_Stage_Object[i]->SwitchPosition( m_Stage_Object[check] );
                 std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[check];
