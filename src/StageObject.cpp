@@ -716,10 +716,13 @@ int StageObject::DisappearMethodOfStripe( int current_pos, int* total_length, in
                 //find initial neighbor side
                 for ( int switch_side = 0  ; switch_side < 6 ; ++switch_side )
                 {
-                    if (m_Stage_Object[current_pos]->GetInformationNeibor()[switch_side] != -1 && m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[switch_side] ]->GetSwitchedInfo() == 2 )
-                    {
-                        cout << "Stripe" << endl;
-                        return switch_side;
+
+                    if ( m_Stage_Object[current_pos]->GetInformationNeibor()[switch_side] != -1) {
+                        if (m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[switch_side] ]->GetSwitchedInfo() == 2 )
+                        {
+                            cout << "Stripe" << endl;
+                            return switch_side;
+                        }
                     }
                 }
             }
