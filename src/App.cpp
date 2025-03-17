@@ -66,7 +66,7 @@ void App::Update() {
             }
             break;
         case Phase::STAGE_1:
-            if (PhaseStage1( m_Root , m_Stage_Object, m_Stage_Object->GetSize() , m_Point_Show )){
+            if (PhaseStage1( m_Stage_Object, m_Stage_Object->GetSize() , m_Point_Show )){
                 m_PRM->NextPhase(PHASE_HOME_PAGE);
                 m_Phase = Phase::HOME_PAGE;
                 m_Stage_Buttom_1->SetVisible( true );
