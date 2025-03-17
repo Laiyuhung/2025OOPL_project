@@ -16,7 +16,7 @@
 // Declare of Phase Main Action
 bool PhaseInitialImage(std::shared_ptr<Character> &chara_obj);
 bool PhaseHomePage( std::shared_ptr<Character> &level1);
-bool PhaseStage1( Util::Renderer &root , std::shared_ptr<StageObject> StageObject , const int size , std::shared_ptr<TaskText> point);
+bool PhaseStage1( std::shared_ptr<StageObject> StageObject , const int size , std::shared_ptr<TaskText> point);
 void DebugPhaseStage1( std::shared_ptr<GameCharacter>* objectArray );
 
 // Declare of Debug Mode
