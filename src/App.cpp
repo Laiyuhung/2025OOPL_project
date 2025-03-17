@@ -9,6 +9,7 @@
 void App::Start() {
     LOG_TRACE("Start");
     InitializeStage1();
+    startTime = std::chrono::steady_clock::now();
 
     m_Start_initial = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/initailStartButton.png");
     m_Start_initial->SetPosition({0, -160.5f});
@@ -60,28 +61,37 @@ void App::Update() {
                 m_Point_Show->SetValue( 0 );
                 m_Point_Show->SetVisible( true );
                 m_Point_Show->UpdateText();
+                currentPhase = PHASE_NORMAL;
                 m_Phase = Phase::STAGE_1;
             }
             break;
         case Phase::STAGE_1:
-            if (PhaseStage1(m_Stage_Object, m_Stage_Object->GetSize() , m_Point_Show )){
+            if (PhaseStage1( m_Root , m_Stage_Object, m_Stage_Object->GetSize() , m_Point_Show )){
                 m_PRM->NextPhase(PHASE_HOME_PAGE);
                 m_Phase = Phase::HOME_PAGE;
                 m_Stage_Buttom_1->SetVisible( true );
                 m_Stage_Object->DisAppearAll();
                 m_Point_Show->SetVisible( false );
+            } 
+            else if ( currentPhase == PHASE_PAUSE_FOR_DISAPPEAR ) {
+                if ( (std::chrono::steady_clock::now() - startTime) >= std::chrono::seconds(1)) {
+                    currentPhase = PHASE_DROPPING;
+                }
+                m_Root.Update();
+            }
+            else if ( currentPhase == PHASE_DROPPING ) {
+                m_Stage_Object->Dropping();
             }
             break;
-    }
-    /*
-     * Do not touch the code below as they serve the purpose for
-     * closing the window.
-     */
+        }
+        /*
+        * Do not touch the code below as they serve the purpose for
+        * closing the window.
+        */
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
-        Util::Input::IfExit()) {
+    Util::Input::IfExit()) {
         m_CurrentState = State::END;
     }
-
     m_Root.Update();
 }
 

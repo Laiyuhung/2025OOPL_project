@@ -16,7 +16,8 @@ class GameCharacter : public Character {
 public:
     GameCharacter(const std::string& ImagePath);
 
-    virtual ~GameCharacter() = default; 
+    virtual ~GameCharacter() = default;
+
     void StartAnimationOnce() {
         AnimationInitail();
         std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->Play();
@@ -152,6 +153,8 @@ protected:
 
     void AnimationInitail() {
         std::vector<std::string> AnimationPaths;
+        AnimationPaths.push_back( this->m_ImagePath );
+        AnimationPaths.push_back( EMPTY_OBJECT );
         AnimationPaths.push_back( this->m_ImagePath );
         AnimationPaths.push_back( EMPTY_OBJECT );
         m_Drawable = std::make_shared<Util::Animation>(AnimationPaths, false, 500, false, 0);

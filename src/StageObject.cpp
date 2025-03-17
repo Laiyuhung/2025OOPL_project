@@ -8,7 +8,9 @@
 #include <random>
 #include <thread>
 #include <vector>
+#include <chrono>
 using namespace std;
+
 void StageObject::RandomChangeObject( int current_pos ) {
     static std::random_device rd;
     static std::mt19937 gen(rd());
@@ -74,6 +76,9 @@ void StageObject::InitializeStageCharacter() {
 }
 
 bool StageObject::CheckAppearance( int s ) {
+    if ( s != 0 && currentPhase != PHASE_NORMAL ) {
+        return false;
+    }
     bool cont_to_check = false;
     bool flag = false;
     int stripe_side;
@@ -96,12 +101,12 @@ bool StageObject::CheckAppearance( int s ) {
         if ( (m_Stage_Object[i]->GetCurrentType() == RAINBOWBALL_OBJECT  ) && m_Stage_Object[i]->GetSwitchedInfo() == MOVE_BY_SWITCH ) {
             m_Stage_Object[i]->SetAppearBool( false );
             MakeDisappear();
-            Dropping();
+            // Dropping();
             return true;
         }
         if ( ( m_Stage_Object[i]->GetCurrentType() == FLOWER_COMBINED_OBJECT ||  m_Stage_Object[i]->GetCurrentType() == FLOWER_STRIPE_OBJECT || m_Stage_Object[i]->GetCurrentType() == STRIPE_COMBINED_OBJECT) && m_Stage_Object[i]->GetSwitchedInfo() == MOVE_BY_SWITCH ) {
             m_Stage_Object[i]->SetAppearBool( false );
-            // MakeDisappear();
+            MakeDisappear();
             // Dropping();
         }
 
@@ -194,14 +199,15 @@ bool StageObject::CheckAppearance( int s ) {
     if ( flag ) {
         // DebugModeOfAppearance( m_Stage_Object , size);
         MakeDisappear();
-        Dropping();
+        if ( s == 0 )
+            Dropping();
     }
     //check need shuffle or not
     else
     {
-    if (CheckShuffleDemands()) {
-        InitializeStageCharacter();
-    }
+        if (CheckShuffleDemands()) {
+            InitializeStageCharacter();
+        }
     }
     return flag;
 }
@@ -383,6 +389,8 @@ void StageObject::CheckSpecialObject( int i ){
 }
 
 void StageObject::MakeDisappear() {
+    if ( m_Stage != 0 && currentPhase != PHASE_NORMAL )
+        return;
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
         m_Stage_Object[i]->SetSwitched(0);
         if ( m_Stage_Object[i]->GetVisibility() == false ) {
@@ -396,9 +404,6 @@ void StageObject::MakeDisappear() {
     }
 
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
-
-
-
         if ( m_Stage_Object[i]->GetType() != NORMAL_OBJECT && !m_Stage_Object[i]->GetAppearBool() ) {
             PointUpdate( GetPoint() + 1 );
             m_Stage_Object[i]->SetAppearBool(true);
@@ -420,9 +425,15 @@ void StageObject::MakeDisappear() {
         }
     }
     cout<<"score: "<< GetPoint() <<endl;
+
+    currentPhase = PHASE_PAUSE_FOR_DISAPPEAR;
+    startTime = std::chrono::steady_clock::now();
 }
 
 void StageObject::Dropping() {
+    if ( m_Stage != 0 && currentPhase != PHASE_DROPPING ) {
+        return;
+    }
     int loop_count = 0;
     for ( int i = 1 ; i < m_Size+1 ; ) {
         if ( loop_count > m_Size || !m_Stage_Object[i] ||  m_Stage_Object[i]->GetInformationNeibor()[0] == -1 || m_Stage_Object[i]->GetAppearBool() ) {
@@ -443,7 +454,7 @@ void StageObject::Dropping() {
     }
     if ( m_Stage != 0 )
         AppearAll();
-
+    currentPhase = PHASE_NORMAL;
     CheckAppearance( m_Stage );
 }
 

@@ -2,6 +2,8 @@
 #include "ObjectInformation.hpp"
 #include "TaskText.hpp"
 #include "Util/GameObject.hpp"
+#include <condition_variable>
+#include <mutex>
 #pragma once
 
 class StageObject : public Util::GameObject {
