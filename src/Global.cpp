@@ -2,6 +2,9 @@
 #include "App.hpp"
 #pragma once
 
+GamePhase currentPhase = PHASE_NORMAL;
+std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now();
+
 int is_click = 0;
 
 int stage_point_goal[13] = {

@@ -27,7 +27,7 @@ bool PhaseHomePage( std::shared_ptr<Character> &level1){
     return false;
 }
 
-bool PhaseStage1( std::shared_ptr<StageObject> StageObject , const int size , std::shared_ptr<TaskText> point) {
+bool PhaseStage1( Util::Renderer &root , std::shared_ptr<StageObject> StageObject , const int size , std::shared_ptr<TaskText> point) {
     std::shared_ptr<GameCharacter>* objectArray = StageObject->GetStageObject();
     for ( int i = 1 ; i < size+1 ; ++i ) {
         if ( objectArray[i]->IfClick() ) {
@@ -48,7 +48,7 @@ bool PhaseStage1( std::shared_ptr<StageObject> StageObject , const int size , st
             }
         }
     }
-    StageObject->AppearAll();
+    // StageObject->AppearAll();
     return stage_point_counter[1] >= stage_point_goal[1];
 }
 

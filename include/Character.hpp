@@ -7,6 +7,8 @@
 #include "Util/GameObject.hpp"
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
+#include "Util/Animation.hpp"
+#include "Util/Image.hpp"
 
 class Character : public Util::GameObject {
 public:

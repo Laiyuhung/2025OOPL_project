@@ -105,4 +105,16 @@ extern int stage_point_counter[13];
 
 void InitializeStage1();
 
+
+enum GamePhase {
+    PHASE_NORMAL,
+    PHASE_PAUSE_FOR_DISAPPEAR,
+    PHASE_DROPPING
+};
+
+extern GamePhase currentPhase;
+
+#include <chrono>
+extern std::chrono::steady_clock::time_point startTime;
+
 #endif // GLOBAL_HPP
