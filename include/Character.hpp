@@ -34,7 +34,30 @@ public:
 
     virtual void SetSize( glm::vec2 size ) { this->m_Size = size; }
 
-    // TODO: Implement the collision detection
+    void SetAnimationPath( const std::vector<std::string>& AnimationPaths ) {
+        m_Drawable = std::make_shared<Util::Animation>(AnimationPaths, false, 500, false, 0);
+    }
+
+    [[nodiscard]] bool IsLooping() const {
+        return std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->GetLooping();
+    }
+
+    [[nodiscard]] bool IsPlaying() const {
+        return std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->GetState() == Util::Animation::State::PLAY;
+    }
+    [[nodiscard]] std::shared_ptr<Util::Animation> GetDrawable() {
+        return std::dynamic_pointer_cast<Util::Animation>(m_Drawable);
+    }
+    void SetLooping(bool looping) {
+        auto temp = std::dynamic_pointer_cast<Util::Animation>(m_Drawable);
+        temp->SetLooping(looping);
+    }
+
+    [[nodiscard]] bool IfAnimationEnds() const {
+        auto animation = std::dynamic_pointer_cast<Util::Animation>(m_Drawable);
+        return animation->GetCurrentFrameIndex() == animation->GetFrameCount() - 1;
+    }
+
     [[nodiscard]] bool IfCollides(const std::shared_ptr<Character>& other) const {
         if (!other) return false;  
         glm::vec2 posA = GetPosition();

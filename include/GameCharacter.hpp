@@ -8,12 +8,20 @@
 #include "Character.hpp"
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
+#include "Util/Animation.hpp"
 
 class GameCharacter : public Character {
 public:
     GameCharacter(const std::string& ImagePath);
 
     virtual ~GameCharacter() = default; 
+
+    void StartAnimationOnce() {
+        std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->Play();
+        if ( IfAnimationEnds() ) {
+            std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->Pause();
+        }
+    }
 
     void Appear() {
         this->SetVisible(true);
