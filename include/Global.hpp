@@ -30,6 +30,8 @@
 #define FLOWER_STRIPE_OBJECT 10
 #define STRIPE_COMBINED_OBJECT 11
 
+#define EMPTY_OBJECT GA_RESOURCE_DIR"/Image/GameObject/emptyObject.png"
+
 #define BLUE_NORMAL_OBJECT GA_RESOURCE_DIR"/Image/GameObject/blueNormal.png"
 #define BROWN_NORMAL_OBJECT GA_RESOURCE_DIR"/Image/GameObject/brownNormal.png"
 #define GREEN_NORMAL_OBJECT GA_RESOURCE_DIR"/Image/GameObject/greenNormal.png" 

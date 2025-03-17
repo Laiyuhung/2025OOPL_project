@@ -4,6 +4,8 @@
 #include <string>
 #include <iostream>
 
+#include "Global.hpp"
+#include "pch.hpp"
 #include "ObjectInformation.hpp"
 #include "Character.hpp"
 #include "Util/Input.hpp"
@@ -15,12 +17,13 @@ public:
     GameCharacter(const std::string& ImagePath);
 
     virtual ~GameCharacter() = default; 
-
     void StartAnimationOnce() {
+        AnimationInitail();
         std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->Play();
         if ( IfAnimationEnds() ) {
             std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->Pause();
         }
+        SetImage( this->m_ImagePath );
     }
 
     void Appear() {
@@ -45,7 +48,7 @@ public:
         glm::vec2 NextPos = this->GetPosition();
         if (Util::Input::IsKeyDown(Util::Keycode::UP) )
             NextPos.y += Speed;
-        if (Util::Input::IsKeyDown(Util::Keycode::DOWN) )
+            if (Util::Input::IsKeyDown(Util::Keycode::DOWN) )
             NextPos.y -= Speed;
         if (Util::Input::IsKeyDown(Util::Keycode::LEFT) )
             NextPos.x -= Speed;
@@ -67,13 +70,13 @@ public:
     int GetType() { return this->m_BlockType; }
 
     int GetCurrentType() { return this->m_CurrentType; }
-
+    
     int GetBlockType() { return this->m_Block; }
-
+    
     bool GetAppearBool() { return this->m_Appear; }
     
     glm::vec2 GetInformationPosition() { return (this->m_information).GetPosition(); }
-
+    
     bool GetClick() {
         return this->m_Click;
     }
@@ -81,7 +84,7 @@ public:
     {
         return this->m_Switched;
     }
-
+    
     bool GetGenerate() {
         return this->m_Generate;
     }
@@ -129,7 +132,7 @@ public:
     void SetBlockType(int block_type) {
         this->m_BlockType = block_type;
     }
-
+    
     void SetAppearBool( bool flag ) {
         this->m_Appear = flag;
     }
@@ -137,7 +140,7 @@ public:
     void SetClick( bool flag ) {
         this->m_Click = flag;
     }
-
+    
     void SetGenerate( bool flag ) {
         this->m_Generate = flag;
     }
@@ -147,6 +150,12 @@ protected:
         m_Transform.translation = {0, 0}; 
     }
 
+    void AnimationInitail() {
+        std::vector<std::string> AnimationPaths;
+        AnimationPaths.push_back( this->m_ImagePath );
+        AnimationPaths.push_back( EMPTY_OBJECT );
+        m_Drawable = std::make_shared<Util::Animation>(AnimationPaths, false, 500, false, 0);
+    }
     int m_Block = -1 ;
     int m_Switched = 0;
     glm::vec2 m_Size = { 50.0f, 100.0f };

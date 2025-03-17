@@ -22,7 +22,7 @@ void App::Start() {
     m_Root.AddChild( m_Stage_Buttom_1 );
 
     for ( int i = 1 ; i < 38 ; ++i ) { 
-        m_Stage_1_Object[i] = std::make_shared<GameCharacter>( BLUE_NORMAL_OBJECT);
+        m_Stage_1_Object[i] = std::make_shared<GameCharacter>( BLUE_NORMAL_OBJECT );
         m_Stage_1_Object[i]->SetVisible( false );
         m_Root.AddChild( m_Stage_1_Object[i] );
     }
