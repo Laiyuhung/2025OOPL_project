@@ -1220,7 +1220,7 @@ bool StageObject::IsSameColor(int blockType1, int blockType2) {
 void StageObject::SetUp( int stage ) {
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
         if ( m_Stage_Object[i]->GetAppearBool() )
-        m_Stage_Object[i]->Appear();
+            m_Stage_Object[i]->Appear();
     }
     InitializeStageCharacter( stage );
     CheckAppearance( 0 );
@@ -1299,7 +1299,7 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
                 m_Stage_Object[check] = m_Stage_Object[i];
                 m_Stage_Object[i] = NewObject;
             }
-            point->SetValue( stage_point_counter[1] );
+            point->SetValue( stage_point_counter[m_Stage] );
             point->UpdateText();
             break;
         }
