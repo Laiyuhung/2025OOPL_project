@@ -76,3 +76,25 @@ void InitializeStage1() {
         stage1[i].SetStage(1);
     }
 }
+
+
+glm::vec2 stage2_position[46] = {
+    { -100000, -100000},
+    // 加剩下的進來
+};
+
+
+int stage2_neibor[46][6] = { //clockwise
+    { -1 , -1 , -1 , -1 , -1 , -1 },
+    // 一樣
+};
+
+Objectinformation stage2[46];
+void InitializeStage2() {
+    for ( int i = 0 ; i < 46 ; ++i ) {
+        stage2[i].SetNeibor( stage2_neibor[i] );
+        stage2[i].SetPosNumber( i );
+        stage2[i].SetPosition( stage2_position[i] );
+        stage2[i].SetStage(1);
+    }
+}

@@ -53,7 +53,7 @@ void StageObject::RandomChangeObject( int current_pos ) {
     }
 }
 
-void StageObject::InitializeStageCharacter() {
+void StageObject::InitializeStageCharacter( int s ) {
     static std::random_device rd;
     static std::mt19937 gen(rd());
     std::uniform_int_distribution<int> distrib(1, 7);
@@ -64,14 +64,26 @@ void StageObject::InitializeStageCharacter() {
             }
         }
         RandomChangeObject( i );
-        m_Stage_Object[i]->SetInformation( stage1[i] );
-        m_Stage_Object[i]->SetPosition( stage1_position[i] );
-        m_Stage_Object[i]->SetZIndex(10);
-        m_Stage_Object[i]->SetSize( {20, 25} );
-        m_Stage_Object[i]->DisAppear();
-        m_Stage_Object[i]->SetAppearBool( true );
-        m_Stage_Object[i]->SetBlockType( NORMAL_OBJECT );
-        m_Stage_Object[i]->SetCurrentType( NORMAL_OBJECT );
+        if ( s == 1 ) {
+            m_Stage_Object[i]->SetInformation( stage1[i] );
+            m_Stage_Object[i]->SetPosition( stage1_position[i] );
+            m_Stage_Object[i]->SetZIndex(10);
+            m_Stage_Object[i]->SetSize( {20, 25} );
+            m_Stage_Object[i]->DisAppear();
+            m_Stage_Object[i]->SetAppearBool( true );
+            m_Stage_Object[i]->SetBlockType( NORMAL_OBJECT );
+            m_Stage_Object[i]->SetCurrentType( NORMAL_OBJECT );
+        } 
+        // else if ( s == 2 ) {
+        //     m_Stage_Object[i]->SetInformation( stage2[i] );
+        //     m_Stage_Object[i]->SetPosition( stage2_position[i] );
+        //     m_Stage_Object[i]->SetZIndex(10);
+        //     m_Stage_Object[i]->SetSize( {20, 25} );
+        //     m_Stage_Object[i]->DisAppear();
+        //     m_Stage_Object[i]->SetAppearBool( true );
+        //     m_Stage_Object[i]->SetBlockType( NORMAL_OBJECT );
+        //     m_Stage_Object[i]->SetCurrentType( NORMAL_OBJECT );
+        // }
     }
 }
 
@@ -206,7 +218,7 @@ bool StageObject::CheckAppearance( int s ) {
     else
     {
         if (CheckShuffleDemands()) {
-            InitializeStageCharacter();
+            InitializeStageCharacter( m_Stage );
         }
     }
     return flag;
@@ -1205,12 +1217,12 @@ bool StageObject::IsSameColor(int blockType1, int blockType2) {
     return (blockType1 % 10) == (blockType2 % 10);
 }
 
-void StageObject::SetUp() {
+void StageObject::SetUp( int stage ) {
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
         if ( m_Stage_Object[i]->GetAppearBool() )
         m_Stage_Object[i]->Appear();
     }
-    InitializeStageCharacter();
+    InitializeStageCharacter( stage );
     CheckAppearance( 0 );
     // m_Stage_Object[37]->SetImage( RAINBOWBALL_OBJECT_LINK );
     // m_Stage_Object[37]->SetBlockType( NORMAL_OBJECT );

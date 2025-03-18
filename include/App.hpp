@@ -17,6 +17,7 @@
 bool PhaseInitialImage(std::shared_ptr<Character> &chara_obj);
 bool PhaseHomePage( std::shared_ptr<Character> &level1);
 bool PhaseStage1( std::shared_ptr<StageObject> StageObject , const int size , std::shared_ptr<TaskText> point);
+bool PhaseStage2( std::shared_ptr<StageObject> StageObject , const int size , std::shared_ptr<TaskText> point);
 void DebugPhaseStage1( std::shared_ptr<GameCharacter>* objectArray );
 
 // Declare of Debug Mode
@@ -50,6 +51,7 @@ private:
         INITIAL_IMAGE = 1,
         HOME_PAGE = 2 ,
         STAGE_1 = 3 ,
+        STAGE_2 = 4 ,
     };
 
 
@@ -59,12 +61,16 @@ private:
     Util::Renderer m_Root;
 
     std::shared_ptr<Character> m_Start_initial;
+
     std::shared_ptr<Character> m_Stage_Buttom_1;
+    std::shared_ptr<Character> m_Stage_Buttom_2;
 
     std::shared_ptr<GameCharacter> m_Normal_Game_Object[7];
 
     std::shared_ptr<GameCharacter> m_Stage_1_Object[38];
-    std::shared_ptr<StageObject> m_Stage_Object;
+    std::shared_ptr<GameCharacter> m_Stage_2_Object[46];
+
+    std::shared_ptr<StageObject> m_Stage_Object[13];
     // std::shared_ptr<Character> m_Chest;
     // std::vector<std::shared_ptr<Character>> m_Doors;
 
