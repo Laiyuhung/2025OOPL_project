@@ -112,7 +112,7 @@ extern int stage_point_goal[13];
 extern int stage_point_counter[13];
 
 void InitializeStage1();
-
+void InitializeStage2();
 
 enum GamePhase {
     PHASE_NORMAL,
