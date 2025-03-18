@@ -43,7 +43,7 @@ void App::Start() {
         m_Stage_2_Object[i]->SetVisible( false );
         m_Root.AddChild( m_Stage_2_Object[i] );
     }
-    m_Stage_Object[2] = std::make_shared<StageObject>( 46 , m_Stage_2_Object );
+    m_Stage_Object[2] = std::make_shared<StageObject>( 45 , m_Stage_2_Object );
     m_Stage_Object[2]->SetStage( 0 );
     m_Root.AddChild( m_Stage_Object[2] );
 
@@ -115,6 +115,8 @@ void App::Update() {
             }
             else if ( currentPhase == PHASE_DROPPING ) {
                 m_Stage_Object[1]->Dropping();
+                m_Point_Show->SetValue( stage_point_counter[1] );
+                m_Point_Show->UpdateText();
             }
             break;
         case Phase::STAGE_2:
@@ -134,6 +136,8 @@ void App::Update() {
             }
             else if ( currentPhase == PHASE_DROPPING ) {
                 m_Stage_Object[2]->Dropping();
+                m_Point_Show->SetValue( stage_point_counter[2] );
+                m_Point_Show->UpdateText();
             }
             break;
         }
