@@ -9,7 +9,7 @@
 void App::Start() {
     LOG_TRACE("Start");
     InitializeStage1();
-    // InitializeStage2();
+    InitializeStage2();
     startTime = std::chrono::steady_clock::now();
 
     m_Start_initial = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/initailStartButton.png");
