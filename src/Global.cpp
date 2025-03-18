@@ -96,6 +96,9 @@ int stage2_neibor[46][6] = { //clockwise
     // 一樣
 };
 
+#include <memory>
+
+
 Objectinformation stage2[46];
 void InitializeStage2() {
     for ( int i = 0 ; i < 46 ; ++i ) {
