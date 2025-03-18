@@ -5,6 +5,7 @@
 #define PHASE_INITIAL_IMAGE 1
 #define PHASE_HOME_PAGE 2
 #define PHASE_STAGE_1 3
+#define PHASE_STAGE_2 4
 
 #define NO_MOVE 0
 #define MOVE_BY_DROP 1
@@ -99,6 +100,13 @@
 extern glm::vec2 stage1_position[38];
 extern int stage1_neibor[38][6];
 extern Objectinformation stage1[38];
+
+extern glm::vec2 stage2_position[46];
+extern int stage2_neibor[46][6];
+extern Objectinformation stage2[46];
+
+
+
 extern int is_click;
 extern int stage_point_goal[13];
 extern int stage_point_counter[13];

@@ -27,8 +27,8 @@ class StageObject : public Util::GameObject {
         }
 
         virtual ~StageObject() = default;
-        void SetUp();
-        void InitializeStageCharacter();
+        void SetUp( int stage );
+        void InitializeStageCharacter( int s );
         bool CheckAppearance( int s );
         void CheckSpecialObject( int i );
         void MakeDisappear();
