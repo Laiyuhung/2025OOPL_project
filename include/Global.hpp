@@ -108,6 +108,7 @@ extern Objectinformation stage2[46];
 
 
 extern int is_click;
+// extern glm::vec2 point_position[13];
 extern int stage_point_goal[13];
 extern int stage_point_counter[13];
 

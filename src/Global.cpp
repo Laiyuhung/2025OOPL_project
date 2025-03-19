@@ -8,7 +8,7 @@ std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now
 int is_click = 0;
 
 int stage_point_goal[13] = {
-    0, 1000, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40
+    0, 1000, 1000, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40
 };
 
 int stage_point_counter[13] = {0};
