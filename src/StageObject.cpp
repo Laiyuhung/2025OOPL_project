@@ -113,6 +113,9 @@ bool StageObject::CheckAppearance( int s ) {
         if ( (m_Stage_Object[i]->GetCurrentType() == RAINBOWBALL_OBJECT  ) && m_Stage_Object[i]->GetSwitchedInfo() == MOVE_BY_SWITCH ) {
             m_Stage_Object[i]->SetAppearBool( false );
             MakeDisappear();
+            for ( int j = 1 ; j < m_Size+1 ; ++j ) {
+                m_Stage_Object[j]->SetSwitched( NO_MOVE );
+            }
             // Dropping();
             return true;
         }
@@ -137,6 +140,11 @@ bool StageObject::CheckAppearance( int s ) {
     {
         if ( DisappearMethodOfRainbowBall(i , total_length[i].data(), 2 ) ) {
             m_Stage_Object[i]->SetBlockType( RAINBOWBALL_OBJECT );
+            cout << "Rainbow information for generating\n";
+            cout << m_Stage_Object[i]->GetCurrentType() << endl;
+            cout << m_Stage_Object[i]->GetType() << endl;
+            cout << m_Stage_Object[i]->GetBlockType() << endl;
+            cout << m_Stage_Object[i]->GetGenerate() << endl;
         }
     }
 
@@ -203,10 +211,14 @@ bool StageObject::CheckAppearance( int s ) {
             m_Stage_Object[i]->SetBlockType( NORMAL_OBJECT );
     }
 
+    for ( int i = 1 ; i < m_Size+1 ; ++i ) {
+        m_Stage_Object[i]->SetSwitched( NO_MOVE );
+    }
 
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
         if( !m_Stage_Object[i] ) continue;
-        if( !m_Stage_Object[i]->GetAppearBool() ) flag = true;
+        if( !m_Stage_Object[i]->GetAppearBool() ) 
+            flag = true;
     }
 
     if ( flag ) {
@@ -224,7 +236,7 @@ bool StageObject::CheckAppearance( int s ) {
         if (CheckShuffleDemands()) {
             InitializeStageCharacter( m_Stage );
         }
-    }
+    }                                                                                                                                                  
     return flag;
 }
 
@@ -1121,11 +1133,15 @@ bool StageObject::DisappearMethodOfTriangleFlower( int current_pos , int* total_
 
 bool StageObject::DisappearMethodOfRainbowBall(  int current_pos, int* total_length, int priority ) {
     bool cont_to_check = false ;
+    bool left_check;
+    bool right_check;
     for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
         if ( (total_length[i] + total_length[j] ) >= 4 ) {
 
-            bool left_check = checkAppearanceOfObject( m_Stage_Object[current_pos]->GetInformationNeibor()[i], i, total_length[i]-1);
-            bool right_check = checkAppearanceOfObject( m_Stage_Object[current_pos]->GetInformationNeibor()[j], j, total_length[j]-1);
+            if ( total_length[i] > 0 )
+                left_check = checkAppearanceOfObject( m_Stage_Object[current_pos]->GetInformationNeibor()[i], i, total_length[i]-1);
+            if ( total_length[j] > 0 )
+                right_check = checkAppearanceOfObject( m_Stage_Object[current_pos]->GetInformationNeibor()[j], j, total_length[j]-1);
 
             if (m_Stage_Object[current_pos]->GetSwitchedInfo() == priority && m_Stage_Object[current_pos]->GetAppearBool() == true && left_check == true && right_check == true)
             {
@@ -1448,7 +1464,7 @@ bool StageObject::CheckSpecialBlocksNeighbor() {
                 if (m_Stage_Object[current_pos]->GetInformationNeibor()[j] != -1) {
 
                     if ( m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[j] ]->GetCurrentType() >= STRIPE_OBJECT && m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[j] ]->GetCurrentType() <= TRIANGLEFLOWER_OBJECT) {
-                        return false;
+                        return true;
                     }
                 }
 
