@@ -7,6 +7,23 @@ std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now
 
 int is_click = 0;
 
+glm::vec2 stage_position[13] = {
+    {-100000, -100000},
+    {-64.5, 87.5f},
+    {0, 87.5f},
+    {-64.5, 87.5f},
+    {-64.5, 37.5f},
+    {0, 37.5f},
+    {-64.5, 37.5f},
+    {-64.5, -27.5f},
+    {0, -27.5f},
+    {-64.5, -27.5f},
+    {-64.5, -57.5f},
+    {0, 87.5f},
+    {-64.5, -57.5f},
+};
+
+
 glm::vec2 point_position[13] = {
     {-100000, -100000},
     { 125 , 210 },

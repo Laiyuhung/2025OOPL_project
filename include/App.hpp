@@ -43,6 +43,16 @@ public:
 
     void End(); // NOLINT(readability-convert-member-functions-to-static)
 
+    void SetUpStage() {
+        m_Stage_Buttom_1->SetVisible( false );
+        m_Stage_Buttom_2->SetVisible( false );
+        m_Play_Buttom->SetVisible( false );
+        m_Cancel_Buttom->SetVisible( false );
+        m_Pause_Buttom->SetVisible( true );
+        m_Point_Show->SetValue( 0 );
+        m_Point_Show->SetVisible( true );
+    }
+
     void SetStage( int i ) {
         m_stage_pos = i;
     }

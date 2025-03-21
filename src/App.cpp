@@ -147,20 +147,14 @@ void App::Update() {
             }
             if ( m_Play_Buttom->GetVisibility() ) {
                 if ( m_Play_Buttom->IfClick() ) {
+                    SetUpStage();
                     if ( m_stage_pos == 1  ) {
                         std::cout << "Level1 Character clicked!" << std::endl;
-                        m_Stage_Buttom_1->SetVisible( false );
-                        m_Stage_Buttom_2->SetVisible( false );
-                        m_Play_Buttom->SetVisible( false );
-                        m_Cancel_Buttom->SetVisible( false );
                         m_Play_Page[1]->SetVisible( false );
-                        m_Pause_Buttom->SetVisible( true );
                         m_PRM->NextPhase(PHASE_STAGE_1);
                         m_Stage_Object[1]->SetUp( 1 );
                         m_Stage_Object[1]->AppearAll();
                         m_Stage_Object[1]->SetStage( 1 );
-                        m_Point_Show->SetValue( 0 );
-                        m_Point_Show->SetVisible( true );
                         m_Point_Show->SetPosition( point_position[1] );
                         m_Point_Show->UpdateText();
                         currentPhase = PHASE_NORMAL;
@@ -168,19 +162,12 @@ void App::Update() {
                     }
                     if ( m_stage_pos == 2  ) {
                         std::cout << "Level2 Character clicked!" << std::endl;
-                        m_Stage_Buttom_1->SetVisible( false );
-                        m_Stage_Buttom_2->SetVisible( false );
-                        m_Play_Buttom->SetVisible( false );
-                        m_Cancel_Buttom->SetVisible( false );
                         m_Play_Page[2]->SetVisible( false );
-                        m_Pause_Buttom->SetVisible( true );
                         m_PRM->NextPhase(PHASE_STAGE_2);
                         m_Stage_Object[2]->SetUp( 2 );
                         m_Stage_Object[2]->AppearAll();
                         m_Stage_Object[2]->SetStage( 2 );
                         m_Point_Show->SetPosition( point_position[2] );
-                        m_Point_Show->SetValue( 0 );
-                        m_Point_Show->SetVisible( true );
                         m_Point_Show->UpdateText();
                         currentPhase = PHASE_NORMAL;
                         m_Phase = Phase::STAGE_2;
