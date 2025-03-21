@@ -36,13 +36,20 @@ public:
     };
 
     State GetCurrentState() const { return m_CurrentState; }
-
+    
     void Start();
 
     void Update();
 
     void End(); // NOLINT(readability-convert-member-functions-to-static)
 
+    void SetStage( int i ) {
+        m_stage_pos = i;
+    }
+
+    int GetStage() {
+        return m_stage_pos;
+    }
 private:
     void ValidTask();
 
@@ -61,7 +68,10 @@ private:
     Util::Renderer m_Root;
 
     std::shared_ptr<Character> m_Start_initial;
-
+    std::shared_ptr<Character> m_Play_Buttom;
+    std::shared_ptr<Character> m_Cancel_Buttom;
+    std::shared_ptr<Character> m_Pause_Buttom;
+    
     std::shared_ptr<Character> m_Stage_Buttom_1;
     std::shared_ptr<Character> m_Stage_Buttom_2;
 
@@ -71,6 +81,13 @@ private:
     std::shared_ptr<GameCharacter> m_Stage_2_Object[46];
 
     std::shared_ptr<StageObject> m_Stage_Object[13];
+    
+    std::shared_ptr<Character> m_Play_Page[13];
+    std::shared_ptr<Character> m_finish_Page[13];
+    std::shared_ptr<Character> m_Pause_Page;
+    std::shared_ptr<Character> m_Continue_Buttom;
+    std::shared_ptr<Character> m_Stop_Buttom;
+    
     // std::shared_ptr<Character> m_Chest;
     // std::vector<std::shared_ptr<Character>> m_Doors;
 
@@ -79,7 +96,7 @@ private:
     std::shared_ptr<TaskText> m_Point_Show;
 
     std::shared_ptr<PhaseResourceManager> m_PRM;
-
+    int m_stage_pos = 0;
     bool m_EnterDown = false; 
 };
 

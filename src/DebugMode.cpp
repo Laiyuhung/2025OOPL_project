@@ -18,7 +18,7 @@ void DebugModeOfAppearance( std::shared_ptr<GameCharacter>* objectArray , int si
 }
 void DebugModeOfPosition( std::shared_ptr<GameCharacter>* objectArray , int option) {
     objectArray[option]->Appear();
-    objectArray[option]->DebugMode(10);
+    objectArray[option]->DebugMode(2.5);
 }
 
 void DebugModeCancel( std::shared_ptr<GameCharacter>* objectArray , int option) {
