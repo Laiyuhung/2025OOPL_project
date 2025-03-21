@@ -10,12 +10,13 @@
 #include "ObjectInformation.hpp"
 #include "TaskText.hpp"
 #include "StageObject.hpp"
+#include "JumpPage.hpp"
 
 // #include "AnimatedCharacter.hpp"
 
 // Declare of Phase Main Action
 bool PhaseInitialImage(std::shared_ptr<Character> &chara_obj);
-bool PhaseHomePage( std::shared_ptr<Character> &level1);
+int  PhaseHomePage( std::shared_ptr<Character>* buttoms );
 bool PhaseStage1( std::shared_ptr<StageObject> StageObject , const int size , std::shared_ptr<TaskText> point);
 bool PhaseStage2( std::shared_ptr<StageObject> StageObject , const int size , std::shared_ptr<TaskText> point);
 void DebugPhaseStage1( std::shared_ptr<GameCharacter>* objectArray );
@@ -44,13 +45,27 @@ public:
     void End(); // NOLINT(readability-convert-member-functions-to-static)
 
     void SetUpStage() {
-        m_Stage_Buttom_1->SetVisible( false );
-        m_Stage_Buttom_2->SetVisible( false );
-        m_Play_Buttom->SetVisible( false );
-        m_Cancel_Buttom->SetVisible( false );
-        m_Pause_Buttom->SetVisible( true );
+        for ( int i = 1 ; i < 13 ; ++i ) {
+            m_Stage_Buttoms[i]->SetVisible( false );
+        }
+        m_Jump_Page->AllDisappear();
         m_Point_Show->SetValue( 0 );
         m_Point_Show->SetVisible( true );
+    }
+
+    void AppearHomePage() {
+        for ( int i = 1 ; i < 13 ; ++i ) {
+            if ( ifClear[i] ) {
+                m_Stage_Buttoms[i]->SetImage( ClearStageList[i] );
+            }
+            else if ( ifClear[i-1] ) {
+                m_Stage_Buttoms[i]->SetImage( CurrentStageList[i] );
+            }
+            else {
+                m_Stage_Buttoms[i]->SetImage( LevelStageList[i] );
+            }
+            m_Stage_Buttoms[i]->SetVisible( true );
+        }
     }
 
     void SetStage( int i ) {
@@ -78,12 +93,8 @@ private:
     Util::Renderer m_Root;
 
     std::shared_ptr<Character> m_Start_initial;
-    std::shared_ptr<Character> m_Play_Buttom;
-    std::shared_ptr<Character> m_Cancel_Buttom;
-    std::shared_ptr<Character> m_Pause_Buttom;
+    std::shared_ptr<Character> m_Stage_Buttoms[13];
     
-    std::shared_ptr<Character> m_Stage_Buttom_1;
-    std::shared_ptr<Character> m_Stage_Buttom_2;
 
     std::shared_ptr<GameCharacter> m_Normal_Game_Object[7];
 
@@ -91,12 +102,8 @@ private:
     std::shared_ptr<GameCharacter> m_Stage_2_Object[46];
 
     std::shared_ptr<StageObject> m_Stage_Object[13];
-    
-    std::shared_ptr<Character> m_Play_Page[13];
-    std::shared_ptr<Character> m_finish_Page[13];
-    std::shared_ptr<Character> m_Pause_Page;
-    std::shared_ptr<Character> m_Continue_Buttom;
-    std::shared_ptr<Character> m_Stop_Buttom;
+
+    std::shared_ptr<JumpPage> m_Jump_Page;
     
     // std::shared_ptr<Character> m_Chest;
     // std::vector<std::shared_ptr<Character>> m_Doors;

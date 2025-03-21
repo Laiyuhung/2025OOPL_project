@@ -15,16 +15,12 @@ bool PhaseInitialImage( std::shared_ptr<Character> & chara_obj ){
     }
     return false;
 }
-bool PhaseHomePage( std::shared_ptr<Character> &level1){
-    if ( level1->GetVisibility() == true ){
-        if (level1->IfClick()) { 
-            stage_point_counter[1] = 0;
-            printf( "test\n" );
-            level1->SetVisible( false );
-            return true; 
-        }
-    } 
-    return false;
+int PhaseHomePage( std::shared_ptr<Character> *buttom){
+    for ( int i = 1 ; i < 13 ; ++i ) {
+        if( buttom[i]->IfClick() )
+            return i;
+    }
+    return 0;
 }
 
 bool PhaseStage1( std::shared_ptr<StageObject> StageObject , const int size , std::shared_ptr<TaskText> point) {

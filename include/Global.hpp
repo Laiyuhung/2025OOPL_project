@@ -7,6 +7,11 @@
 #define PHASE_STAGE_1 3
 #define PHASE_STAGE_2 4
 
+#define JUMP_PLAY 1
+#define JUMP_END 2
+#define JUMP_PAUSE 3
+
+
 #define NO_MOVE 0
 #define MOVE_BY_DROP 1
 #define MOVE_BY_SWITCH 2
@@ -90,12 +95,53 @@
 #define YELLOW_TRIANGLEFLOWER_OBJECT GA_RESOURCE_DIR"/Image/GameObject/yellowTriangleFlower.png"
 
 #define RAINBOWBALL_OBJECT_LINK GA_RESOURCE_DIR"/Image/GameObject/rainbowBall.png"
+#define LEVEL_ONE_IMAGE GA_RESOURCE_DIR"/Image/GameObject/levelOne.png"
+#define LEVEL_TWO_IMAGE GA_RESOURCE_DIR"/Image/GameObject/levelTwo.png"
+#define LEVEL_THREE_IMAGE GA_RESOURCE_DIR"/Image/GameObject/levelThree.png"
+#define LEVEL_FOUR_IMAGE GA_RESOURCE_DIR"/Image/GameObject/levelFour.png"
+#define LEVEL_FIVE_IMAGE GA_RESOURCE_DIR"/Image/GameObject/levelFive.png"
+#define LEVEL_SIX_IMAGE GA_RESOURCE_DIR"/Image/GameObject/levelSix.png"
+#define LEVEL_SEVEN_IMAGE GA_RESOURCE_DIR"/Image/GameObject/levelSeven.png"
+#define LEVEL_EIGHT_IMAGE GA_RESOURCE_DIR"/Image/GameObject/levelEight.png"
+#define LEVEL_NINE_IMAGE GA_RESOURCE_DIR"/Image/GameObject/levelNine.png"
+#define LEVEL_TEN_IMAGE GA_RESOURCE_DIR"/Image/GameObject/levelTen.png"
+#define LEVEL_ELEVEN_IMAGE GA_RESOURCE_DIR"/Image/GameObject/levelEleven.png"
+#define LEVEL_TWELVE_IMAGE GA_RESOURCE_DIR"/Image/GameObject/levelTwelve.png"
+
+#define LEVEL_ONE_CLEAR GA_RESOURCE_DIR"/Image/GameObject/levelClearOne.png"
+#define LEVEL_TWO_CLEAR GA_RESOURCE_DIR"/Image/GameObject/levelClearTwo.png"
+#define LEVEL_THREE_CLEAR GA_RESOURCE_DIR"/Image/GameObject/levelClearThree.png"
+#define LEVEL_FOUR_CLEAR GA_RESOURCE_DIR"/Image/GameObject/levelClearFour.png"
+#define LEVEL_FIVE_CLEAR GA_RESOURCE_DIR"/Image/GameObject/levelClearFive.png"
+#define LEVEL_SIX_CLEAR GA_RESOURCE_DIR"/Image/GameObject/levelClearSix.png"
+#define LEVEL_SEVEN_CLEAR GA_RESOURCE_DIR"/Image/GameObject/levelClearSeven.png"
+#define LEVEL_EIGHT_CLEAR GA_RESOURCE_DIR"/Image/GameObject/levelClearEight.png"
+#define LEVEL_NINE_CLEAR GA_RESOURCE_DIR"/Image/GameObject/levelClearNine.png"
+#define LEVEL_TEN_CLEAR GA_RESOURCE_DIR"/Image/GameObject/levelClearTen.png"
+#define LEVEL_ELEVEN_CLEAR GA_RESOURCE_DIR"/Image/GameObject/levelClearEleven.png"
+#define LEVEL_TWELVE_CLEAR GA_RESOURCE_DIR"/Image/GameObject/levelClearTwelve.png"
+
+#define LEVEL_ONE_CURRENT GA_RESOURCE_DIR"/Image/GameObject/levelCurrentOne.png"
+#define LEVEL_TWO_CURRENT GA_RESOURCE_DIR"/Image/GameObject/levelCurrentTwo.png"
+#define LEVEL_THREE_CURRENT GA_RESOURCE_DIR"/Image/GameObject/levelCurrentThree.png"
+#define LEVEL_FOUR_CURRENT GA_RESOURCE_DIR"/Image/GameObject/levelCurrentFour.png"
+#define LEVEL_FIVE_CURRENT GA_RESOURCE_DIR"/Image/GameObject/levelCurrentFive.png"
+#define LEVEL_SIX_CURRENT GA_RESOURCE_DIR"/Image/GameObject/levelCurrentSix.png"
+#define LEVEL_SEVEN_CURRENT GA_RESOURCE_DIR"/Image/GameObject/levelCurrentSeven.png"
+#define LEVEL_EIGHT_CURRENT GA_RESOURCE_DIR"/Image/GameObject/levelCurrentEight.png"
+#define LEVEL_NINE_CURRENT GA_RESOURCE_DIR"/Image/GameObject/levelCurrentNine.png"
+#define LEVEL_TEN_CURRENT GA_RESOURCE_DIR"/Image/GameObject/levelCurrentTen.png"
+#define LEVEL_ELEVEN_CURRENT GA_RESOURCE_DIR"/Image/GameObject/levelCurrentEleven.png"
+#define LEVEL_TWELVE_CURRENT GA_RESOURCE_DIR"/Image/GameObject/levelCurrentTwelve.png"
+
+
 
 
 #include <glm/vec2.hpp> 
 #include <stack>
 #include <memory>
 #include "ObjectInformation.hpp"
+#include <string>
 
 extern glm::vec2 stage_position[13];
 
@@ -107,12 +153,15 @@ extern glm::vec2 stage2_position[46];
 extern int stage2_neibor[46][6];
 extern Objectinformation stage2[46];
 
-
+extern std::string ClearStageList[13];
+extern std::string LevelStageList[13];
+extern std::string CurrentStageList[13];
 
 extern int is_click;
 extern glm::vec2 point_position[13];
 extern int stage_point_goal[13];
 extern int stage_point_counter[13];
+extern bool ifClear[13];
 
 void InitializeStage1();
 void InitializeStage2();
