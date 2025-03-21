@@ -97,6 +97,8 @@
 #include <memory>
 #include "ObjectInformation.hpp"
 
+extern glm::vec2 stage_position[13];
+
 extern glm::vec2 stage1_position[38];
 extern int stage1_neibor[38][6];
 extern Objectinformation stage1[38];
