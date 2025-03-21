@@ -7,20 +7,68 @@ std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now
 
 int is_click = 0;
 
+std::string LevelStageList[13] = {
+    "",
+    LEVEL_ONE_IMAGE,
+    LEVEL_TWO_IMAGE,
+    LEVEL_THREE_IMAGE,
+    LEVEL_FOUR_IMAGE,
+    LEVEL_FIVE_IMAGE,
+    LEVEL_SIX_IMAGE,
+    LEVEL_SEVEN_IMAGE,
+    LEVEL_EIGHT_IMAGE,
+    LEVEL_NINE_IMAGE,
+    LEVEL_TEN_IMAGE,
+    LEVEL_ELEVEN_IMAGE,
+    LEVEL_TWELVE_IMAGE
+};
+
+std::string ClearStageList[13] = {
+    "",
+    LEVEL_ONE_CLEAR,
+    LEVEL_TWO_CLEAR,
+    LEVEL_THREE_CLEAR,
+    LEVEL_FOUR_CLEAR,
+    LEVEL_FIVE_CLEAR,
+    LEVEL_SIX_CLEAR,
+    LEVEL_SEVEN_CLEAR,
+    LEVEL_EIGHT_CLEAR,
+    LEVEL_NINE_CLEAR,
+    LEVEL_TEN_CLEAR,
+    LEVEL_ELEVEN_CLEAR,
+    LEVEL_TWELVE_CLEAR
+};
+
+std::string CurrentStageList[13] = {
+    "",
+    LEVEL_ONE_CURRENT,
+    LEVEL_TWO_CURRENT,
+    LEVEL_THREE_CURRENT,
+    LEVEL_FOUR_CURRENT,
+    LEVEL_FIVE_CURRENT,
+    LEVEL_SIX_CURRENT,
+    LEVEL_SEVEN_CURRENT,
+    LEVEL_EIGHT_CURRENT,
+    LEVEL_NINE_CURRENT,
+    LEVEL_TEN_CURRENT,
+    LEVEL_ELEVEN_CURRENT,
+    LEVEL_TWELVE_CURRENT
+};
+
 glm::vec2 stage_position[13] = {
     {-100000, -100000},
     {-64.5, 87.5f},
     {0, 87.5f},
-    {-64.5, 87.5f},
+    {64.5, 87.5f},
     {-64.5, 37.5f},
     {0, 37.5f},
-    {-64.5, 37.5f},
+    {64.5, 37.5f},
     {-64.5, -27.5f},
     {0, -27.5f},
-    {-64.5, -27.5f},
+    {64.5, -27.5f},
     {-64.5, -57.5f},
-    {0, 87.5f},
-    {-64.5, -57.5f},
+    {0, -57.5f},
+    {64.5, -57.5f},
 };
 
 
@@ -45,6 +93,22 @@ int stage_point_goal[13] = {
 };
 
 int stage_point_counter[13] = {0};
+
+bool ifClear[13] = {
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+};
 
 
 glm::vec2 stage1_position[38] = {

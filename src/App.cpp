@@ -17,74 +17,100 @@ void App::Start() {
     m_Start_initial->SetZIndex(10);
     m_Root.AddChild(m_Start_initial);
     
-    m_Stage_Buttom_1 = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/levelOne.png");
-    m_Stage_Buttom_1->SetPosition({-64.5, 87.5f});
-    m_Stage_Buttom_1->SetZIndex(10);
-    m_Stage_Buttom_1->SetVisible(false);
-    m_Root.AddChild( m_Stage_Buttom_1 );
+    m_Stage_Buttoms[1] = std::make_shared<Character>( LEVEL_ONE_IMAGE );
+    m_Stage_Buttoms[2] = std::make_shared<Character>( LEVEL_TWO_IMAGE );
+    m_Stage_Buttoms[3] = std::make_shared<Character>( LEVEL_THREE_IMAGE );
+    m_Stage_Buttoms[4] = std::make_shared<Character>( LEVEL_FOUR_IMAGE );
+    m_Stage_Buttoms[5] = std::make_shared<Character>( LEVEL_FIVE_IMAGE );
+    m_Stage_Buttoms[6] = std::make_shared<Character>( LEVEL_SIX_IMAGE );
+    m_Stage_Buttoms[7] = std::make_shared<Character>( LEVEL_SEVEN_IMAGE );
+    m_Stage_Buttoms[8] = std::make_shared<Character>( LEVEL_EIGHT_IMAGE );
+    m_Stage_Buttoms[9] = std::make_shared<Character>( LEVEL_NINE_IMAGE );
+    m_Stage_Buttoms[10] = std::make_shared<Character>( LEVEL_TEN_IMAGE );
+    m_Stage_Buttoms[11] = std::make_shared<Character>( LEVEL_ELEVEN_IMAGE );
+    m_Stage_Buttoms[12] = std::make_shared<Character>( LEVEL_TWELVE_IMAGE );
+        
+    for ( int i = 1 ; i < 13 ; ++i ) {
+        m_Stage_Buttoms[i]->SetPosition( stage_position[i] );
+        m_Stage_Buttoms[i]->SetZIndex(10);
+        m_Stage_Buttoms[i]->SetVisible(false);
+        m_Root.AddChild( m_Stage_Buttoms[i] );
+    }
+    
+    m_Jump_Page = std::make_shared<JumpPage>(GA_RESOURCE_DIR"/Image/Background/stage1Start.png");
+    m_Jump_Page->SetVisible( false );
+    m_Jump_Page->SetPosition({0, 0});
+    m_Jump_Page->SetZIndex( 12 );
+    m_Jump_Page->SetSize( {5, 5} );
+    m_Root.AddChild( m_Jump_Page );
 
-    m_Stage_Buttom_2 = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/levelTwo.png");
-    m_Stage_Buttom_2->SetPosition({0, 87.5f});
-    m_Stage_Buttom_2->SetZIndex(10);
-    m_Stage_Buttom_2->SetVisible(false);
-    m_Root.AddChild( m_Stage_Buttom_2 );
+    m_Root.AddChild( m_Jump_Page->m_Play_Buttom );
+    m_Root.AddChild( m_Jump_Page->m_Cancel_Buttom );
+    m_Root.AddChild( m_Jump_Page->m_Pause_Buttom );
+    m_Root.AddChild( m_Jump_Page->m_Stop_Buttom );
+    m_Root.AddChild( m_Jump_Page->m_Continue_Buttom );
 
-    m_Play_Buttom = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/playButtom.png");
-    m_Play_Buttom->SetPosition( { 60.5, -120.5f } );
-    m_Play_Buttom->SetZIndex( 13 );
-    m_Play_Buttom->SetVisible(false);
-    m_Root.AddChild( m_Play_Buttom );
+    // m_finish_Page[1] = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/Background/stage1End.png");
+    // m_finish_Page[1]->SetVisible( false );
+    // m_finish_Page[1]->SetPosition({0, 0});
+    // m_finish_Page[1]->SetZIndex( 12 );
+    // m_finish_Page[1]->SetSize( {5, 5} );
+    // m_Play_Buttom = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/playButtom.png");
+    // m_Play_Buttom->SetPosition( { 60.5, -120.5f } );
+    // m_Play_Buttom->SetZIndex( 13 );
+    // m_Play_Buttom->SetVisible(false);
+    // m_Root.AddChild( m_Play_Buttom );
 
-    m_Cancel_Buttom = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/closeButton.png");
-    m_Cancel_Buttom->SetPosition( { 100, 146 } );
-    m_Cancel_Buttom->SetZIndex( 13 );
-    m_Cancel_Buttom->SetVisible(false);
-    m_Root.AddChild( m_Cancel_Buttom );
+    // m_Cancel_Buttom = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/closeButton.png");
+    // m_Cancel_Buttom->SetPosition( { 100, 146 } );
+    // m_Cancel_Buttom->SetZIndex( 13 );
+    // m_Cancel_Buttom->SetVisible(false);
+    // m_Root.AddChild( m_Cancel_Buttom );
 
-    m_Pause_Buttom = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/pauseButton.png");
-    m_Pause_Buttom->SetPosition( { -114.5, -258 } );
-    m_Pause_Buttom->SetZIndex( 13 );
-    m_Pause_Buttom->SetVisible(false);
-    m_Root.AddChild( m_Pause_Buttom );
+    // m_Pause_Buttom = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/pauseButton.png");
+    // m_Pause_Buttom->SetPosition( { -114.5, -258 } );
+    // m_Pause_Buttom->SetZIndex( 13 );
+    // m_Pause_Buttom->SetVisible(false);
+    // m_Root.AddChild( m_Pause_Buttom );
 
-    m_Pause_Page = std::make_shared<Character>( GA_RESOURCE_DIR"/Image/Background/pausePage.png" );
-    m_Pause_Page->SetPosition( {0 , 0} );
-    m_Pause_Page->SetZIndex( 13 );
-    m_Pause_Page->SetVisible(false);
-    m_Root.AddChild( m_Pause_Page );
+    // m_Pause_Page = std::make_shared<Character>( GA_RESOURCE_DIR"/Image/Background/pausePage.png" );
+    // m_Pause_Page->SetPosition( {0 , 0} );
+    // m_Pause_Page->SetZIndex( 13 );
+    // m_Pause_Page->SetVisible(false);
+    // m_Root.AddChild( m_Pause_Page );
 
-    m_Continue_Buttom = std::make_shared<Character>( GA_RESOURCE_DIR"/Image/GameObject/continueButtom.png");
-    m_Continue_Buttom->SetPosition( {0 , 30} );
-    m_Continue_Buttom->SetZIndex( 14 );
-    m_Continue_Buttom->SetVisible(false);
-    m_Root.AddChild( m_Continue_Buttom );
+    // m_Continue_Buttom = std::make_shared<Character>( GA_RESOURCE_DIR"/Image/GameObject/continueButtom.png");
+    // m_Continue_Buttom->SetPosition( {0 , 30} );
+    // m_Continue_Buttom->SetZIndex( 14 );
+    // m_Continue_Buttom->SetVisible(false);
+    // m_Root.AddChild( m_Continue_Buttom );
 
-    m_Stop_Buttom = std::make_shared<Character>( GA_RESOURCE_DIR"/Image/GameObject/stopButtom.png" );
-    m_Stop_Buttom->SetPosition( {0 , -30} );
-    m_Stop_Buttom->SetZIndex( 14 );
-    m_Stop_Buttom->SetVisible(false);
-    m_Root.AddChild( m_Stop_Buttom );
+    // m_Stop_Buttom = std::make_shared<Character>( GA_RESOURCE_DIR"/Image/GameObject/stopButtom.png" );
+    // m_Stop_Buttom->SetPosition( {0 , -30} );
+    // m_Stop_Buttom->SetZIndex( 14 );
+    // m_Stop_Buttom->SetVisible(false);
+    // m_Root.AddChild( m_Stop_Buttom );
 
-    m_Play_Page[1] = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/Background/stage1Start.png");
-    m_Play_Page[1]->SetVisible( false );
-    m_Play_Page[1]->SetPosition({0, 0});
-    m_Play_Page[1]->SetZIndex( 12 );
-    m_Play_Page[1]->SetSize( {5, 5} );
-    m_Root.AddChild( m_Play_Page[1] );
+    // m_Play_Page[1] = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/Background/stage1Start.png");
+    // m_Play_Page[1]->SetVisible( false );
+    // m_Play_Page[1]->SetPosition({0, 0});
+    // m_Play_Page[1]->SetZIndex( 12 );
+    // m_Play_Page[1]->SetSize( {5, 5} );
+    // m_Root.AddChild( m_Play_Page[1] );
 
-    m_finish_Page[1] = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/Background/stage1End.png");
-    m_finish_Page[1]->SetVisible( false );
-    m_finish_Page[1]->SetPosition({0, 0});
-    m_finish_Page[1]->SetZIndex( 12 );
-    m_finish_Page[1]->SetSize( {5, 5} );
-    m_Root.AddChild( m_finish_Page[1] );
+    // m_finish_Page[1] = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/Background/stage1End.png");
+    // m_finish_Page[1]->SetVisible( false );
+    // m_finish_Page[1]->SetPosition({0, 0});
+    // m_finish_Page[1]->SetZIndex( 12 );
+    // m_finish_Page[1]->SetSize( {5, 5} );
+    // m_Root.AddChild( m_finish_Page[1] );
 
-    m_Play_Page[2] = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/Background/stage2Start.png");
-    m_Play_Page[2]->SetVisible( false );
-    m_Play_Page[2]->SetPosition({0, 0});
-    m_Play_Page[2]->SetZIndex( 12 );
-    m_Play_Page[2]->SetSize( {5, 5} );
-    m_Root.AddChild( m_Play_Page[2] );
+    // m_Play_Page[2] = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/Background/stage2Start.png");
+    // m_Play_Page[2]->SetVisible( false );
+    // m_Play_Page[2]->SetPosition({0, 0});
+    // m_Play_Page[2]->SetZIndex( 12 );
+    // m_Play_Page[2]->SetSize( {5, 5} );
+    // m_Root.AddChild( m_Play_Page[2] );
 
 
     for ( int i = 1 ; i < 38 ; ++i ) { 
@@ -123,34 +149,22 @@ void App::Update() {
             if (PhaseInitialImage(m_Start_initial)){
                 m_PRM->NextPhase(PHASE_HOME_PAGE);
                 m_Phase = Phase::HOME_PAGE;
-                m_Stage_Buttom_1->SetVisible( true );
-                m_Stage_Buttom_2->SetVisible( true );
+                AppearHomePage();
+                m_Jump_Page->AllDisappear();
             }
             break;
         case Phase::HOME_PAGE:
-            m_Pause_Buttom->SetVisible( false );
-            m_Continue_Buttom->SetVisible( false );
-            m_Stop_Buttom->SetVisible( false );
-            m_Stage_Buttom_1->SetVisible( true );
-            m_Stage_Buttom_2->SetVisible( true );
-            if (PhaseHomePage(m_Stage_Buttom_1)){
-                m_stage_pos = 1;
-                m_Play_Page[1]->SetVisible(true);
-                m_Play_Buttom->SetVisible( true );
-                m_Cancel_Buttom->SetVisible( true );
-            } 
-            else if (PhaseHomePage(m_Stage_Buttom_2)){
-                m_stage_pos = 2;
-                m_Play_Page[2]->SetVisible(true);
-                m_Play_Buttom->SetVisible( true );
-                m_Cancel_Buttom->SetVisible( true );
-            }
-            if ( m_Play_Buttom->GetVisibility() ) {
-                if ( m_Play_Buttom->IfClick() ) {
+            {
+                int get_stage = PhaseHomePage(m_Stage_Buttoms);
+                if ( get_stage != 0 ){
+                    m_stage_pos = get_stage;
+                    m_Jump_Page->PlayPage( m_stage_pos );
+                } 
+                if ( m_Jump_Page->ifClickWithPlayButtom() ) {
                     SetUpStage();
                     if ( m_stage_pos == 1  ) {
                         std::cout << "Level1 Character clicked!" << std::endl;
-                        m_Play_Page[1]->SetVisible( false );
+                        m_Jump_Page->AllDisappear();
                         m_PRM->NextPhase(PHASE_STAGE_1);
                         m_Stage_Object[1]->SetUp( 1 );
                         m_Stage_Object[1]->AppearAll();
@@ -160,9 +174,9 @@ void App::Update() {
                         currentPhase = PHASE_NORMAL;
                         m_Phase = Phase::STAGE_1;
                     }
-                    if ( m_stage_pos == 2  ) {
+                    else if ( m_stage_pos == 2  ) {
                         std::cout << "Level2 Character clicked!" << std::endl;
-                        m_Play_Page[2]->SetVisible( false );
+                        m_Jump_Page->AllDisappear();
                         m_PRM->NextPhase(PHASE_STAGE_2);
                         m_Stage_Object[2]->SetUp( 2 );
                         m_Stage_Object[2]->AppearAll();
@@ -171,61 +185,20 @@ void App::Update() {
                         m_Point_Show->UpdateText();
                         currentPhase = PHASE_NORMAL;
                         m_Phase = Phase::STAGE_2;
-                    }
+                    }   
                 }
-                if ( m_Cancel_Buttom->IfClick() ) {
-                    if ( m_stage_pos == 1 ) {
-                        m_stage_pos = 0;
-                        m_Play_Page[1]->SetVisible( false );
-                        m_Play_Buttom->SetVisible( false );
-                        m_Cancel_Buttom->SetVisible( false );
-                    }
-                    if ( m_stage_pos == 2 ) {
-                        m_stage_pos = 0;
-                        m_Play_Page[2]->SetVisible( false );
-                        m_Play_Buttom->SetVisible( false );
-                        m_Cancel_Buttom->SetVisible( false );
-                    }
+                if ( m_Jump_Page->ifClickWithCancelButtom() ) {
+                    m_stage_pos = 0;
+                    m_Jump_Page->AllDisappear();
                 }
             }
             break;
         case Phase::STAGE_1:
-            if ( m_Pause_Buttom->IfClick() ) {
-                m_Pause_Page->SetVisible( true );
-                m_Continue_Buttom->SetVisible( true );
-                m_Stop_Buttom->SetVisible( true );
-            }
-            if ( m_Pause_Page->GetVisibility() && m_Continue_Buttom->IfClick() ) {
-                m_Pause_Page->SetVisible( false );
-                m_Continue_Buttom->SetVisible( false );
-                m_Stop_Buttom->SetVisible( false );
-            }
-            if ( m_Pause_Page->GetVisibility() && m_Stop_Buttom->IfClick() ) {
-                m_Pause_Page->SetVisible( false );
-                m_Continue_Buttom->SetVisible( false );
-                m_Stop_Buttom->SetVisible( false );
-                m_PRM->NextPhase(PHASE_HOME_PAGE);
-                m_Phase = Phase::HOME_PAGE;
-                m_Stage_Object[1]->DisAppearAll();
-                stage_point_counter[1] = 0;
-                m_stage_pos = 0;
-                m_Point_Show->SetVisible( false );
-            }
-            if ( m_finish_Page[1]->GetVisibility() && m_Cancel_Buttom->IfClick() ) {
-                m_PRM->NextPhase(PHASE_HOME_PAGE);
-                m_Phase = Phase::HOME_PAGE;
-                m_Stage_Buttom_1->SetVisible( true );
-                m_Stage_Buttom_2->SetVisible( true );
-                m_Cancel_Buttom->SetVisible( false );
-                m_finish_Page[1]->SetVisible( false );
-                stage_point_counter[1] = 0;
-                m_stage_pos = 0;
-            }
             if (PhaseStage1( m_Stage_Object[1], m_Stage_Object[1]->GetSize() , m_Point_Show )){
                 m_Stage_Object[1]->DisAppearAll();
                 m_Point_Show->SetVisible( false );
-                m_finish_Page[1]->SetVisible( true );
-                m_Cancel_Buttom->SetVisible( true );
+                ifClear[1] = true;
+                m_Jump_Page->EndPage( 1 );
             } 
             else if ( currentPhase == PHASE_PAUSE_FOR_DISAPPEAR ) {
                 if ( (std::chrono::steady_clock::now() - startTime) >= std::chrono::seconds(1)) {
@@ -238,44 +211,36 @@ void App::Update() {
                 m_Point_Show->SetValue( stage_point_counter[1] );
                 m_Point_Show->UpdateText();
             }
-            break;
-        case Phase::STAGE_2:
-            if ( m_Pause_Buttom->IfClick() ) {
-                m_Pause_Page->SetVisible( true );
-                m_Continue_Buttom->SetVisible( true );
-                m_Stop_Buttom->SetVisible( true );
+            if ( m_Jump_Page->ifClickWithPauseButtom() ) {
+                m_Jump_Page->PausePage();
             }
-            if ( m_Pause_Page->GetVisibility() && m_Continue_Buttom->IfClick() ) {
-                m_Pause_Page->SetVisible( false );
-                m_Continue_Buttom->SetVisible( false );
-                m_Stop_Buttom->SetVisible( false );
+            if ( m_Jump_Page->ifClickWithContinueButtom() ) {
+                m_Jump_Page->AllDisappear();
             }
-            if ( m_Pause_Page->GetVisibility() && m_Stop_Buttom->IfClick() ) {
-                m_Pause_Page->SetVisible( false );
-                m_Continue_Buttom->SetVisible( false );
-                m_Stop_Buttom->SetVisible( false );
+            if ( m_Jump_Page->ifClickWithStopButtom() ) {
+                m_Jump_Page->AllDisappear();
                 m_PRM->NextPhase(PHASE_HOME_PAGE);
                 m_Phase = Phase::HOME_PAGE;
-                stage_point_counter[2] = 0;
-                m_Stage_Object[2]->DisAppearAll();
+                m_Stage_Object[1]->DisAppearAll();
+                stage_point_counter[1] = 0;
                 m_stage_pos = 0;
                 m_Point_Show->SetVisible( false );
             }
-            if ( m_finish_Page[2]->GetVisibility() && m_Cancel_Buttom->IfClick() ) {
+            if ( m_Jump_Page->ifClickWithCancelButtomInEnd() ) {
+                m_Jump_Page->AllDisappear();
                 m_PRM->NextPhase(PHASE_HOME_PAGE);
                 m_Phase = Phase::HOME_PAGE;
-                stage_point_counter[2] = 0;
-                m_Stage_Buttom_1->SetVisible( true );
-                m_Stage_Buttom_2->SetVisible( true );
-                m_finish_Page[2]->SetVisible( false );
-                m_Cancel_Buttom->SetVisible( false );
+                AppearHomePage();
+                stage_point_counter[1] = 0;
                 m_stage_pos = 0;
             }
+            break;
+        case Phase::STAGE_2:
             if (PhaseStage2( m_Stage_Object[2], m_Stage_Object[2]->GetSize() , m_Point_Show )){
                 m_Stage_Object[2]->DisAppearAll();
                 m_Point_Show->SetVisible( false );
-                m_finish_Page[2]->SetVisible( true );
-                m_Cancel_Buttom->SetVisible( true );
+                ifClear[2] = true;
+                m_Jump_Page->EndPage( 1 );
             } 
             else if ( currentPhase == PHASE_PAUSE_FOR_DISAPPEAR ) {
                 if ( (std::chrono::steady_clock::now() - startTime) >= std::chrono::seconds(1)) {
@@ -287,6 +252,29 @@ void App::Update() {
                 m_Stage_Object[2]->Dropping();
                 m_Point_Show->SetValue( stage_point_counter[2] );
                 m_Point_Show->UpdateText();
+            }
+            if ( m_Jump_Page->ifClickWithPauseButtom() ) {
+                m_Jump_Page->PausePage();
+            }
+            if ( m_Jump_Page->ifClickWithContinueButtom() ) {
+                m_Jump_Page->AllDisappear();
+            }
+            if ( m_Jump_Page->ifClickWithStopButtom() ) {
+                m_Jump_Page->AllDisappear();
+                m_PRM->NextPhase(PHASE_HOME_PAGE);
+                m_Phase = Phase::HOME_PAGE;
+                m_Stage_Object[2]->DisAppearAll();
+                stage_point_counter[2] = 0;
+                m_stage_pos = 0;
+                m_Point_Show->SetVisible( false );
+            }
+            if ( m_Jump_Page->ifClickWithCancelButtomInEnd() ) {
+                m_Jump_Page->AllDisappear();
+                m_PRM->NextPhase(PHASE_HOME_PAGE);
+                m_Phase = Phase::HOME_PAGE;
+                AppearHomePage();
+                stage_point_counter[2] = 0;
+                m_stage_pos = 0;
             }
             break;
         }
