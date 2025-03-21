@@ -233,10 +233,13 @@ bool StageObject::CheckAppearance( int s ) {
         for ( int i = 1 ; i < m_Size+1 ; ++i )
             m_Stage_Object[i]->SetSwitched(0);
 
-        if (CheckShuffleDemands()) {
-            InitializeStageCharacter( m_Stage );
+        std::pair<int, int> result = CheckShuffleDemands();
+        if (result.first == -1 && result.second == -1) {
+            InitializeStageCharacter(m_Stage);
+        } else {
+            std::cout << "Swap between " << result.first << " and " << result.second << std::endl;
         }
-    }                                                                                                                                                  
+    }                                                                                                                                                
     return flag;
 }
 
@@ -1339,20 +1342,79 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
     }
 }
 
-bool StageObject::CheckShuffleDemands() {
+std::pair<int, int> StageObject::CheckShuffleDemands() {
 
-    for ( int i = 1 ; i < m_Size +1 ; ++i) { //center
+    for ( int i = 1 ; i < m_Size +1 ; ++i) {
+        //center
+        for ( int j = 0 ; j < 6 ; ++j) {
+            //switched side
+            const int neighbor_no = m_Stage_Object[i]->GetInformationNeibor()[j];
 
-        // cout<<"now checking: "<<i<<endl;
+            if (neighbor_no != -1) {
+                m_Stage_Object[i]->SwitchPosition(  m_Stage_Object[neighbor_no] );
+                std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[neighbor_no];
+                m_Stage_Object[neighbor_no] = m_Stage_Object[i];
+                m_Stage_Object[i] = NewObject;
 
-        for ( int j = 0 ; j < 6 ; ++j) { //switched side
+                std::pair<int, int> result = CheckRainbowUsing();
+                if (result.first != -1 || result.second != -1)
+                {
+                    m_Stage_Object[i]->SwitchPosition(  m_Stage_Object[neighbor_no] );
+                    NewObject = m_Stage_Object[neighbor_no];
+                    m_Stage_Object[neighbor_no] = m_Stage_Object[i];
+                    m_Stage_Object[i] = NewObject;
+
+                    return {result.first, result.second};
+                }
+
+
+                m_Stage_Object[i]->SwitchPosition(  m_Stage_Object[neighbor_no] );
+                NewObject = m_Stage_Object[neighbor_no];
+                m_Stage_Object[neighbor_no] = m_Stage_Object[i];
+                m_Stage_Object[i] = NewObject;
+            }
+        }
+    }
+
+    for ( int i = 1 ; i < m_Size +1 ; ++i) {
+        //center
+        for ( int j = 0 ; j < 6 ; ++j) {
+            //switched side
 
             const int neighbor_no = m_Stage_Object[i]->GetInformationNeibor()[j];
 
             if (neighbor_no != -1) {
+                m_Stage_Object[i]->SwitchPosition(  m_Stage_Object[neighbor_no] );
+                std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[neighbor_no];
+                m_Stage_Object[neighbor_no] = m_Stage_Object[i];
+                m_Stage_Object[i] = NewObject;
 
-                // cout<<"now: "<<i<<" neighbor: "<<neighbor_no<<endl;
+                std::pair<int, int> result = CheckSpecialBlocksNeighbor();
+                if (result.first != -1 || result.second != -1)
+                {
+                    m_Stage_Object[i]->SwitchPosition(  m_Stage_Object[neighbor_no] );
+                    NewObject = m_Stage_Object[neighbor_no];
+                    m_Stage_Object[neighbor_no] = m_Stage_Object[i];
+                    m_Stage_Object[i] = NewObject;
 
+                    return {result.first, result.second};
+                }
+
+                m_Stage_Object[i]->SwitchPosition(  m_Stage_Object[neighbor_no] );
+                NewObject = m_Stage_Object[neighbor_no];
+                m_Stage_Object[neighbor_no] = m_Stage_Object[i];
+                m_Stage_Object[i] = NewObject;
+            }
+        }
+    }
+    for ( int i = 1 ; i < m_Size +1 ; ++i) {
+        //center
+        for ( int j = 0 ; j < 6 ; ++j) {
+            //switched side
+
+            const int neighbor_no = m_Stage_Object[i]->GetInformationNeibor()[j];
+
+            if (neighbor_no != -1) {
                 m_Stage_Object[i]->SwitchPosition(  m_Stage_Object[neighbor_no] );
                 std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[neighbor_no];
                 m_Stage_Object[neighbor_no] = m_Stage_Object[i];
@@ -1365,58 +1427,29 @@ bool StageObject::CheckShuffleDemands() {
                     m_Stage_Object[neighbor_no] = m_Stage_Object[i];
                     m_Stage_Object[i] = NewObject;
 
-                    return false;
+                    return {i, neighbor_no};
+
                 }
-
-                if (CheckRainbowUsing())
-                {
-                    m_Stage_Object[i]->SwitchPosition(  m_Stage_Object[neighbor_no] );
-                    NewObject = m_Stage_Object[neighbor_no];
-                    m_Stage_Object[neighbor_no] = m_Stage_Object[i];
-                    m_Stage_Object[i] = NewObject;
-
-                    return false;
-                }
-                if (CheckSpecialBlocksNeighbor())
-                {
-                    m_Stage_Object[i]->SwitchPosition(  m_Stage_Object[neighbor_no] );
-                    NewObject = m_Stage_Object[neighbor_no];
-                    m_Stage_Object[neighbor_no] = m_Stage_Object[i];
-                    m_Stage_Object[i] = NewObject;
-
-                    return false;
-                }
-
                 m_Stage_Object[i]->SwitchPosition(  m_Stage_Object[neighbor_no] );
                 NewObject = m_Stage_Object[neighbor_no];
                 m_Stage_Object[neighbor_no] = m_Stage_Object[i];
                 m_Stage_Object[i] = NewObject;
             }
         }
-
     }
-
-    return true;
+    return {-1, -1};
 }
 
 bool StageObject::CheckLineMaking() {
-
-    // cout<<"123";
 
     for ( int current_pos = 1 ; current_pos < m_Size +1 ; ++current_pos) {//center
         for ( int check_side = 0 ; check_side < 3 ; ++check_side) {
             //check_side
 
-
-            // cout<<"pos: "<<current_pos<<" check_side: "<<check_side<<endl;
-            // cout<<"neighbor: "<<m_Stage_Object[current_pos]->GetInformationNeibor()[check_side]<<endl;
-
-
             int length = 1 ;
 
             if (m_Stage_Object[current_pos]->GetInformationNeibor()[check_side] != -1 ){
 
-                // cout<<"neighbor no1: "<<m_Stage_Object[m_Stage_Object[current_pos]->GetInformationNeibor()[check_side]]->GetInformationPosNumber()<<endl;
                 if ( IsSameColor(m_Stage_Object[current_pos]->GetBlockType() ,  m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[check_side] ]->GetBlockType())){
                     length += CheckNextAppearance(  m_Stage_Object[current_pos]->GetInformationNeibor()[check_side] , check_side, 1 ) ;
                 }
@@ -1424,13 +1457,11 @@ bool StageObject::CheckLineMaking() {
 
             if (m_Stage_Object[current_pos]->GetInformationNeibor()[check_side+3] != -1 ){
 
-                // cout<<"neighbor no2: "<<m_Stage_Object[m_Stage_Object[current_pos]->GetInformationNeibor()[check_side+3]]->GetInformationPosNumber()<<endl;
                 if ( IsSameColor(m_Stage_Object[current_pos]->GetBlockType() ,  m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[check_side+3] ]->GetBlockType())){
                     length += CheckNextAppearance(  m_Stage_Object[current_pos]->GetInformationNeibor()[check_side+3] , check_side+3, 1 ) ;
                 }
             }
 
-            // cout<<"length: "<<length<<endl;
             if (length >= 3)
                 return true;
 
@@ -1440,22 +1471,22 @@ bool StageObject::CheckLineMaking() {
     return false;
 }
 
-bool StageObject::CheckRainbowUsing() {
+std::pair<int, int> StageObject::CheckRainbowUsing() {
     for ( int current_pos = 1 ; current_pos < m_Size +1 ; ++current_pos) {
         //check if has neighbor
         if (m_Stage_Object[current_pos]->GetCurrentType() == RAINBOWBALL_OBJECT) {
 
             for ( int j = 0 ; j < 6 ; ++j) {
                 if (m_Stage_Object[current_pos]->GetInformationNeibor()[j] != -1)
-                    return true;
+                    return {current_pos, m_Stage_Object[current_pos]->GetInformationNeibor()[j]};
             }
         }
     }
-    return false;
+    return {-1, -1};
 
 }
 
-bool StageObject::CheckSpecialBlocksNeighbor() {
+std::pair<int, int> StageObject::CheckSpecialBlocksNeighbor() {
     for ( int current_pos = 1 ; current_pos < m_Size +1 ; ++current_pos) {
 
         if (m_Stage_Object[current_pos]->GetCurrentType() >= STRIPE_OBJECT && m_Stage_Object[current_pos]->GetCurrentType() <= TRIANGLEFLOWER_OBJECT) {
@@ -1464,13 +1495,13 @@ bool StageObject::CheckSpecialBlocksNeighbor() {
                 if (m_Stage_Object[current_pos]->GetInformationNeibor()[j] != -1) {
 
                     if ( m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[j] ]->GetCurrentType() >= STRIPE_OBJECT && m_Stage_Object[ m_Stage_Object[current_pos]->GetInformationNeibor()[j] ]->GetCurrentType() <= TRIANGLEFLOWER_OBJECT) {
-                        return true;
+                        return {current_pos, m_Stage_Object[current_pos]->GetInformationNeibor()[j]};
                     }
                 }
 
             }
         }
     }
-    return false;
+    return {-1, -1};
 
 }

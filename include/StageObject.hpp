@@ -4,6 +4,8 @@
 #include "Util/GameObject.hpp"
 #include <condition_variable>
 #include <mutex>
+#include "pch.hpp"
+
 #pragma once
 
 class StageObject : public Util::GameObject {
@@ -67,10 +69,10 @@ class StageObject : public Util::GameObject {
         bool DisappearMethodOfRainbowBall(  int current_pos, int* total_length, int priority );
         void DisappearBySingleObject ( int current_pos, int side, int length_left);
 
-        bool CheckShuffleDemands();
+        std::pair<int, int> CheckShuffleDemands();
         bool CheckLineMaking();
-        bool CheckRainbowUsing();
-        bool CheckSpecialBlocksNeighbor();
+        std::pair<int, int> CheckRainbowUsing();
+        std::pair<int, int> CheckSpecialBlocksNeighbor();
 
         void Dropping_method( const int current_position );
         bool checkAppearanceOfObject ( int i, int side, int length_left);
