@@ -497,6 +497,15 @@ int StageObject::GetPoint() {
     return stage_point_counter[m_Stage];
 }
 
+
+void StageObject::MovesLeftUpdate(int moves ) {
+    stage_moves[m_Stage] = moves;
+}
+
+int StageObject::GetMovesLeft() {
+    return stage_moves[m_Stage];
+}
+
 void StageObject::AppearAll() {
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
         if( !m_Stage_Object[i] ) continue;
@@ -1275,6 +1284,8 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
             m_Stage_Object[check]->SetSwitched(2);
             std::cout<<"pos: "<<i<<"  "<<check<<std::endl;
             std::cout<<"set SetSwitched to 2"<<std::endl;
+            MovesLeftUpdate(GetMovesLeft() - 1);
+
 
             m_Stage_Object[i]->SwitchPosition( m_Stage_Object[check] );
             std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[check];
@@ -1329,14 +1340,18 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
                 cout<<"find stripe combined"<<endl;
             }
 
+            //can't disappear
             if ( !CheckAppearance( 1 ) ) {
                 m_Stage_Object[i]->SwitchPosition( m_Stage_Object[check] );
                 std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[check];
                 m_Stage_Object[check] = m_Stage_Object[i];
                 m_Stage_Object[i] = NewObject;
+                MovesLeftUpdate(GetMovesLeft() + 1);
+
             }
             point->SetValue( stage_point_counter[m_Stage] );
             point->UpdateText();
+            std::cout<<"moves left: "<<GetMovesLeft()<<std::endl;
             break;
         }
     }
@@ -1505,3 +1520,4 @@ std::pair<int, int> StageObject::CheckSpecialBlocksNeighbor() {
     return {-1, -1};
 
 }
+

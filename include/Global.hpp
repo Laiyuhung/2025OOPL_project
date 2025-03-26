@@ -160,7 +160,9 @@ extern std::string CurrentStageList[13];
 extern int is_click;
 extern glm::vec2 point_position[13];
 extern int stage_point_goal[13];
+extern char stage_goal_type[13][20];
 extern int stage_point_counter[13];
+extern int stage_moves[13];
 extern bool ifClear[13];
 
 void InitializeStage1();
