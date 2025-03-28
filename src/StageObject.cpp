@@ -84,6 +84,16 @@ void StageObject::InitializeStageCharacter( int s ) {
             m_Stage_Object[i]->SetBlockType( NORMAL_OBJECT );
             m_Stage_Object[i]->SetCurrentType( NORMAL_OBJECT );
         }
+        else if ( s == 3 ) {
+            m_Stage_Object[i]->SetInformation( stage3[i] );
+            m_Stage_Object[i]->SetPosition( stage3_position[i] );
+            m_Stage_Object[i]->SetZIndex(10);
+            m_Stage_Object[i]->SetSize( {20, 25} );
+            m_Stage_Object[i]->DisAppear();
+            m_Stage_Object[i]->SetAppearBool( true );
+            m_Stage_Object[i]->SetBlockType( NORMAL_OBJECT );
+            m_Stage_Object[i]->SetCurrentType( NORMAL_OBJECT );
+        }
     }
 }
 

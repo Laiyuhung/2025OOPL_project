@@ -34,7 +34,9 @@ class JumpPage : public Character {
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage1Start.png" );
             else if ( stage == 2 )
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage2Start.png" );
-            this->SetVisible( true );
+            else if ( stage == 3 )
+                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage3Start.png" );
+                this->SetVisible( true );
             SetStatus( JUMP_PLAY );
         }
 
