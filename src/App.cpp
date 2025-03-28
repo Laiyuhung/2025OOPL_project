@@ -50,24 +50,6 @@ void App::Start() {
     m_Root.AddChild( m_Jump_Page->m_Stop_Buttom );
     m_Root.AddChild( m_Jump_Page->m_Continue_Buttom );
 
-    for ( int i = 1 ; i < 38 ; ++i ) { 
-        m_Stage_1_Object[i] = std::make_shared<GameCharacter>( BLUE_NORMAL_OBJECT );
-        m_Stage_1_Object[i]->SetVisible( false );
-        m_Root.AddChild( m_Stage_1_Object[i] );
-    }
-    m_Stage_Object[1] = std::make_shared<StageObject>( 37 , m_Stage_1_Object );
-    m_Stage_Object[1]->SetStage( 0 );
-    m_Root.AddChild( m_Stage_Object[1] );
-
-    for ( int i = 1 ; i < 46 ; ++i ) { 
-        m_Stage_2_Object[i] = std::make_shared<GameCharacter>( BLUE_NORMAL_OBJECT );
-        m_Stage_2_Object[i]->SetVisible( false );
-        m_Root.AddChild( m_Stage_2_Object[i] );
-    }
-    m_Stage_Object[2] = std::make_shared<StageObject>( 45 , m_Stage_2_Object );
-    m_Stage_Object[2]->SetStage( 0 );
-    m_Root.AddChild( m_Stage_Object[2] );
-
     m_Text_Point = std::make_shared<TaskText>();
     m_Text_Point->SetPosition({-125, 210});
     m_Text_Point->Initial( 0 );
@@ -92,13 +74,14 @@ void App::Update() {
             break;
         case Phase::HOME_PAGE:
             {
+                AppearHomePage();
                 int get_stage = PhaseHomePage(m_Stage_Buttoms);
                 if ( get_stage != 0 ){
                     m_stage_pos = get_stage;
                     m_Jump_Page->PlayPage( m_stage_pos );
                 } 
                 if ( m_Jump_Page->ifClickWithPlayButtom() ) {
-                    SetUpStage();
+                    SetUpStage( m_stage_pos );
                     if ( m_stage_pos == 1  ) {
                         std::cout << "Level1 Character clicked!" << std::endl;
                         m_Jump_Page->AllDisappear();
@@ -110,7 +93,7 @@ void App::Update() {
                         currentPhase = PHASE_NORMAL;
                         m_Phase = Phase::STAGE_1;
                     }
-                    else if ( m_stage_pos == 2  ) {
+                    else if ( m_stage_pos == 2 ) {
                         std::cout << "Level2 Character clicked!" << std::endl;
                         m_Jump_Page->AllDisappear();
                         m_PRM->NextPhase(PHASE_STAGE_2);
@@ -118,10 +101,6 @@ void App::Update() {
                         m_Stage_Object[2]->AppearAll();
                         m_Stage_Object[2]->SetStage( 2 );
                         m_Text_Point->Initial( 2 );
-                        // m_Goal_Point_Show->SetPosition( goal_position[2] );
-                        // m_Text_Point->UpdateText();
-                        // m_Movement->SetPosition( movement_position[2] );
-                        // m_Movement->UpdateText();
                         currentPhase = PHASE_NORMAL;
                         m_Phase = Phase::STAGE_2;
                     }   
@@ -133,7 +112,8 @@ void App::Update() {
             }
             break;
         case Phase::STAGE_1:
-            if (PhaseStage1( m_Stage_Object[1], m_Stage_Object[1]->GetSize() , m_Text_Point )){
+            m_Jump_Page->m_Pause_Buttom->SetVisible( true );
+            if (PhaseStage( m_Stage_Object[1], m_Stage_Object[1]->GetSize() , m_Text_Point , 1 )){
                 m_Stage_Object[1]->DisAppearAll();
                 m_Text_Point->SetVisible( false );
                 ifClear[1] = true;
@@ -166,6 +146,7 @@ void App::Update() {
             if ( m_Jump_Page->ifClickWithStopButtom() ) {
                 m_Jump_Page->AllDisappear();
                 m_PRM->NextPhase(PHASE_HOME_PAGE);
+                RemoveStage( 1 );
                 m_Phase = Phase::HOME_PAGE;
                 m_Stage_Object[1]->DisAppearAll();
                 stage_point_counter[1] = 0;
@@ -175,6 +156,7 @@ void App::Update() {
             if ( m_Jump_Page->ifClickWithCancelButtomInEnd() ) {
                 m_Jump_Page->AllDisappear();
                 m_PRM->NextPhase(PHASE_HOME_PAGE);
+                RemoveStage( 1 );
                 m_Phase = Phase::HOME_PAGE;
                 AppearHomePage();
                 stage_point_counter[1] = 0;
@@ -182,7 +164,7 @@ void App::Update() {
             }
             break;
         case Phase::STAGE_2:
-            if (PhaseStage2( m_Stage_Object[2], m_Stage_Object[2]->GetSize() , m_Text_Point )){
+            if (PhaseStage( m_Stage_Object[2], m_Stage_Object[2]->GetSize() , m_Text_Point , 2)){
                 m_Stage_Object[2]->DisAppearAll();
                 m_Text_Point->SetVisible( false );
                 ifClear[2] = true;
@@ -215,6 +197,7 @@ void App::Update() {
             if ( m_Jump_Page->ifClickWithStopButtom() ) {
                 m_Jump_Page->AllDisappear();
                 m_PRM->NextPhase(PHASE_HOME_PAGE);
+                RemoveStage( 2 );
                 m_Phase = Phase::HOME_PAGE;
                 m_Stage_Object[2]->DisAppearAll();
                 stage_point_counter[2] = 0;
@@ -224,6 +207,7 @@ void App::Update() {
             if ( m_Jump_Page->ifClickWithCancelButtomInEnd() ) {
                 m_Jump_Page->AllDisappear();
                 m_PRM->NextPhase(PHASE_HOME_PAGE);
+                RemoveStage( 2 );
                 m_Phase = Phase::HOME_PAGE;
                 AppearHomePage();
                 stage_point_counter[2] = 0;

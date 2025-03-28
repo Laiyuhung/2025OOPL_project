@@ -17,18 +17,20 @@ bool PhaseInitialImage( std::shared_ptr<Character> & chara_obj ){
 }
 int PhaseHomePage( std::shared_ptr<Character> *buttom){
     for ( int i = 1 ; i < 13 ; ++i ) {
-        if( buttom[i]->IfClick() )
+        if( buttom[i]->IfClick() && ifClear[i-1] )
             return i;
     }
     return 0;
 }
 
-bool PhaseStage1( std::shared_ptr<StageObject> StageObject , const int size , std::shared_ptr<TaskText> point) {
+bool PhaseStage( std::shared_ptr<StageObject> StageObject , const int size , std::shared_ptr<TaskText> point , const int stage ) {
     std::shared_ptr<GameCharacter>* objectArray = StageObject->GetStageObject();
     for ( int i = 1 ; i < size+1 ; ++i ) {
         if ( objectArray[i]->IfClick() ) {
             std::cout << "which click: " << objectArray[i]->GetInformationPosNumber() << std::endl;
             if ( is_click == 0  ) {
+                objectArray[0]->SetPosition( objectArray[i]->GetInformationPosition() );
+                objectArray[0]->SetVisible( true );
                 is_click = i; // 1st clicked
             }
             else {
@@ -40,12 +42,12 @@ bool PhaseStage1( std::shared_ptr<StageObject> StageObject , const int size , st
                 int check = is_click;
                 is_click = 0;
                 StageObject->CheckClickSwitch( check, i , point );
-                // CheckClickSwitch( objectArray, check, i , point , size);
+                objectArray[0]->SetVisible( false );
+                // click->SetVisible( false );
             }
         }
     }
-    // StageObject->AppearAll();
-    return stage_goal_counter[1] <= 0;
+    return stage_goal_counter[stage] <= 0;
 }
 
 bool PhaseStage2( std::shared_ptr<StageObject> StageObject , const int size , std::shared_ptr<TaskText> point) {
@@ -54,6 +56,8 @@ bool PhaseStage2( std::shared_ptr<StageObject> StageObject , const int size , st
         if ( objectArray[i]->IfClick() ) {
             std::cout << "which click: " << objectArray[i]->GetInformationPosNumber() << std::endl;
             if ( is_click == 0  ) {
+                objectArray[0]->SetPosition( objectArray[i]->GetInformationPosition() );
+                objectArray[0]->SetVisible( true );
                 is_click = i; // 1st clicked
             }
             else {
@@ -65,11 +69,10 @@ bool PhaseStage2( std::shared_ptr<StageObject> StageObject , const int size , st
                 int check = is_click;
                 is_click = 0;
                 StageObject->CheckClickSwitch( check, i , point );
-                // CheckClickSwitch( objectArray, check, i , point , size);
+                objectArray[0]->SetVisible( false );
             }
         }
     }
-    // StageObject->AppearAll();
     return stage_goal_counter[2] <= 0;
 }
 

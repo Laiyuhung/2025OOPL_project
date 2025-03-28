@@ -74,7 +74,7 @@ glm::vec2 stage_position[13] = {
 
 glm::vec2 point_position[13] = {
     {-100000, -100000},
-    { 30 , 160 },
+    { 5 , 185 },
     { 30 , 260.5f },
     {-100000, -100000},
     {-100000, -100000},
@@ -96,9 +96,9 @@ int stage_goal_counter[13] = {
     0, 15, 15, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40
 };
 
-char stage_goal_type[13][20] = {
-    "brownObjectNormal",
-    "brownObjectNormal",
+char stage_goal_type[13][30] = {
+    "Remove BrownObjectNormal",
+    "Remove BrownObjectNormal",
     "",
     "",
     "",
