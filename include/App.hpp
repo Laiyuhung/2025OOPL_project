@@ -49,11 +49,14 @@ public:
             m_Stage_Buttoms[i]->SetVisible( false );
         }
         m_Jump_Page->AllDisappear();
-        m_Point_Show->SetValue( 0 );
-        m_Point_Show->SetVisible( true );
+        m_Text_Point->SetPoint( 0 );
+        m_Text_Point->SetVisible( true );
     }
 
     void AppearHomePage() {
+        // m_Goal_Point_Show->SetVisible( false );
+        // m_Movement->SetVisible( false );
+        m_Text_Point->SetVisible( false );
         for ( int i = 1 ; i < 13 ; ++i ) {
             if ( ifClear[i] ) {
                 m_Stage_Buttoms[i]->SetImage( ClearStageList[i] );
@@ -110,8 +113,9 @@ private:
 
     // std::shared_ptr<AnimatedCharacter> m_Bee;
     // std::shared_ptr<AnimatedCharacter> m_Ball;
-    std::shared_ptr<TaskText> m_Point_Show;
-
+    std::shared_ptr<TaskText> m_Text_Point;
+    
+    
     std::shared_ptr<PhaseResourceManager> m_PRM;
     int m_stage_pos = 0;
     bool m_EnterDown = false; 

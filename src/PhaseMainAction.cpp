@@ -45,7 +45,7 @@ bool PhaseStage1( std::shared_ptr<StageObject> StageObject , const int size , st
         }
     }
     // StageObject->AppearAll();
-    return stage_point_counter[1] >= stage_point_goal[1];
+    return stage_goal_counter[1] <= 0;
 }
 
 bool PhaseStage2( std::shared_ptr<StageObject> StageObject , const int size , std::shared_ptr<TaskText> point) {
@@ -70,7 +70,7 @@ bool PhaseStage2( std::shared_ptr<StageObject> StageObject , const int size , st
         }
     }
     // StageObject->AppearAll();
-    return stage_point_counter[2] >= stage_point_goal[2];
+    return stage_goal_counter[2] <= 0;
 }
 
 void DebugPhaseStage1( std::shared_ptr<GameCharacter>* objectArray ) {

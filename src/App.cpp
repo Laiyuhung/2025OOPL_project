@@ -50,69 +50,6 @@ void App::Start() {
     m_Root.AddChild( m_Jump_Page->m_Stop_Buttom );
     m_Root.AddChild( m_Jump_Page->m_Continue_Buttom );
 
-    // m_finish_Page[1] = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/Background/stage1End.png");
-    // m_finish_Page[1]->SetVisible( false );
-    // m_finish_Page[1]->SetPosition({0, 0});
-    // m_finish_Page[1]->SetZIndex( 12 );
-    // m_finish_Page[1]->SetSize( {5, 5} );
-    // m_Play_Buttom = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/playButtom.png");
-    // m_Play_Buttom->SetPosition( { 60.5, -120.5f } );
-    // m_Play_Buttom->SetZIndex( 13 );
-    // m_Play_Buttom->SetVisible(false);
-    // m_Root.AddChild( m_Play_Buttom );
-
-    // m_Cancel_Buttom = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/closeButton.png");
-    // m_Cancel_Buttom->SetPosition( { 100, 146 } );
-    // m_Cancel_Buttom->SetZIndex( 13 );
-    // m_Cancel_Buttom->SetVisible(false);
-    // m_Root.AddChild( m_Cancel_Buttom );
-
-    // m_Pause_Buttom = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/pauseButton.png");
-    // m_Pause_Buttom->SetPosition( { -114.5, -258 } );
-    // m_Pause_Buttom->SetZIndex( 13 );
-    // m_Pause_Buttom->SetVisible(false);
-    // m_Root.AddChild( m_Pause_Buttom );
-
-    // m_Pause_Page = std::make_shared<Character>( GA_RESOURCE_DIR"/Image/Background/pausePage.png" );
-    // m_Pause_Page->SetPosition( {0 , 0} );
-    // m_Pause_Page->SetZIndex( 13 );
-    // m_Pause_Page->SetVisible(false);
-    // m_Root.AddChild( m_Pause_Page );
-
-    // m_Continue_Buttom = std::make_shared<Character>( GA_RESOURCE_DIR"/Image/GameObject/continueButtom.png");
-    // m_Continue_Buttom->SetPosition( {0 , 30} );
-    // m_Continue_Buttom->SetZIndex( 14 );
-    // m_Continue_Buttom->SetVisible(false);
-    // m_Root.AddChild( m_Continue_Buttom );
-
-    // m_Stop_Buttom = std::make_shared<Character>( GA_RESOURCE_DIR"/Image/GameObject/stopButtom.png" );
-    // m_Stop_Buttom->SetPosition( {0 , -30} );
-    // m_Stop_Buttom->SetZIndex( 14 );
-    // m_Stop_Buttom->SetVisible(false);
-    // m_Root.AddChild( m_Stop_Buttom );
-
-    // m_Play_Page[1] = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/Background/stage1Start.png");
-    // m_Play_Page[1]->SetVisible( false );
-    // m_Play_Page[1]->SetPosition({0, 0});
-    // m_Play_Page[1]->SetZIndex( 12 );
-    // m_Play_Page[1]->SetSize( {5, 5} );
-    // m_Root.AddChild( m_Play_Page[1] );
-
-    // m_finish_Page[1] = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/Background/stage1End.png");
-    // m_finish_Page[1]->SetVisible( false );
-    // m_finish_Page[1]->SetPosition({0, 0});
-    // m_finish_Page[1]->SetZIndex( 12 );
-    // m_finish_Page[1]->SetSize( {5, 5} );
-    // m_Root.AddChild( m_finish_Page[1] );
-
-    // m_Play_Page[2] = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/Background/stage2Start.png");
-    // m_Play_Page[2]->SetVisible( false );
-    // m_Play_Page[2]->SetPosition({0, 0});
-    // m_Play_Page[2]->SetZIndex( 12 );
-    // m_Play_Page[2]->SetSize( {5, 5} );
-    // m_Root.AddChild( m_Play_Page[2] );
-
-
     for ( int i = 1 ; i < 38 ; ++i ) { 
         m_Stage_1_Object[i] = std::make_shared<GameCharacter>( BLUE_NORMAL_OBJECT );
         m_Stage_1_Object[i]->SetVisible( false );
@@ -131,13 +68,13 @@ void App::Start() {
     m_Stage_Object[2]->SetStage( 0 );
     m_Root.AddChild( m_Stage_Object[2] );
 
-    m_Point_Show = std::make_shared<TaskText>();
-    m_Point_Show->SetVisible( false );
-    m_Point_Show->SetZIndex(10);
-    m_Point_Show->SetPosition( {125, 210} );
-    m_Point_Show->SetValue(0);
-    m_Root.AddChild( m_Point_Show );
-
+    m_Text_Point = std::make_shared<TaskText>();
+    m_Text_Point->SetPosition({-125, 210});
+    m_Text_Point->Initial( 0 );
+    m_Text_Point->UpdateText();
+    m_Text_Point->SetVisible(false);
+    m_Root.AddChild(m_Text_Point);
+    
     m_PRM = std::make_shared<PhaseResourceManager>();
     m_Root.AddChildren(m_PRM->GetChildren());
     m_CurrentState = State::UPDATE;
@@ -169,8 +106,7 @@ void App::Update() {
                         m_Stage_Object[1]->SetUp( 1 );
                         m_Stage_Object[1]->AppearAll();
                         m_Stage_Object[1]->SetStage( 1 );
-                        m_Point_Show->SetPosition( point_position[1] );
-                        m_Point_Show->UpdateText();
+                        m_Text_Point->Initial( 1 );
                         currentPhase = PHASE_NORMAL;
                         m_Phase = Phase::STAGE_1;
                     }
@@ -181,8 +117,11 @@ void App::Update() {
                         m_Stage_Object[2]->SetUp( 2 );
                         m_Stage_Object[2]->AppearAll();
                         m_Stage_Object[2]->SetStage( 2 );
-                        m_Point_Show->SetPosition( point_position[2] );
-                        m_Point_Show->UpdateText();
+                        m_Text_Point->Initial( 2 );
+                        // m_Goal_Point_Show->SetPosition( goal_position[2] );
+                        // m_Text_Point->UpdateText();
+                        // m_Movement->SetPosition( movement_position[2] );
+                        // m_Movement->UpdateText();
                         currentPhase = PHASE_NORMAL;
                         m_Phase = Phase::STAGE_2;
                     }   
@@ -194,12 +133,18 @@ void App::Update() {
             }
             break;
         case Phase::STAGE_1:
-            if (PhaseStage1( m_Stage_Object[1], m_Stage_Object[1]->GetSize() , m_Point_Show )){
+            if (PhaseStage1( m_Stage_Object[1], m_Stage_Object[1]->GetSize() , m_Text_Point )){
                 m_Stage_Object[1]->DisAppearAll();
-                m_Point_Show->SetVisible( false );
+                m_Text_Point->SetVisible( false );
                 ifClear[1] = true;
                 m_Jump_Page->EndPage( 1 );
-            } 
+            }
+            else if ( m_Text_Point->GetMove() <= 0 ) {
+                m_Stage_Object[1]->DisAppearAll();
+                m_Text_Point->SetVisible( false );
+                ifClear[1] = true;
+                m_Jump_Page->EndPage( 1 );
+            }
             else if ( currentPhase == PHASE_PAUSE_FOR_DISAPPEAR ) {
                 if ( (std::chrono::steady_clock::now() - startTime) >= std::chrono::seconds(1)) {
                     currentPhase = PHASE_DROPPING;
@@ -208,8 +153,9 @@ void App::Update() {
             }
             else if ( currentPhase == PHASE_DROPPING ) {
                 m_Stage_Object[1]->Dropping();
-                m_Point_Show->SetValue( stage_point_counter[1] );
-                m_Point_Show->UpdateText();
+                m_Text_Point->SetPoint( stage_point_counter[1] );
+                m_Text_Point->SetGoal( stage_goal_counter[1] );
+                m_Text_Point->UpdateText();
             }
             if ( m_Jump_Page->ifClickWithPauseButtom() ) {
                 m_Jump_Page->PausePage();
@@ -224,7 +170,7 @@ void App::Update() {
                 m_Stage_Object[1]->DisAppearAll();
                 stage_point_counter[1] = 0;
                 m_stage_pos = 0;
-                m_Point_Show->SetVisible( false );
+                m_Text_Point->SetVisible( false );
             }
             if ( m_Jump_Page->ifClickWithCancelButtomInEnd() ) {
                 m_Jump_Page->AllDisappear();
@@ -236,12 +182,18 @@ void App::Update() {
             }
             break;
         case Phase::STAGE_2:
-            if (PhaseStage2( m_Stage_Object[2], m_Stage_Object[2]->GetSize() , m_Point_Show )){
+            if (PhaseStage2( m_Stage_Object[2], m_Stage_Object[2]->GetSize() , m_Text_Point )){
                 m_Stage_Object[2]->DisAppearAll();
-                m_Point_Show->SetVisible( false );
+                m_Text_Point->SetVisible( false );
                 ifClear[2] = true;
                 m_Jump_Page->EndPage( 1 );
             } 
+            else if ( m_Text_Point->GetMove() <= 0 ) {
+                m_Stage_Object[2]->DisAppearAll();
+                m_Text_Point->SetVisible( false );
+                ifClear[2] = true;
+                m_Jump_Page->EndPage( 1 );
+            }
             else if ( currentPhase == PHASE_PAUSE_FOR_DISAPPEAR ) {
                 if ( (std::chrono::steady_clock::now() - startTime) >= std::chrono::seconds(1)) {
                     currentPhase = PHASE_DROPPING;
@@ -250,8 +202,9 @@ void App::Update() {
             }
             else if ( currentPhase == PHASE_DROPPING ) {
                 m_Stage_Object[2]->Dropping();
-                m_Point_Show->SetValue( stage_point_counter[2] );
-                m_Point_Show->UpdateText();
+                m_Text_Point->SetPoint( stage_point_counter[2] );
+                m_Text_Point->SetGoal( stage_goal_counter[2] );
+                m_Text_Point->UpdateText();
             }
             if ( m_Jump_Page->ifClickWithPauseButtom() ) {
                 m_Jump_Page->PausePage();
@@ -266,7 +219,7 @@ void App::Update() {
                 m_Stage_Object[2]->DisAppearAll();
                 stage_point_counter[2] = 0;
                 m_stage_pos = 0;
-                m_Point_Show->SetVisible( false );
+                m_Text_Point->SetVisible( false );
             }
             if ( m_Jump_Page->ifClickWithCancelButtomInEnd() ) {
                 m_Jump_Page->AllDisappear();

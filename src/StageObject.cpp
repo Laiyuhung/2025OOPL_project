@@ -437,6 +437,7 @@ void StageObject::MakeDisappear() {
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
         if ( m_Stage_Object[i]->GetType() != NORMAL_OBJECT && !m_Stage_Object[i]->GetAppearBool() ) {
             PointUpdate( GetPoint() + 1 );
+            GoalUpdate( i );
             m_Stage_Object[i]->SetAppearBool(true);
             CheckSpecialObject( i );
             m_Stage_Object[i]->SetGenerate( true );
@@ -452,7 +453,8 @@ void StageObject::MakeDisappear() {
 
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
         if ( !m_Stage_Object[i]->GetAppearBool() ) {
-            PointUpdate( GetPoint() + 1 );;
+            PointUpdate( GetPoint() + 1 );
+            GoalUpdate( i );
         }
     }
     cout<<"score: "<< GetPoint() <<endl;
@@ -493,17 +495,25 @@ void StageObject::PointUpdate(int point ) {
     stage_point_counter[m_Stage] = point;
 }
 
+void StageObject::GoalUpdate( int i ) {
+    switch ( m_Stage ) {
+        case 1:
+            if ( m_Stage_Object[i]->GetBlockType() == BROWN_OBJECT ) {
+                stage_goal_counter[1]--;
+            }
+            break;
+        case 2:
+            if ( m_Stage_Object[i]->GetBlockType() == BROWN_OBJECT ) {
+                stage_goal_counter[1]--;
+            }
+            break;
+        default:
+            break;
+    }
+}
+
 int StageObject::GetPoint() {
     return stage_point_counter[m_Stage];
-}
-
-
-void StageObject::MovesLeftUpdate(int moves ) {
-    stage_moves[m_Stage] = moves;
-}
-
-int StageObject::GetMovesLeft() {
-    return stage_moves[m_Stage];
 }
 
 void StageObject::AppearAll() {
@@ -1284,9 +1294,6 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
             m_Stage_Object[check]->SetSwitched(2);
             std::cout<<"pos: "<<i<<"  "<<check<<std::endl;
             std::cout<<"set SetSwitched to 2"<<std::endl;
-            MovesLeftUpdate(GetMovesLeft() - 1);
-
-
             m_Stage_Object[i]->SwitchPosition( m_Stage_Object[check] );
             std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[check];
             m_Stage_Object[check] = m_Stage_Object[i];
@@ -1346,12 +1353,13 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
                 std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[check];
                 m_Stage_Object[check] = m_Stage_Object[i];
                 m_Stage_Object[i] = NewObject;
-                MovesLeftUpdate(GetMovesLeft() + 1);
-
+            } 
+            else {
+                point->SetMove( point->GetMove() - 1 );
             }
-            point->SetValue( stage_point_counter[m_Stage] );
+            point->SetPoint( stage_point_counter[m_Stage] );
             point->UpdateText();
-            std::cout<<"moves left: "<<GetMovesLeft()<<std::endl;
+            // std::cout<<"moves left: "<<GetMovesLeft()<<std::endl;
             break;
         }
     }
