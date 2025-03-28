@@ -7,9 +7,11 @@
 #define PHASE_STAGE_1 3
 #define PHASE_STAGE_2 4
 
+#define JUMP_NORMAL 0
 #define JUMP_PLAY 1
 #define JUMP_END 2
 #define JUMP_PAUSE 3
+#define JUMP_INFO 4
 
 
 #define NO_MOVE 0
@@ -140,10 +142,12 @@
 #include <glm/vec2.hpp> 
 #include <stack>
 #include <memory>
-#include "ObjectInformation.hpp"
 #include <string>
+#include "ObjectInformation.hpp"
 
 extern glm::vec2 stage_position[13];
+extern glm::vec2 stage_goal_position[13];
+
 
 extern glm::vec2 stage1_position[38];
 extern int stage1_neibor[38][6];

@@ -8,7 +8,12 @@ JumpPage::JumpPage(const std::string& ImagePath)
             m_Play_Buttom->SetPosition( { 60.5, -120.5f } );
             m_Play_Buttom->SetZIndex( 13 );
             m_Play_Buttom->SetVisible(false);
-        
+            
+            m_info_Buttom = std::make_shared<Character>( GA_RESOURCE_DIR"/Image/GameObject/informationButton.png" );
+            m_info_Buttom->SetPosition( {-50.5, -120.5f} );
+            m_info_Buttom->SetZIndex( 14 );
+            m_info_Buttom->SetVisible(false);
+            
             m_Cancel_Buttom = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/closeButton.png");
             m_Cancel_Buttom->SetPosition( { 100, 146 } );
             m_Cancel_Buttom->SetZIndex( 13 );
@@ -28,6 +33,7 @@ JumpPage::JumpPage(const std::string& ImagePath)
             m_Stop_Buttom->SetPosition( {0 , -30} );
             m_Stop_Buttom->SetZIndex( 14 );
             m_Stop_Buttom->SetVisible(false);
+
         }
 
 void JumpPage::SetImage(const std::string& ImagePath) {

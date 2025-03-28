@@ -59,6 +59,10 @@ public:
             m_Stage_Object[1] = std::make_shared<StageObject>( 37 , m_Stage_1_Object );
             m_Stage_Object[1]->SetStage( 0 );
             m_Root.AddChild( m_Stage_Object[1] );
+            m_Stage_Goal_Object_Show = std::make_shared<GameCharacter>( BROWN_NORMAL_OBJECT );
+            m_Stage_Goal_Object_Show->SetPosition( stage_goal_position[1] );
+            m_Stage_Goal_Object_Show->SetVisible( true );
+            m_Root.AddChild( m_Stage_Goal_Object_Show );
         }
         else if ( stage == 2 ) {
             m_Stage_2_Object[0] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/click.png" );
@@ -74,6 +78,10 @@ public:
             m_Stage_Object[2] = std::make_shared<StageObject>( 45 , m_Stage_2_Object );
             m_Stage_Object[2]->SetStage( 0 );
             m_Root.AddChild( m_Stage_Object[2] );
+            m_Stage_Goal_Object_Show = std::make_shared<GameCharacter>( BROWN_NORMAL_OBJECT );
+            m_Stage_Goal_Object_Show->SetPosition( stage_goal_position[2] );
+            m_Stage_Goal_Object_Show->SetVisible( true );
+            m_Root.AddChild( m_Stage_Goal_Object_Show );
         }
         for ( int i = 1 ; i < 13 ; ++i ) {
             m_Stage_Buttoms[i]->SetVisible( false );
@@ -89,19 +97,19 @@ public:
             for ( int i = 0 ; i < 38 ; ++i ) { 
                 m_Root.RemoveChild( m_Stage_1_Object[i] );
             }
+            m_Root.RemoveChild( m_Stage_Goal_Object_Show );
             m_Root.RemoveChild( m_Stage_Object[1] );
         }
         else if ( stage == 2 ) {
             for ( int i = 0 ; i < 46 ; ++i ) { 
                 m_Root.RemoveChild( m_Stage_2_Object[i] );
             }
+            m_Root.RemoveChild( m_Stage_Goal_Object_Show );
             m_Root.RemoveChild( m_Stage_Object[2] );
         }
     }
 
     void AppearHomePage() {
-        // m_Goal_Point_Show->SetVisible( false );
-        // m_Movement->SetVisible( false );
         m_Text_Point->SetVisible( false );
         for ( int i = 1 ; i < 13 ; ++i ) {
             if ( ifClear[i] ) {
@@ -145,10 +153,12 @@ private:
     std::shared_ptr<Character> m_Stage_Buttoms[13];
     
 
-    std::shared_ptr<GameCharacter> m_Normal_Game_Object[7];
-
+    // std::shared_ptr<GameCharacter> m_Normal_Game_Object[13];
+    
     std::shared_ptr<GameCharacter> m_Stage_1_Object[38];
     std::shared_ptr<GameCharacter> m_Stage_2_Object[46];
+    
+    std::shared_ptr<GameCharacter> m_Stage_Goal_Object_Show;
 
     std::shared_ptr<StageObject> m_Stage_Object[13];
 

@@ -59,7 +59,7 @@ private:
     }
 
     inline static std::string show_string(std::string goal_descript , int goal , int move , int point ) {
-        return  "Goal: " + std::to_string(goal) + "                         " + std::to_string(move) + "       Point: " + std::to_string(point) + "\n\n\nGoal Description: \n" + goal_descript + "\n" ;
+        return  "          " + std::to_string(goal) + "                         " + std::to_string(move) + "       Point: " + std::to_string(point) + "\n\n\nGoal Description: \n" + goal_descript + "\n" ;
     }
 
     int m_Point = 0;
