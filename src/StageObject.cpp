@@ -504,7 +504,7 @@ void StageObject::GoalUpdate( int i ) {
             break;
         case 2:
             if ( m_Stage_Object[i]->GetBlockType() == BROWN_OBJECT ) {
-                stage_goal_counter[1]--;
+                stage_goal_counter[2]--;
             }
             break;
         default:

@@ -164,6 +164,7 @@ void App::Update() {
             }
             break;
         case Phase::STAGE_2:
+            m_Jump_Page->m_Pause_Buttom->SetVisible( true );
             if (PhaseStage( m_Stage_Object[2], m_Stage_Object[2]->GetSize() , m_Text_Point , 2)){
                 m_Stage_Object[2]->DisAppearAll();
                 m_Text_Point->SetVisible( false );
