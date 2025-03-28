@@ -49,6 +49,7 @@ void App::Start() {
     m_Root.AddChild( m_Jump_Page->m_Pause_Buttom );
     m_Root.AddChild( m_Jump_Page->m_Stop_Buttom );
     m_Root.AddChild( m_Jump_Page->m_Continue_Buttom );
+    m_Root.AddChild( m_Jump_Page->m_info_Buttom );
 
     m_Text_Point = std::make_shared<TaskText>();
     m_Text_Point->SetPosition({-125, 210});
@@ -105,9 +106,16 @@ void App::Update() {
                         m_Phase = Phase::STAGE_2;
                     }   
                 }
-                if ( m_Jump_Page->ifClickWithCancelButtom() ) {
-                    m_stage_pos = 0;
+                if ( m_Jump_Page->ifClickWithInfoButtom() ) {
                     m_Jump_Page->AllDisappear();
+                    m_Jump_Page->InfoPage( m_stage_pos );
+                }
+                if ( m_Jump_Page->ifClickWithCancelButtom() ) {
+                    m_Jump_Page->AllDisappear();
+                    if ( m_Jump_Page->GetStatus() == JUMP_INFO )
+                        m_Jump_Page->PlayPage( m_stage_pos );
+                    else
+                        m_stage_pos = 0;
                 }
             }
             break;
@@ -122,8 +130,8 @@ void App::Update() {
             else if ( m_Text_Point->GetMove() <= 0 ) {
                 m_Stage_Object[1]->DisAppearAll();
                 m_Text_Point->SetVisible( false );
-                ifClear[1] = true;
-                m_Jump_Page->EndPage( 1 );
+                ifClear[1] = false;
+                m_Jump_Page->FailPage( 1 );
             }
             else if ( currentPhase == PHASE_PAUSE_FOR_DISAPPEAR ) {
                 if ( (std::chrono::steady_clock::now() - startTime) >= std::chrono::seconds(1)) {
@@ -169,13 +177,13 @@ void App::Update() {
                 m_Stage_Object[2]->DisAppearAll();
                 m_Text_Point->SetVisible( false );
                 ifClear[2] = true;
-                m_Jump_Page->EndPage( 1 );
+                m_Jump_Page->EndPage( 2 );
             } 
             else if ( m_Text_Point->GetMove() <= 0 ) {
                 m_Stage_Object[2]->DisAppearAll();
                 m_Text_Point->SetVisible( false );
-                ifClear[2] = true;
-                m_Jump_Page->EndPage( 1 );
+                ifClear[2] = false;
+                m_Jump_Page->FailPage( 2 );
             }
             else if ( currentPhase == PHASE_PAUSE_FOR_DISAPPEAR ) {
                 if ( (std::chrono::steady_clock::now() - startTime) >= std::chrono::seconds(1)) {
