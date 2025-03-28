@@ -6,6 +6,7 @@
 #define PHASE_HOME_PAGE 2
 #define PHASE_STAGE_1 3
 #define PHASE_STAGE_2 4
+#define PHASE_STAGE_3 5
 
 #define JUMP_NORMAL 0
 #define JUMP_PLAY 1
@@ -18,6 +19,7 @@
 #define MOVE_BY_DROP 1
 #define MOVE_BY_SWITCH 2
 
+#define NO_COLOR 0
 #define BLUE_OBJECT 1
 #define BROWN_OBJECT 2
 #define GREEN_OBJECT 3
@@ -38,7 +40,13 @@
 #define FLOWER_STRIPE_OBJECT 10
 #define STRIPE_COMBINED_OBJECT 11
 
+#define COOKIE_ONE 12
+#define COOKIE_TWO 13
+
 #define EMPTY_OBJECT GA_RESOURCE_DIR"/Image/GameObject/emptyObject.png"
+
+#define COOKIE_ONE_IMAGE GA_RESOURCE_DIR"/Image/GameObject/cookie1.png"
+#define COOKIE_TWO_IMAGE GA_RESOURCE_DIR"/Image/GameObject/cookie2.png"
 
 #define BLUE_NORMAL_OBJECT GA_RESOURCE_DIR"/Image/GameObject/blueNormal.png"
 #define BROWN_NORMAL_OBJECT GA_RESOURCE_DIR"/Image/GameObject/brownNormal.png"
@@ -157,6 +165,10 @@ extern glm::vec2 stage2_position[46];
 extern int stage2_neibor[46][6];
 extern Objectinformation stage2[46];
 
+extern glm::vec2 stage3_position[48];
+extern int stage3_neibor[48][6];
+extern Objectinformation stage3[48];
+
 extern std::string ClearStageList[13];
 extern std::string LevelStageList[13];
 extern std::string CurrentStageList[13];
@@ -172,6 +184,7 @@ extern bool ifClear[13];
 
 void InitializeStage1();
 void InitializeStage2();
+void InitializeStage3();
 
 enum GamePhase {
     PHASE_NORMAL,
