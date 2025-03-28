@@ -9,9 +9,9 @@
 class TaskText : public Util::GameObject {
 public:
     TaskText() : GameObject(
-            std::make_unique<Util::Text>(GA_RESOURCE_DIR "/Font/Inkfree.ttf", 20,
+            std::make_unique<Util::Text>(GA_RESOURCE_DIR "/Font/Inkfree.ttf", 15,
                                          append_string_views("0", ""),
-                                         Util::Color::FromName(Util::Colors::WHITE)),
+                                         Util::Color::FromName(Util::Colors::BLUE)),
             100) {
         m_Transform.translation = {0.0F, -270.F};
     }
@@ -21,6 +21,7 @@ public:
         this->m_Point = 0;
         this->m_Movement = stage_moves[stage];
         this->m_Goal = stage_point_goal[stage];
+        this->m_goal_des = stage_goal_type[stage];
         this->SetPosition( point_position[stage] );
         this->UpdateText();
     }
@@ -48,7 +49,7 @@ public:
     void UpdateText() {  
         auto* temp = dynamic_cast<Util::Text*>(m_Drawable.get());
         if (temp) {
-            temp->SetText(show_string( m_Goal , m_Movement , m_Point ));
+            temp->SetText(show_string( m_goal_des , m_Goal , m_Movement , m_Point ));
         }
     }
 
@@ -57,13 +58,14 @@ private:
         return sv1 + "\n" + sv2;
     }
 
-    inline static std::string show_string(int goal , int move , int point ) {
-        return "Goal: " + std::to_string(goal) + "  Move: " + std::to_string(move) + "  Point: " + std::to_string(point) + "\n";
+    inline static std::string show_string(std::string goal_descript , int goal , int move , int point ) {
+        return  "Goal: " + std::to_string(goal) + "                         " + std::to_string(move) + "       Point: " + std::to_string(point) + "\n\n\nGoal Description: \n" + goal_descript + "\n" ;
     }
 
     int m_Point = 0;
     int m_Goal = 0;
     int m_Movement = 0;
+    std::string m_goal_des;
 };
 
 #endif // TASKTEXT_HPP
