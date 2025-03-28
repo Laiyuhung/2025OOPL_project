@@ -75,7 +75,7 @@ glm::vec2 stage_position[13] = {
 glm::vec2 point_position[13] = {
     {-100000, -100000},
     { 5 , 185 },
-    { 30 , 260.5f },
+    { 5 , 215.5f },
     {-100000, -100000},
     {-100000, -100000},
     {-100000, -100000},
@@ -97,9 +97,9 @@ int stage_goal_counter[13] = {
 };
 
 char stage_goal_type[13][30] = {
-    "Remove BrownObjectNormal",
-    "Remove BrownObjectNormal",
     "",
+    "Remove BrownObjectNormal",
+    "Remove BrownObjectNormal",
     "",
     "",
     "",
@@ -121,7 +121,7 @@ int stage_moves[13] = {
 
 bool ifClear[13] = {
     true,
-    false,
+    true,
     false,
     false,
     false,
