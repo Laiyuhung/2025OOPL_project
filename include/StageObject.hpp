@@ -35,6 +35,8 @@ class StageObject : public Util::GameObject {
         void CheckSpecialObject( int i );
         void MakeDisappear();
         void Dropping();
+        void CheckObstaclesDisappear();
+        void MakeObstaclesDisappear(int position);
         void PointUpdate( int point );
         int  GetPoint();
         void GoalUpdate( int i );

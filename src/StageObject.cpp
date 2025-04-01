@@ -230,6 +230,8 @@ bool StageObject::CheckAppearance( int s ) {
         if( !m_Stage_Object[i]->GetAppearBool() ) 
             flag = true;
     }
+    
+    CheckObstaclesDisappear();
 
     if ( flag ) {
         // DebugModeOfAppearance( m_Stage_Object , size);
@@ -237,6 +239,7 @@ bool StageObject::CheckAppearance( int s ) {
         if ( s == 0 )
             Dropping();
     }
+
     //check need shuffle or not
     else
     {
@@ -500,6 +503,37 @@ void StageObject::Dropping() {
     currentPhase = PHASE_NORMAL;
     CheckAppearance( m_Stage );
 }
+
+void StageObject::MakeObstaclesDisappear(int position) {
+
+    //Add here if more obstacles
+    switch ( m_Stage_Object[position]->GetCurrentType() ) {
+        case ONE_LAYER_COOKIE_OBJECT:
+            m_Stage_Object[position]->SetAppearBool(false);
+        break;
+
+        case TWO_LAYER_COOKIE_OBJECT:
+            m_Stage_Object[position]->SetBlockType(ONE_LAYER_COOKIE_OBJECT);
+        break;
+    }
+}
+
+void StageObject::CheckObstaclesDisappear() {
+
+    for ( int i = 1 ; i < m_Size+1 ; ++i ) {
+        if(m_Stage_Object[i]->GetCurrentType() >= ONE_LAYER_COOKIE_OBJECT && m_Stage_Object[i]->GetCurrentType() <= 50) {
+
+            //check if neighbor disap.
+            for ( int j = 0 ; j < 6 ; ++j ) {
+                if (m_Stage_Object[i]->GetInformationNeibor()[j] != 1 && !m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]]->GetAppearBool() ) {
+                    MakeObstaclesDisappear(i);
+                    break;
+                }
+            }
+        }
+    }
+}
+
 
 void StageObject::PointUpdate(int point ) {
     stage_point_counter[m_Stage] = point;

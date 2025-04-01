@@ -40,8 +40,11 @@
 #define FLOWER_STRIPE_OBJECT 10
 #define STRIPE_COMBINED_OBJECT 11
 
-#define COOKIE_ONE 12
-#define COOKIE_TWO 13
+//31-50 for obstacle use
+#define ONE_LAYER_COOKIE_OBJECT 31
+#define TWO_LAYER_COOKIE_OBJECT 32
+
+
 
 #define EMPTY_OBJECT GA_RESOURCE_DIR"/Image/GameObject/emptyObject.png"
 
