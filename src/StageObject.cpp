@@ -230,7 +230,7 @@ bool StageObject::CheckAppearance( int s ) {
         if( !m_Stage_Object[i]->GetAppearBool() ) 
             flag = true;
     }
-    
+
     CheckObstaclesDisappear();
 
     if ( flag ) {
