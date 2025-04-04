@@ -115,7 +115,7 @@ char stage_goal_type[13][30] = {
     "",
     "Remove Brown Object",
     "Remove Brown Object",
-    "Update Point",
+    "Remove Brown Object",
     "",
     "",
     "",
