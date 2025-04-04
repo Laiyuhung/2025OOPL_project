@@ -532,7 +532,7 @@ void StageObject::CheckObstaclesDisappear() {
 
             //check if neighbor disap.
             for ( int j = 0 ; j < 6 ; ++j ) {
-                if (m_Stage_Object[i]->GetInformationNeibor()[j] != -1 && !m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]]->GetAppearBool() ) {
+                if (m_Stage_Object[i]->GetInformationNeibor()[j] != -1 && !m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]]->GetAppearBool() && m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]]->GetCurrentType() <= STRIPE_COMBINED_OBJECT ) {
                     MakeObstaclesDisappear(i);
                     break;
                 }
