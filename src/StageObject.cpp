@@ -259,6 +259,8 @@ bool StageObject::CheckAppearance( int s ) {
 void StageObject::CheckSpecialObject( int i ){
     switch ( m_Stage_Object[i]->GetBlockType() )
     {
+        case ONE_LAYER_COOKIE_OBJECT:
+
         case BLUE_OBJECT:
             if ( m_Stage_Object[i]->GetType() == STRIPE_OBJECT ) {
                 m_Stage_Object[i]->SetImage( BLUE_STRIPE_OBJECT );
@@ -441,24 +443,25 @@ void StageObject::MakeDisappear() {
             continue;
         }
 
-        if ( !m_Stage_Object[i]->GetAppearBool() && ( m_Stage_Object[i]->GetCurrentType() == NORMAL_OBJECT || m_Stage_Object[i]->GetGenerate() ) ) {
+        if ( !m_Stage_Object[i]->GetAppearBool() && ( m_Stage_Object[i]->GetCurrentType() == NORMAL_OBJECT || m_Stage_Object[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT || m_Stage_Object[i]->GetGenerate() ) ) {
             MakeDisappearWithObject( i );
             m_Stage_Object[i]->SetGenerate( false );
         }
     }
 
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
-        if ( m_Stage_Object[i]->GetType() != NORMAL_OBJECT && !m_Stage_Object[i]->GetAppearBool() ) {
+        if ((m_Stage_Object[i]->GetType() == NORMAL_OBJECT || m_Stage_Object[i]->GetType() == ONE_LAYER_COOKIE_OBJECT || m_Stage_Object[i]->GetType() == TWO_LAYER_COOKIE_OBJECT ) && !m_Stage_Object[i]->GetAppearBool()) {
+            // PointUpdate( GetPoint() + 1 );
+            m_Stage_Object[i]->SetCurrentType( m_Stage_Object[i]->GetType() ); //current == now, blockType = next(finished)
+            m_Stage_Object[i]->SetBlockType( NORMAL_OBJECT );
+                
+        }
+        else if ( m_Stage_Object[i]->GetType() != NORMAL_OBJECT && !m_Stage_Object[i]->GetAppearBool() ) {
             PointUpdate( GetPoint() + 1 );
             GoalUpdate( i );
             m_Stage_Object[i]->SetAppearBool(true);
             CheckSpecialObject( i );
             m_Stage_Object[i]->SetGenerate( true );
-            m_Stage_Object[i]->SetCurrentType( m_Stage_Object[i]->GetType() ); //current == now, blockType = next(finished)
-            m_Stage_Object[i]->SetBlockType( NORMAL_OBJECT );
-        }
-        else if (m_Stage_Object[i]->GetType() == NORMAL_OBJECT && !m_Stage_Object[i]->GetAppearBool()) {
-            // PointUpdate( GetPoint() + 1 );
             m_Stage_Object[i]->SetCurrentType( m_Stage_Object[i]->GetType() ); //current == now, blockType = next(finished)
             m_Stage_Object[i]->SetBlockType( NORMAL_OBJECT );
         }
@@ -492,7 +495,12 @@ void StageObject::Dropping() {
         ++loop_count ;
     }
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
-        if ( !m_Stage_Object[i]->GetAppearBool() ) {
+        if ( !m_Stage_Object[i]->GetAppearBool() && m_Stage_Object[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT ) {
+            m_Stage_Object[i]->SetImage( GA_RESOURCE_DIR"/Image/GameObject/cookie1.png" );
+            m_Stage_Object[i]->SetBlock( ONE_LAYER_COOKIE_OBJECT );
+            m_Stage_Object[i]->SetBlockType( NORMAL_OBJECT );
+        }
+        else if ( !m_Stage_Object[i]->GetAppearBool() ) {
             RandomChangeObject( i );
             m_Stage_Object[i]->SetBlockType( NORMAL_OBJECT );
         }
@@ -511,9 +519,8 @@ void StageObject::MakeObstaclesDisappear(int position) {
         case ONE_LAYER_COOKIE_OBJECT:
             m_Stage_Object[position]->SetAppearBool(false);
         break;
-
         case TWO_LAYER_COOKIE_OBJECT:
-            m_Stage_Object[position]->SetBlockType(ONE_LAYER_COOKIE_OBJECT);
+            m_Stage_Object[position]->SetAppearBool(false);
         break;
     }
 }
@@ -525,7 +532,7 @@ void StageObject::CheckObstaclesDisappear() {
 
             //check if neighbor disap.
             for ( int j = 0 ; j < 6 ; ++j ) {
-                if (m_Stage_Object[i]->GetInformationNeibor()[j] != 1 && !m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]]->GetAppearBool() ) {
+                if (m_Stage_Object[i]->GetInformationNeibor()[j] != -1 && !m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]]->GetAppearBool() ) {
                     MakeObstaclesDisappear(i);
                     break;
                 }
@@ -549,6 +556,11 @@ void StageObject::GoalUpdate( int i ) {
         case 2:
             if ( m_Stage_Object[i]->GetBlockType() == BROWN_OBJECT ) {
                 stage_goal_counter[2]--;
+            }
+            break;
+        case 3:
+            if ( m_Stage_Object[i]->GetBlockType() == BROWN_OBJECT ) {
+                stage_goal_counter[3]--;
             }
             break;
         default:
@@ -621,6 +633,13 @@ void StageObject::MakeDisappearWithObject( int current_pos ) {
         case NORMAL_OBJECT:
             m_Stage_Object[current_pos]->DisAppear();
             m_Stage_Object[current_pos]->SetAppearBool( false );
+            break;
+        case ONE_LAYER_COOKIE_OBJECT:
+            m_Stage_Object[current_pos]->DisAppear();
+            m_Stage_Object[current_pos]->SetAppearBool( false );
+            m_Stage_Object[current_pos]->SetCurrentType( NORMAL_OBJECT );
+            break;
+        case TWO_LAYER_COOKIE_OBJECT:
             break;
         default:
             m_Stage_Object[current_pos]->DisAppear();
@@ -1244,7 +1263,15 @@ void StageObject::Dropping_method( const int current_position ) {
     if ( !m_Stage_Object[current_position] || m_Stage_Object[current_position]->GetInformationNeibor()[0] == -1  || !m_Stage_Object[m_Stage_Object[current_position]->GetInformationNeibor()[0]])
         return;
     if ( current_position < m_Size+1 ) {
-        const int next_position = m_Stage_Object[current_position]->GetInformationNeibor()[0];
+        int next_position; 
+        if ( m_Stage_Object[current_position]->GetInformationNeibor()[0] != -1 && ( m_Stage_Object[m_Stage_Object[current_position]->GetInformationNeibor()[0]]->GetCurrentType() != ONE_LAYER_COOKIE_OBJECT && m_Stage_Object[m_Stage_Object[current_position]->GetInformationNeibor()[0]]->GetCurrentType() != TWO_LAYER_COOKIE_OBJECT ) )
+            next_position = m_Stage_Object[current_position]->GetInformationNeibor()[0];
+        else if ( m_Stage_Object[current_position]->GetInformationNeibor()[5] != -1 && ( m_Stage_Object[m_Stage_Object[current_position]->GetInformationNeibor()[5]]->GetCurrentType() != ONE_LAYER_COOKIE_OBJECT && m_Stage_Object[m_Stage_Object[current_position]->GetInformationNeibor()[5]]->GetCurrentType() != TWO_LAYER_COOKIE_OBJECT ) )
+            next_position = m_Stage_Object[current_position]->GetInformationNeibor()[5];
+        else if ( m_Stage_Object[current_position]->GetInformationNeibor()[1] != -1 && ( m_Stage_Object[m_Stage_Object[current_position]->GetInformationNeibor()[1]]->GetCurrentType() != ONE_LAYER_COOKIE_OBJECT && m_Stage_Object[m_Stage_Object[current_position]->GetInformationNeibor()[1]]->GetCurrentType() != TWO_LAYER_COOKIE_OBJECT ) )
+            next_position = m_Stage_Object[current_position]->GetInformationNeibor()[1];
+        else
+            return;
         bool flag = m_Stage_Object[next_position]->GetAppearBool();
 
         m_Stage_Object[current_position]->SetSwitched(1);
