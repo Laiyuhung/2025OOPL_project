@@ -13,6 +13,10 @@ void App::Start() {
     InitializeStage3();
     startTime = std::chrono::steady_clock::now();
 
+    m_BGM_Music[0] = std::make_shared<Music>(GA_RESOURCE_DIR"/Music/springDayShadow.mp3");
+    m_BGM_Music[0]->Pause();
+    m_BGM_Music[0]->SetVolume( 30 );
+
     m_Start_initial = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/initailStartButton.png");
     m_Start_initial->SetPosition({0, -160.5f});
     m_Start_initial->SetZIndex(10);
@@ -76,7 +80,6 @@ void App::Update() {
             break;
         case Phase::HOME_PAGE:
             {
-                AppearHomePage();
                 int get_stage = PhaseHomePage(m_Stage_Buttoms);
                 if ( get_stage != 0 ){
                     m_stage_pos = get_stage;

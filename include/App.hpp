@@ -11,6 +11,7 @@
 #include "TaskText.hpp"
 #include "StageObject.hpp"
 #include "JumpPage.hpp"
+#include "Music.hpp"
 
 // #include "AnimatedCharacter.hpp"
 
@@ -45,6 +46,7 @@ public:
     void End(); // NOLINT(readability-convert-member-functions-to-static)
 
     void SetUpStage( int stage ) {
+        m_BGM_Music[0]->Playing( GA_RESOURCE_DIR"/Music/rickRoll.mp3");
         if ( stage == 1 ) {
             m_Stage_Object_GameCharacter[0] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/click.png" );
             m_Stage_Object_GameCharacter[0]->SetVisible( false );
@@ -133,12 +135,10 @@ public:
             m_Root.RemoveChild( m_Stage_Goal_Object_Show );
             m_Root.RemoveChild( m_Stage_Object[3] );
         }
-        for ( int i = 0 ; i < 90 ; ++i ) {
-            m_Stage_Object_GameCharacter[i] = nullptr;
-        }
     }
 
     void AppearHomePage() {
+        m_BGM_Music[0]->Playing( GA_RESOURCE_DIR"/Music/springDayShadow.mp3");
         m_Text_Point->SetVisible( false );
         for ( int i = 1 ; i < 13 ; ++i ) {
             if ( ifClear[i] ) {
@@ -179,6 +179,8 @@ private:
     Phase m_Phase = Phase::INITIAL_IMAGE;
 
     Util::Renderer m_Root;
+
+    std::shared_ptr<Music> m_BGM_Music[40];
 
     std::shared_ptr<Character> m_Start_initial;
     std::shared_ptr<Character> m_Stage_Buttoms[13];
