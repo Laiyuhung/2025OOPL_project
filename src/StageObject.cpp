@@ -1218,8 +1218,8 @@ bool StageObject::DisappearMethodOfTriangleFlower( int current_pos , int* total_
 
 bool StageObject::DisappearMethodOfRainbowBall(  int current_pos, int* total_length, int priority ) {
     bool cont_to_check = false ;
-    bool left_check;
-    bool right_check;
+    bool left_check = false;
+    bool right_check = false;
     for ( int i = 0 , j = 3 ; i < 3 ; ++i, ++j ) {
         if ( (total_length[i] + total_length[j] ) >= 4 ) {
 
