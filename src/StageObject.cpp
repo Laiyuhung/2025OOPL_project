@@ -259,8 +259,6 @@ bool StageObject::CheckAppearance( int s ) {
 void StageObject::CheckSpecialObject( int i ){
     switch ( m_Stage_Object[i]->GetBlockType() )
     {
-        case ONE_LAYER_COOKIE_OBJECT:
-
         case BLUE_OBJECT:
             if ( m_Stage_Object[i]->GetType() == STRIPE_OBJECT ) {
                 m_Stage_Object[i]->SetImage( BLUE_STRIPE_OBJECT );
@@ -496,7 +494,7 @@ void StageObject::Dropping() {
     }
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
         if ( !m_Stage_Object[i]->GetAppearBool() && m_Stage_Object[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT ) {
-            m_Stage_Object[i]->SetImage( GA_RESOURCE_DIR"/Image/GameObject/cookie1.png" );
+            m_Stage_Object[i]->SetImage( COOKIE_ONE_IMAGE );
             m_Stage_Object[i]->SetBlock( ONE_LAYER_COOKIE_OBJECT );
             m_Stage_Object[i]->SetBlockType( NORMAL_OBJECT );
         }
@@ -1350,12 +1348,12 @@ void StageObject::SetUp( int stage ) {
     }
     InitializeStageCharacter( stage );
     CheckAppearance( 0 );
-    // m_Stage_Object[37]->SetImage( RAINBOWBALL_OBJECT_LINK );
-    // m_Stage_Object[37]->SetBlockType( NORMAL_OBJECT );
-    // m_Stage_Object[37]->SetCurrentType( RAINBOWBALL_OBJECT);
-    // m_Stage_Object[37]->SetBlock( 0 );
-    // m_Stage_Object[37]->SetAppearBool( true );
-    // m_Stage_Object[37]->SetGenerate( true );
+    m_Stage_Object[37]->SetImage( COOKIE_TWO_IMAGE );
+    m_Stage_Object[37]->SetBlockType( ONE_LAYER_COOKIE_OBJECT );
+    m_Stage_Object[37]->SetCurrentType( TWO_LAYER_COOKIE_OBJECT );
+    m_Stage_Object[37]->SetBlock( NO_COLOR );
+    m_Stage_Object[37]->SetAppearBool( true );
+    m_Stage_Object[37]->SetGenerate( false );
 }
 
 void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText> point ) {
