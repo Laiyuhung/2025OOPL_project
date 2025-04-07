@@ -48,8 +48,8 @@
 
 #define EMPTY_OBJECT GA_RESOURCE_DIR"/Image/GameObject/emptyObject.png"
 
-#define COOKIE_ONE_IMAGE GA_RESOURCE_DIR"/Image/GameObject/cookie1.png"
-#define COOKIE_TWO_IMAGE GA_RESOURCE_DIR"/Image/GameObject/cookie2.png"
+#define COOKIE_ONE_IMAGE GA_RESOURCE_DIR"/Image/GameObject/cookie2.png"
+#define COOKIE_TWO_IMAGE GA_RESOURCE_DIR"/Image/GameObject/cookie1.png"
 
 #define BLUE_NORMAL_OBJECT GA_RESOURCE_DIR"/Image/GameObject/blueNormal.png"
 #define BROWN_NORMAL_OBJECT GA_RESOURCE_DIR"/Image/GameObject/brownNormal.png"
