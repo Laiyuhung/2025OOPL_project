@@ -171,6 +171,7 @@ void App::Update() {
                 m_PRM->NextPhase(PHASE_HOME_PAGE);
                 RemoveStage( 1 );
                 m_Phase = Phase::HOME_PAGE;
+                AppearHomePage();
                 m_Stage_Object[1]->DisAppearAll();
                 stage_point_counter[1] = 0;
                 m_stage_pos = 0;
@@ -222,6 +223,7 @@ void App::Update() {
                 m_Jump_Page->AllDisappear();
                 m_PRM->NextPhase(PHASE_HOME_PAGE);
                 RemoveStage( 2 );
+                AppearHomePage();
                 m_Phase = Phase::HOME_PAGE;
                 m_Stage_Object[2]->DisAppearAll();
                 stage_point_counter[2] = 0;
@@ -275,6 +277,7 @@ void App::Update() {
                 m_PRM->NextPhase(PHASE_HOME_PAGE);
                 RemoveStage( 3 );
                 m_Phase = Phase::HOME_PAGE;
+                AppearHomePage();
                 m_Stage_Object[3]->DisAppearAll();
                 stage_point_counter[3] = 0;
                 m_stage_pos = 0;
