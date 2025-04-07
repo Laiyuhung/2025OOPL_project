@@ -494,8 +494,9 @@ void StageObject::Dropping() {
     }
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
         if ( !m_Stage_Object[i]->GetAppearBool() && m_Stage_Object[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT ) {
+            printf( "testing\n" );
             m_Stage_Object[i]->SetImage( COOKIE_ONE_IMAGE );
-            m_Stage_Object[i]->SetBlock( ONE_LAYER_COOKIE_OBJECT );
+            m_Stage_Object[i]->SetBlock( NO_COLOR );
             m_Stage_Object[i]->SetBlockType( NORMAL_OBJECT );
         }
         else if ( !m_Stage_Object[i]->GetAppearBool() ) {
@@ -557,9 +558,7 @@ void StageObject::GoalUpdate( int i ) {
             }
             break;
         case 3:
-            if ( m_Stage_Object[i]->GetBlockType() == BROWN_OBJECT ) {
-                stage_goal_counter[3]--;
-            }
+            // stage_goal_counter[3]--;
             break;
         default:
             break;
@@ -1258,7 +1257,7 @@ void StageObject::DisappearBySingleObject( int current_pos, int side, int length
 }
 
 void StageObject::Dropping_method( const int current_position ) {
-    if ( !m_Stage_Object[current_position] || m_Stage_Object[current_position]->GetInformationNeibor()[0] == -1  || !m_Stage_Object[m_Stage_Object[current_position]->GetInformationNeibor()[0]])
+    if ( !m_Stage_Object[current_position] || m_Stage_Object[current_position]->GetInformationNeibor()[0] == -1  || !m_Stage_Object[m_Stage_Object[current_position]->GetInformationNeibor()[0]] || m_Stage_Object[current_position]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT || m_Stage_Object[current_position]->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT )
         return;
     if ( current_position < m_Size+1 ) {
         int next_position; 
@@ -1348,12 +1347,6 @@ void StageObject::SetUp( int stage ) {
     }
     InitializeStageCharacter( stage );
     CheckAppearance( 0 );
-    m_Stage_Object[37]->SetImage( COOKIE_TWO_IMAGE );
-    m_Stage_Object[37]->SetBlockType( ONE_LAYER_COOKIE_OBJECT );
-    m_Stage_Object[37]->SetCurrentType( TWO_LAYER_COOKIE_OBJECT );
-    m_Stage_Object[37]->SetBlock( NO_COLOR );
-    m_Stage_Object[37]->SetAppearBool( true );
-    m_Stage_Object[37]->SetGenerate( false );
 }
 
 void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText> point ) {

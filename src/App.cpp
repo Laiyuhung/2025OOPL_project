@@ -84,6 +84,7 @@ void App::Update() {
                 if ( get_stage != 0 ){
                     m_stage_pos = get_stage;
                     m_Jump_Page->PlayPage( m_stage_pos );
+                    m_Jump_Page->SetStatus( JUMP_PLAY );
                 } 
                 if ( m_Jump_Page->ifClickWithPlayButtom() ) {
                     SetUpStage( m_stage_pos );
@@ -106,6 +107,12 @@ void App::Update() {
                         m_Stage_Object[2]->AppearAll();
                         m_Stage_Object[2]->SetStage( 2 );
                         m_Text_Point->Initial( 2 );
+                        // m_Stage_Object[2]->GetStageObject()[37]->SetImage( COOKIE_TWO_IMAGE );
+                        // m_Stage_Object[2]->GetStageObject()[37]->SetBlockType( ONE_LAYER_COOKIE_OBJECT );
+                        // m_Stage_Object[2]->GetStageObject()[37]->SetCurrentType( TWO_LAYER_COOKIE_OBJECT );
+                        // m_Stage_Object[2]->GetStageObject()[37]->SetBlock( NO_COLOR );
+                        // m_Stage_Object[2]->GetStageObject()[37]->SetAppearBool( true );
+                        // m_Stage_Object[2]->GetStageObject()[37]->SetGenerate( false );
                         currentPhase = PHASE_NORMAL;
                         m_Phase = Phase::STAGE_2;
                     }
@@ -125,12 +132,15 @@ void App::Update() {
                     m_Jump_Page->AllDisappear();
                     m_Jump_Page->InfoPage( m_stage_pos );
                 }
-                if ( m_Jump_Page->ifClickWithCancelButtom() ) {
+                if ( m_Jump_Page->ifClickWithCancelButtom() && m_Jump_Page->GetStatus() == JUMP_INFO ) {
                     m_Jump_Page->AllDisappear();
-                    if ( m_Jump_Page->GetStatus() == JUMP_INFO )
-                        m_Jump_Page->PlayPage( m_stage_pos );
-                    else
-                        m_stage_pos = 0;
+                    m_Jump_Page->PlayPage( m_stage_pos );
+                    m_Jump_Page->SetStatus( JUMP_PLAY );
+                }
+                else if (m_Jump_Page->ifClickWithCancelButtom() && m_Jump_Page->GetStatus() == JUMP_PLAY ) {
+                    m_Jump_Page->AllDisappear();
+                    m_Jump_Page->SetStatus( JUMP_NORMAL );
+                    m_stage_pos = 0;
                 }
             }
             break;

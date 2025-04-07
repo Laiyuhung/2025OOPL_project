@@ -44,7 +44,7 @@
 #define ONE_LAYER_COOKIE_OBJECT 31
 #define TWO_LAYER_COOKIE_OBJECT 32
 
-
+#define REACH_IMAGE GA_RESOURCE_DIR"/Image/GameObject/reach.png"
 
 #define EMPTY_OBJECT GA_RESOURCE_DIR"/Image/GameObject/emptyObject.png"
 

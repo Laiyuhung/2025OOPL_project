@@ -99,7 +99,7 @@ public:
             m_Stage_Object[3] = std::make_shared<StageObject>( 47 , m_Stage_Object_GameCharacter );
             m_Stage_Object[3]->SetStage( 0 );
             m_Root.AddChild( m_Stage_Object[3] );
-            m_Stage_Goal_Object_Show = std::make_shared<GameCharacter>( BROWN_NORMAL_OBJECT );
+            m_Stage_Goal_Object_Show = std::make_shared<GameCharacter>( REACH_IMAGE );
             m_Stage_Goal_Object_Show->SetPosition( stage_goal_position[3] );
             m_Stage_Goal_Object_Show->SetVisible( true );
             m_Root.AddChild( m_Stage_Goal_Object_Show );
