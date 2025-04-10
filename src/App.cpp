@@ -11,6 +11,8 @@ void App::Start() {
     InitializeStage1();
     InitializeStage2();
     InitializeStage3();
+    InitializeStage4();
+    InitializeStage5();
     startTime = std::chrono::steady_clock::now();
 
     m_BGM_Music[0] = std::make_shared<Music>(GA_RESOURCE_DIR"/Music/springDayShadow.mp3");
@@ -126,7 +128,30 @@ void App::Update() {
                         m_Text_Point->Initial( 3 );
                         currentPhase = PHASE_NORMAL;
                         m_Phase = Phase::STAGE_3;
-                    }   
+                    }
+
+                    else if ( m_stage_pos == 4 ) {
+                        std::cout << "Level4 Character clicked!" << std::endl;
+                        m_Jump_Page->AllDisappear();
+                        m_PRM->NextPhase(PHASE_STAGE_4);
+                        m_Stage_Object[4]->SetUp( 4 );
+                        m_Stage_Object[4]->AppearAll();
+                        m_Stage_Object[4]->SetStage( 4 );
+                        m_Text_Point->Initial( 4 );
+                        currentPhase = PHASE_NORMAL;
+                        m_Phase = Phase::STAGE_4;
+                    }
+                    else if ( m_stage_pos == 5 ) {
+                        std::cout << "Level5 Character clicked!" << std::endl;
+                        m_Jump_Page->AllDisappear();
+                        m_PRM->NextPhase(PHASE_STAGE_5);
+                        m_Stage_Object[5]->SetUp( 5 );
+                        m_Stage_Object[5]->AppearAll();
+                        m_Stage_Object[5]->SetStage( 5 );
+                        m_Text_Point->Initial( 5 );
+                        currentPhase = PHASE_NORMAL;
+                        m_Phase = Phase::STAGE_5;
+                    }
                 }
                 if ( m_Jump_Page->ifClickWithInfoButtom() ) {
                     m_Jump_Page->AllDisappear();
@@ -144,6 +169,7 @@ void App::Update() {
                 }
             }
             break;
+
         case Phase::STAGE_1:
             m_Jump_Page->m_Pause_Buttom->SetVisible( true );
             if (PhaseStage( m_Stage_Object[1], m_Stage_Object[1]->GetSize() , m_Text_Point , 1 )){
@@ -197,6 +223,7 @@ void App::Update() {
                 m_stage_pos = 0;
             }
             break;
+
         case Phase::STAGE_2:
             m_Jump_Page->m_Pause_Buttom->SetVisible( true );
             if (PhaseStage( m_Stage_Object[2], m_Stage_Object[2]->GetSize() , m_Text_Point , 2)){
@@ -250,6 +277,7 @@ void App::Update() {
                 m_stage_pos = 0;
             }
             break;
+
         case Phase::STAGE_3:
             m_Jump_Page->m_Pause_Buttom->SetVisible( true );
             if (PhaseStage( m_Stage_Object[3], m_Stage_Object[3]->GetSize() , m_Text_Point , 3)){
@@ -259,7 +287,7 @@ void App::Update() {
                 m_Jump_Page->EndPage( 3 );
             } 
             else if ( m_Text_Point->GetMove() <= 0 ) {
-                m_Stage_Object[2]->DisAppearAll();
+                m_Stage_Object[3]->DisAppearAll();
                 m_Text_Point->SetVisible( false );
                 ifClear[3] = false;
                 m_Jump_Page->FailPage( 3 );
@@ -300,6 +328,116 @@ void App::Update() {
                 m_Phase = Phase::HOME_PAGE;
                 AppearHomePage();
                 stage_point_counter[3] = 0;
+                m_stage_pos = 0;
+            }
+            break;
+
+
+        case Phase::STAGE_4:
+            m_Jump_Page->m_Pause_Buttom->SetVisible( true );
+            if (PhaseStage( m_Stage_Object[4], m_Stage_Object[4]->GetSize() , m_Text_Point , 4)){
+                m_Stage_Object[4]->DisAppearAll();
+                m_Text_Point->SetVisible( false );
+                ifClear[4] = true;
+                m_Jump_Page->EndPage( 4 );
+            }
+            else if ( m_Text_Point->GetMove() <= 0 ) {
+                m_Stage_Object[4]->DisAppearAll();
+                m_Text_Point->SetVisible( false );
+                ifClear[4] = false;
+                m_Jump_Page->FailPage( 4 );
+            }
+            else if ( currentPhase == PHASE_PAUSE_FOR_DISAPPEAR ) {
+                if ( (std::chrono::steady_clock::now() - startTime) >= std::chrono::seconds(1)) {
+                    currentPhase = PHASE_DROPPING;
+                }
+                m_Root.Update();
+            }
+            else if ( currentPhase == PHASE_DROPPING ) {
+                m_Stage_Object[4]->Dropping();
+                m_Text_Point->SetPoint( stage_point_counter[4] );
+                m_Text_Point->SetGoal( stage_goal_counter[4] );
+                m_Text_Point->UpdateText();
+            }
+            if ( m_Jump_Page->ifClickWithPauseButtom() ) {
+                m_Jump_Page->PausePage();
+            }
+            if ( m_Jump_Page->ifClickWithContinueButtom() ) {
+                m_Jump_Page->AllDisappear();
+            }
+            if ( m_Jump_Page->ifClickWithStopButtom() ) {
+                m_Jump_Page->AllDisappear();
+                m_PRM->NextPhase(PHASE_HOME_PAGE);
+                RemoveStage( 4 );
+                m_Phase = Phase::HOME_PAGE;
+                AppearHomePage();
+                m_Stage_Object[4]->DisAppearAll();
+                stage_point_counter[4] = 0;
+                m_stage_pos = 0;
+                m_Text_Point->SetVisible( false );
+            }
+            if ( m_Jump_Page->ifClickWithCancelButtomInEnd() ) {
+                m_Jump_Page->AllDisappear();
+                m_PRM->NextPhase(PHASE_HOME_PAGE);
+                RemoveStage( 4 );
+                m_Phase = Phase::HOME_PAGE;
+                AppearHomePage();
+                stage_point_counter[4] = 0;
+                m_stage_pos = 0;
+            }
+            break;
+
+
+        case Phase::STAGE_5:
+            m_Jump_Page->m_Pause_Buttom->SetVisible( true );
+            if (PhaseStage( m_Stage_Object[5], m_Stage_Object[5]->GetSize() , m_Text_Point , 5)){
+                m_Stage_Object[5]->DisAppearAll();
+                m_Text_Point->SetVisible( false );
+                ifClear[5] = true;
+                m_Jump_Page->EndPage( 5 );
+            }
+            else if ( m_Text_Point->GetMove() <= 0 ) {
+                m_Stage_Object[5]->DisAppearAll();
+                m_Text_Point->SetVisible( false );
+                ifClear[5] = false;
+                m_Jump_Page->FailPage( 5 );
+            }
+            else if ( currentPhase == PHASE_PAUSE_FOR_DISAPPEAR ) {
+                if ( (std::chrono::steady_clock::now() - startTime) >= std::chrono::seconds(1)) {
+                    currentPhase = PHASE_DROPPING;
+                }
+                m_Root.Update();
+            }
+            else if ( currentPhase == PHASE_DROPPING ) {
+                m_Stage_Object[5]->Dropping();
+                m_Text_Point->SetPoint( stage_point_counter[5] );
+                m_Text_Point->SetGoal( stage_goal_counter[5] );
+                m_Text_Point->UpdateText();
+            }
+            if ( m_Jump_Page->ifClickWithPauseButtom() ) {
+                m_Jump_Page->PausePage();
+            }
+            if ( m_Jump_Page->ifClickWithContinueButtom() ) {
+                m_Jump_Page->AllDisappear();
+            }
+            if ( m_Jump_Page->ifClickWithStopButtom() ) {
+                m_Jump_Page->AllDisappear();
+                m_PRM->NextPhase(PHASE_HOME_PAGE);
+                RemoveStage( 5 );
+                m_Phase = Phase::HOME_PAGE;
+                AppearHomePage();
+                m_Stage_Object[5]->DisAppearAll();
+                stage_point_counter[5] = 0;
+                m_stage_pos = 0;
+                m_Text_Point->SetVisible( false );
+            }
+            if ( m_Jump_Page->ifClickWithCancelButtomInEnd() ) {
+                m_Jump_Page->AllDisappear();
+                m_PRM->NextPhase(PHASE_HOME_PAGE);
+                RemoveStage( 5 );
+                m_Phase = Phase::HOME_PAGE;
+                AppearHomePage();
+                stage_point_counter[5] = 0;
                 m_stage_pos = 0;
             }
             break;

@@ -138,8 +138,8 @@ bool ifClear[13] = {
     true,
     true,
     true,
-    false,
-    false,
+    true,
+    true,
     false,
     false,
     false,
@@ -429,7 +429,7 @@ int stage4_neibor[65][6] = { //clockwise
 { 51 , 58 , 57 , 49 , 42 , 43 },
 { -1 , 59 , 58 , 50 , 43 , 44 },//51
 { 53 , 60 , -1 , -1 , -1 , 45 },//52
-{ 54 , 61 , 60 , -1 , 45 , 46 },
+{ 54 , 61 , 60 , 52 , 45 , 46 },
 { 55 , 62 , 61 , 53 , 46 , 47 },
 { 56 , 63 , 62 , 54 , 47 , 48 },
 { 57 , 64 , 63 , 55 , 48 , 49 },
@@ -517,7 +517,7 @@ int stage5_neibor[40][6] = { //clockwise
 
 Objectinformation stage5[40];
 void InitializeStage5() {
-    for ( int i = 0 ; i < 41 ; ++i ) {
+    for ( int i = 0 ; i < 40 ; ++i ) {
         stage5[i].SetNeibor( stage5_neibor[i] );
         stage5[i].SetPosNumber( i );
         stage5[i].SetPosition( stage5_position[i] );

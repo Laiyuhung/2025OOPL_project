@@ -104,6 +104,47 @@ public:
             m_Stage_Goal_Object_Show->SetVisible( true );
             m_Root.AddChild( m_Stage_Goal_Object_Show );
         }
+
+        else if ( stage == 4 ) {
+            m_Stage_Object_GameCharacter[0] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/click.png" );
+            m_Stage_Object_GameCharacter[0]->SetVisible( false );
+            m_Stage_Object_GameCharacter[0]->SetZIndex( 9 );
+            m_Root.AddChild( m_Stage_Object_GameCharacter[0] );
+            for ( int i = 1 ; i < 65 ; ++i ) {
+                m_Stage_Object_GameCharacter[i] = std::make_shared<GameCharacter>( BLUE_NORMAL_OBJECT );
+                m_Stage_Object_GameCharacter[i]->SetVisible( false );
+                m_Stage_Object_GameCharacter[i]->SetZIndex( 10 );
+                m_Root.AddChild( m_Stage_Object_GameCharacter[i] );
+            }
+            m_Stage_Object[4] = std::make_shared<StageObject>( 64 , m_Stage_Object_GameCharacter );
+            m_Stage_Object[4]->SetStage( 0 );
+            m_Root.AddChild( m_Stage_Object[4] );
+            m_Stage_Goal_Object_Show = std::make_shared<GameCharacter>( REACH_IMAGE );
+            m_Stage_Goal_Object_Show->SetPosition( stage_goal_position[4] );
+            m_Stage_Goal_Object_Show->SetVisible( true );
+            m_Root.AddChild( m_Stage_Goal_Object_Show );
+        }
+
+        else if ( stage == 5 ) {
+            m_Stage_Object_GameCharacter[0] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/click.png" );
+            m_Stage_Object_GameCharacter[0]->SetVisible( false );
+            m_Stage_Object_GameCharacter[0]->SetZIndex( 9 );
+            m_Root.AddChild( m_Stage_Object_GameCharacter[0] );
+            for ( int i = 1 ; i < 40 ; ++i ) {
+                m_Stage_Object_GameCharacter[i] = std::make_shared<GameCharacter>( BLUE_NORMAL_OBJECT );
+                m_Stage_Object_GameCharacter[i]->SetVisible( false );
+                m_Stage_Object_GameCharacter[i]->SetZIndex( 10 );
+                m_Root.AddChild( m_Stage_Object_GameCharacter[i] );
+            }
+            m_Stage_Object[5] = std::make_shared<StageObject>( 39 , m_Stage_Object_GameCharacter );
+            m_Stage_Object[5]->SetStage( 0 );
+            m_Root.AddChild( m_Stage_Object[5] );
+            m_Stage_Goal_Object_Show = std::make_shared<GameCharacter>( REACH_IMAGE );
+            m_Stage_Goal_Object_Show->SetPosition( stage_goal_position[5] );
+            m_Stage_Goal_Object_Show->SetVisible( true );
+            m_Root.AddChild( m_Stage_Goal_Object_Show );
+        }
+
         for ( int i = 1 ; i < 13 ; ++i ) {
             m_Stage_Buttoms[i]->SetVisible( false );
         }
@@ -134,6 +175,22 @@ public:
             }
             m_Root.RemoveChild( m_Stage_Goal_Object_Show );
             m_Root.RemoveChild( m_Stage_Object[3] );
+        }
+
+        else if ( stage == 4 ) {
+            for ( int i = 0 ; i < 60 ; ++i ) {
+                m_Root.RemoveChild( m_Stage_Object_GameCharacter[i] );
+            }
+            m_Root.RemoveChild( m_Stage_Goal_Object_Show );
+            m_Root.RemoveChild( m_Stage_Object[4] );
+        }
+
+        else if ( stage == 5 ) {
+            for ( int i = 0 ; i < 40 ; ++i ) {
+                m_Root.RemoveChild( m_Stage_Object_GameCharacter[i] );
+            }
+            m_Root.RemoveChild( m_Stage_Goal_Object_Show );
+            m_Root.RemoveChild( m_Stage_Object[5] );
         }
     }
 
@@ -170,7 +227,9 @@ private:
         HOME_PAGE = 2 ,
         STAGE_1 = 3 ,
         STAGE_2 = 4 ,
-        STAGE_3 = 5, 
+        STAGE_3 = 5,
+        STAGE_4 = 6,
+        STAGE_5 = 7,
     };
 
 

@@ -174,6 +174,14 @@ extern glm::vec2 stage3_position[48];
 extern int stage3_neibor[48][6];
 extern Objectinformation stage3[48];
 
+extern glm::vec2 stage4_position[65];
+extern int stage4_neibor[65][6];
+extern Objectinformation stage4[65];
+
+extern glm::vec2 stage5_position[40];
+extern int stage5_neibor[40][6];
+extern Objectinformation stage5[40];
+
 extern std::string ClearStageList[13];
 extern std::string LevelStageList[13];
 extern std::string CurrentStageList[13];
@@ -190,6 +198,8 @@ extern bool ifClear[13];
 void InitializeStage1();
 void InitializeStage2();
 void InitializeStage3();
+void InitializeStage4();
+void InitializeStage5();
 
 enum GamePhase {
     PHASE_NORMAL,

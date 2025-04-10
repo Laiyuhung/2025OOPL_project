@@ -9,7 +9,6 @@ PhaseResourceManager::PhaseResourceManager() {
 }
 
 void PhaseResourceManager::NextPhase(int Phase) {
-    if (Phase == 7) return;
     LOG_DEBUG("Passed! Next phase: {}", Phase);
     switch (Phase){
         case PHASE_HOME_PAGE:
@@ -24,6 +23,12 @@ void PhaseResourceManager::NextPhase(int Phase) {
             m_Background->NextImage("second.png");
             m_Phase = Phase;
             break;
+
+        case PHASE_STAGE_3:
+            m_Background->NextImage("third.png");
+            m_Phase = Phase;
+            break;
+
         case PHASE_STAGE_4:
             m_Background->NextImage("fourth.png");
             m_Phase = Phase;

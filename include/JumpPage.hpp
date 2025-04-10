@@ -24,6 +24,10 @@ class JumpPage : public Character {
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage2Info.png");
             if ( stage == 3 )
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage3Info.png");
+            if ( stage == 4 )
+                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage4Info.png");
+            if ( stage == 5 )
+                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage5Info.png");
             this->SetVisible( true );
             SetStatus( JUMP_INFO );
         }
@@ -38,6 +42,10 @@ class JumpPage : public Character {
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage2Start.png" );
             else if ( stage == 3 )
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage3Start.png" );
+            else if ( stage == 4 )
+                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage4Start.png" );
+            else if ( stage == 5 )
+                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage5Start.png" );
             this->SetVisible( true );
             SetStatus( JUMP_PLAY );
         }
@@ -49,6 +57,12 @@ class JumpPage : public Character {
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage1End.png" );
             else if ( stage == 2 )
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage2End.png" );
+            else if ( stage == 3 )
+                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage3End.png" );
+            else if ( stage == 4 )
+                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage4End.png" );
+            else if ( stage == 5 )
+                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage5End.png" );
             SetStatus( JUMP_END );
             this->SetVisible( true );
         }
@@ -60,6 +74,12 @@ class JumpPage : public Character {
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage1fail.png" );
             else if ( stage == 2 )
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage2Fail.png" );
+            else if ( stage == 3 )
+                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage3Fail.png" );
+            else if ( stage == 4 )
+                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage4Fail.png" );
+            else if ( stage == 5 )
+                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage5Fail.png" );
             SetStatus( JUMP_END );
             this->SetVisible( true );
         }
@@ -103,6 +123,8 @@ class JumpPage : public Character {
         std::shared_ptr<Character> m_Stop_Buttom;
         std::shared_ptr<Character> m_info_Buttom;
         inline std::string ImagePath(const std::string& phase) {
+            // std::cout<<"hihi"<<phase<<std::endl;
             return (GA_RESOURCE_DIR "/Image/Background/" + phase );
+
         }
 };
