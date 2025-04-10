@@ -52,7 +52,7 @@ public:
             m_Stage_Object_GameCharacter[0]->SetVisible( false );
             m_Stage_Object_GameCharacter[0]->SetZIndex( 9 );
             m_Root.AddChild( m_Stage_Object_GameCharacter[0] );
-            for ( int i = 1 ; i < 38 ; ++i ) { 
+            for ( int i = 1 ; i < 38 ; ++i ) {
                 m_Stage_Object_GameCharacter[i] = std::make_shared<GameCharacter>( BLUE_NORMAL_OBJECT );
                 m_Stage_Object_GameCharacter[i]->SetVisible( false );
                 m_Stage_Object_GameCharacter[i]->SetZIndex( 10 );

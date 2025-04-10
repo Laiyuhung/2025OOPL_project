@@ -48,6 +48,9 @@ bool PhaseStage( std::shared_ptr<StageObject> StageObject , const int size , std
         }
     }
     return stage_goal_counter[stage] <= 0;
+
+    // DebugModeOfPosition( objectArray , 2 );
+    // return false;
 }
 
 void DebugPhaseStage1( std::shared_ptr<GameCharacter>* objectArray ) {
