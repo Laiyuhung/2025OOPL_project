@@ -31,11 +31,11 @@ class StageObject : public Util::GameObject {
         virtual ~StageObject() = default;
         void SetUp( int stage );
         void InitializeStageCharacter( int s );
-        bool CheckAppearance( int s );
+        bool CheckAppearance( int s , int now_stage , bool ifShuffle );
         void CheckSpecialObject( int i );
         void MakeDisappear();
-        void Dropping();
-        void CheckObstaclesDisappear();
+        void Dropping( int s );
+        void CheckObstaclesDisappear( bool ifShuffle );
         void MakeObstaclesDisappear(int position);
         void PointUpdate( int point );
         int  GetPoint();
