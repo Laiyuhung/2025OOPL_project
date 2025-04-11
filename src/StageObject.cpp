@@ -79,6 +79,7 @@ void StageObject::InitializeStageCharacter( int s ) {
         else {
             RandomChangeObject( i );
         }
+
         if ( s == 1 ) {
             m_Stage_Object[i]->SetInformation( stage1[i] );
             m_Stage_Object[i]->SetPosition( stage1_position[i] );
@@ -132,14 +133,14 @@ void StageObject::InitializeStageCharacter( int s ) {
     }
 }
 
-bool StageObject::CheckAppearance( int s ) {
+bool StageObject::CheckAppearance( int s , int now_stage , bool ifShuffle ) {
     if ( s != 0 && currentPhase != PHASE_NORMAL ) {
         return false;
     }
     bool cont_to_check = false;
     bool flag = false;
     int stripe_side;
-
+    printf( "now stage %d\n" , now_stage );
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
         if( !m_Stage_Object[i] ) continue;
         m_Stage_Object[i]->SetAppearBool( true );
@@ -270,28 +271,30 @@ bool StageObject::CheckAppearance( int s ) {
             flag = true;
     }
 
-    CheckObstaclesDisappear();
+    CheckObstaclesDisappear( ifShuffle );
 
     if ( flag ) {
         // DebugModeOfAppearance( m_Stage_Object , size);
-        MakeDisappear();
+        MakeDisappear( );
         if ( s == 0 )
-            Dropping();
+            Dropping( s , now_stage , ifShuffle );
     }
 
     //check need shuffle or not
-    // else
-    // {
-    //     for ( int i = 1 ; i < m_Size+1 ; ++i )
-    //         m_Stage_Object[i]->SetSwitched(0);
+    else
+    {
+        for ( int i = 1 ; i < m_Size+1 ; ++i )
+            m_Stage_Object[i]->SetSwitched(0);
 
-    //     std::pair<int, int> result = CheckShuffleDemands();
-    //     if (result.first == -1 && result.second == -1) {
-    //         InitializeStageCharacter(m_Stage);
-    //     } else {
-    //         std::cout << "Swap between " << result.first << " and " << result.second << std::endl;
-    //     }
-    // }                                                                                                                                                
+        std::pair<int, int> result = CheckShuffleDemands();
+        if (result.first == -1 && result.second == -1) {
+            printf( "SHUFFLE\n" );
+            InitializeStageCharacter( now_stage );
+            CheckAppearance( s , now_stage , true );
+        } else {
+            std::cout << "Swap between " << result.first << " and " << result.second << std::endl;
+        }
+    }                                                                                                                                                
     return flag;
 }
 
@@ -487,11 +490,11 @@ void StageObject::MakeDisappear() {
     }
 
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
-        if ((m_Stage_Object[i]->GetType() == NORMAL_OBJECT || m_Stage_Object[i]->GetType() == ONE_LAYER_COOKIE_OBJECT || m_Stage_Object[i]->GetType() == TWO_LAYER_COOKIE_OBJECT ) && !m_Stage_Object[i]->GetAppearBool()) {
+        if ((m_Stage_Object[i]->GetType() == NORMAL_OBJECT || m_Stage_Object[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT || m_Stage_Object[i]->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT ) && !m_Stage_Object[i]->GetAppearBool()) {
             GoalUpdate( i );
+            printf( "current type %d\n" , m_Stage_Object[i]->GetCurrentType() );
             m_Stage_Object[i]->SetCurrentType( m_Stage_Object[i]->GetType() ); //current == now, blockType = next(finished)
             m_Stage_Object[i]->SetBlockType( NORMAL_OBJECT );
-                
         }
         else if ( m_Stage_Object[i]->GetType() != NORMAL_OBJECT && !m_Stage_Object[i]->GetAppearBool() ) {
             PointUpdate( GetPoint() + 1 );
@@ -516,7 +519,7 @@ void StageObject::MakeDisappear() {
     startTime = std::chrono::steady_clock::now();
 }
 
-void StageObject::Dropping() {
+void StageObject::Dropping( int s , int now_stage ,  bool ifShuffle ) {
     if ( m_Stage != 0 && currentPhase != PHASE_DROPPING ) {
         return;
     }
@@ -547,7 +550,7 @@ void StageObject::Dropping() {
     if ( m_Stage != 0 )
         AppearAll();
     currentPhase = PHASE_NORMAL;
-    CheckAppearance( m_Stage );
+    CheckAppearance( s , now_stage , ifShuffle );
 }
 
 void StageObject::MakeObstaclesDisappear(int position) {
@@ -563,14 +566,14 @@ void StageObject::MakeObstaclesDisappear(int position) {
     }
 }
 
-void StageObject::CheckObstaclesDisappear() {
+void StageObject::CheckObstaclesDisappear( bool ifShuffle ) {
 
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
         if(m_Stage_Object[i]->GetCurrentType() >= ONE_LAYER_COOKIE_OBJECT && m_Stage_Object[i]->GetCurrentType() <= 50) {
 
             //check if neighbor disap.
             for ( int j = 0 ; j < 6 ; ++j ) {
-                if (m_Stage_Object[i]->GetInformationNeibor()[j] != -1 && !m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]]->GetAppearBool() && m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]]->GetCurrentType() <= STRIPE_COMBINED_OBJECT ) {
+                if ( !ifShuffle && m_Stage_Object[i]->GetInformationNeibor()[j] != -1 && !m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]]->GetAppearBool() && m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]]->GetCurrentType() <= STRIPE_COMBINED_OBJECT ) {
                     MakeObstaclesDisappear(i);
                     break;
                 }
@@ -603,7 +606,7 @@ void StageObject::GoalUpdate( int i ) {
             stage_goal_counter[4]--;
             break;
         case 5:
-            if ( m_Stage_Object[i]->GetType() == ONE_LAYER_COOKIE_OBJECT ) {
+            if ( m_Stage_Object[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT ) {
                 stage_goal_counter[5]--;
             }
             break;
@@ -682,7 +685,7 @@ void StageObject::MakeDisappearWithObject( int current_pos ) {
         case ONE_LAYER_COOKIE_OBJECT:
             m_Stage_Object[current_pos]->DisAppear();
             m_Stage_Object[current_pos]->SetAppearBool( false );
-            m_Stage_Object[current_pos]->SetCurrentType( NORMAL_OBJECT );
+            // m_Stage_Object[current_pos]->SetCurrentType( NORMAL_OBJECT );
             break;
         case TWO_LAYER_COOKIE_OBJECT:
             break;
@@ -1395,7 +1398,7 @@ void StageObject::SetUp( int stage ) {
             m_Stage_Object[i]->Appear();
     }
     InitializeStageCharacter( stage );
-    CheckAppearance( 0 );
+    CheckAppearance( 0 , stage , true);
 }
 
 void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText> point ) {
@@ -1459,7 +1462,7 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
             }
 
             //can't disappear
-            if ( !CheckAppearance( 1 ) ) {
+            if ( !CheckAppearance( 1 , m_Stage , false ) ) {
                 m_Stage_Object[i]->SwitchPosition( m_Stage_Object[check] );
                 std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[check];
                 m_Stage_Object[check] = m_Stage_Object[i];
@@ -1484,7 +1487,7 @@ std::pair<int, int> StageObject::CheckShuffleDemands() {
             //switched side
             const int neighbor_no = m_Stage_Object[i]->GetInformationNeibor()[j];
 
-            if (neighbor_no != -1) {
+            if (neighbor_no != -1 && m_Stage_Object[i]->GetCurrentType()<=STRIPE_COMBINED_OBJECT && m_Stage_Object[neighbor_no]->GetCurrentType()<=STRIPE_COMBINED_OBJECT) {
                 m_Stage_Object[i]->SwitchPosition(  m_Stage_Object[neighbor_no] );
                 std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[neighbor_no];
                 m_Stage_Object[neighbor_no] = m_Stage_Object[i];
@@ -1517,7 +1520,7 @@ std::pair<int, int> StageObject::CheckShuffleDemands() {
 
             const int neighbor_no = m_Stage_Object[i]->GetInformationNeibor()[j];
 
-            if (neighbor_no != -1) {
+            if (neighbor_no != -1 && m_Stage_Object[i]->GetCurrentType()<=STRIPE_COMBINED_OBJECT && m_Stage_Object[neighbor_no]->GetCurrentType()<=STRIPE_COMBINED_OBJECT) {
                 m_Stage_Object[i]->SwitchPosition(  m_Stage_Object[neighbor_no] );
                 std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[neighbor_no];
                 m_Stage_Object[neighbor_no] = m_Stage_Object[i];
@@ -1548,7 +1551,7 @@ std::pair<int, int> StageObject::CheckShuffleDemands() {
 
             const int neighbor_no = m_Stage_Object[i]->GetInformationNeibor()[j];
 
-            if (neighbor_no != -1) {
+            if (neighbor_no != -1 && m_Stage_Object[i]->GetCurrentType()<=STRIPE_COMBINED_OBJECT && m_Stage_Object[neighbor_no]->GetCurrentType()<=STRIPE_COMBINED_OBJECT) {
                 m_Stage_Object[i]->SwitchPosition(  m_Stage_Object[neighbor_no] );
                 std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[neighbor_no];
                 m_Stage_Object[neighbor_no] = m_Stage_Object[i];
