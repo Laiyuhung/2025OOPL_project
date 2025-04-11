@@ -59,11 +59,26 @@ void StageObject::InitializeStageCharacter( int s ) {
     std::uniform_int_distribution<int> distrib(1, 7);
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
         if ( m_Stage !=  0 ) {
-            if ( m_Stage_Object[i] -> GetType() != NORMAL_OBJECT ) {
+            if ( m_Stage_Object[i]->GetCurrentType() != NORMAL_OBJECT && m_Stage_Object[i]->GetCurrentType() != ONE_LAYER_COOKIE_OBJECT && m_Stage_Object[i]->GetCurrentType() != TWO_LAYER_COOKIE_OBJECT) {
                 continue;
             }
         }
-        RandomChangeObject( i );
+        if ( s == 5 && i < 27 ) {
+            m_Stage_Object[i]->SetImage( COOKIE_ONE_IMAGE );
+            m_Stage_Object[i]->SetBlock( NO_COLOR );
+            m_Stage_Object[i]->SetInformation( stage5[i] );
+            m_Stage_Object[i]->SetPosition( stage5_position[i] );
+            m_Stage_Object[i]->SetZIndex(10);
+            m_Stage_Object[i]->SetSize( {20, 25} );
+            m_Stage_Object[i]->DisAppear();
+            m_Stage_Object[i]->SetAppearBool( true );
+            m_Stage_Object[i]->SetBlockType( NORMAL_OBJECT );
+            m_Stage_Object[i]->SetCurrentType( ONE_LAYER_COOKIE_OBJECT );
+            continue;
+        }
+        else {
+            RandomChangeObject( i );
+        }
         if ( s == 1 ) {
             m_Stage_Object[i]->SetInformation( stage1[i] );
             m_Stage_Object[i]->SetPosition( stage1_position[i] );
@@ -159,7 +174,11 @@ bool StageObject::CheckAppearance( int s ) {
         for ( int j = 0 ; j < 6 ; ++j ) {
             if ( neighbors[j] == -1 )
                 continue;
-            if ( IsSameColor(m_Stage_Object[ neighbors[j] ]->GetBlockType() , m_Stage_Object[i]->GetBlockType()) )
+            if ( IsSameColor(m_Stage_Object[ neighbors[j] ]->GetBlockType() , m_Stage_Object[i]->GetBlockType()) 
+                && m_Stage_Object[ neighbors[j] ]->GetCurrentType() != ONE_LAYER_COOKIE_OBJECT 
+                && m_Stage_Object[ neighbors[j] ]->GetCurrentType() != TWO_LAYER_COOKIE_OBJECT 
+                && m_Stage_Object[i]->GetCurrentType() != ONE_LAYER_COOKIE_OBJECT 
+                && m_Stage_Object[i]->GetCurrentType() != TWO_LAYER_COOKIE_OBJECT )
             {
                 total_length[i][j] = CheckNextAppearance( neighbors[j] , j , 1) ;
             }
@@ -261,18 +280,18 @@ bool StageObject::CheckAppearance( int s ) {
     }
 
     //check need shuffle or not
-    else
-    {
-        for ( int i = 1 ; i < m_Size+1 ; ++i )
-            m_Stage_Object[i]->SetSwitched(0);
+    // else
+    // {
+    //     for ( int i = 1 ; i < m_Size+1 ; ++i )
+    //         m_Stage_Object[i]->SetSwitched(0);
 
-        std::pair<int, int> result = CheckShuffleDemands();
-        if (result.first == -1 && result.second == -1) {
-            InitializeStageCharacter(m_Stage);
-        } else {
-            std::cout << "Swap between " << result.first << " and " << result.second << std::endl;
-        }
-    }                                                                                                                                                
+    //     std::pair<int, int> result = CheckShuffleDemands();
+    //     if (result.first == -1 && result.second == -1) {
+    //         InitializeStageCharacter(m_Stage);
+    //     } else {
+    //         std::cout << "Swap between " << result.first << " and " << result.second << std::endl;
+    //     }
+    // }                                                                                                                                                
     return flag;
 }
 
@@ -469,7 +488,7 @@ void StageObject::MakeDisappear() {
 
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
         if ((m_Stage_Object[i]->GetType() == NORMAL_OBJECT || m_Stage_Object[i]->GetType() == ONE_LAYER_COOKIE_OBJECT || m_Stage_Object[i]->GetType() == TWO_LAYER_COOKIE_OBJECT ) && !m_Stage_Object[i]->GetAppearBool()) {
-            // PointUpdate( GetPoint() + 1 );
+            GoalUpdate( i );
             m_Stage_Object[i]->SetCurrentType( m_Stage_Object[i]->GetType() ); //current == now, blockType = next(finished)
             m_Stage_Object[i]->SetBlockType( NORMAL_OBJECT );
                 
@@ -578,8 +597,17 @@ void StageObject::GoalUpdate( int i ) {
             }
             break;
         case 3:
-            // stage_goal_counter[3]--;
+            stage_goal_counter[3]--;
             break;
+        case 4:
+            stage_goal_counter[4]--;
+            break;
+        case 5:
+            if ( m_Stage_Object[i]->GetType() == ONE_LAYER_COOKIE_OBJECT ) {
+                stage_goal_counter[5]--;
+            }
+            break;
+        
         default:
             break;
     }
@@ -1357,7 +1385,8 @@ int StageObject::CheckNextAppearance( int i, int side, int length ) {
 }
 
 bool StageObject::IsSameColor(int blockType1, int blockType2) {
-    return (blockType1 % 10) == (blockType2 % 10);
+    return ((blockType1 % 10) == (blockType2 % 10) 
+    && blockType1 != NO_COLOR && blockType2 != NO_COLOR);
 }
 
 void StageObject::SetUp( int stage ) {

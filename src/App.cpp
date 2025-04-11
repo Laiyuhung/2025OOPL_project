@@ -300,9 +300,9 @@ void App::Update() {
             }
             else if ( currentPhase == PHASE_DROPPING ) {
                 m_Stage_Object[3]->Dropping();
-                m_Text_Point->SetPoint( stage_point_counter[3] );
-                m_Text_Point->SetGoal( stage_goal_counter[3] );
-                m_Text_Point->UpdateText();
+                // m_Text_Point->SetPoint( stage_point_counter[3] );
+                // m_Text_Point->SetGoal( stage_goal_counter[3] );
+                // m_Text_Point->UpdateText();
             }
             if ( m_Jump_Page->ifClickWithPauseButtom() ) {
                 m_Jump_Page->PausePage();
@@ -355,9 +355,9 @@ void App::Update() {
             }
             else if ( currentPhase == PHASE_DROPPING ) {
                 m_Stage_Object[4]->Dropping();
-                m_Text_Point->SetPoint( stage_point_counter[4] );
-                m_Text_Point->SetGoal( stage_goal_counter[4] );
-                m_Text_Point->UpdateText();
+                // m_Text_Point->SetPoint( stage_point_counter[4] );
+                // m_Text_Point->SetGoal( stage_goal_counter[4] );
+                // m_Text_Point->UpdateText();
             }
             if ( m_Jump_Page->ifClickWithPauseButtom() ) {
                 m_Jump_Page->PausePage();

@@ -27,6 +27,8 @@ bool PhaseStage( std::shared_ptr<StageObject> StageObject , const int size , std
     std::shared_ptr<GameCharacter>* objectArray = StageObject->GetStageObject();
     for ( int i = 1 ; i < size+1 ; ++i ) {
         if ( objectArray[i]->IfClick() ) {
+            if ( objectArray[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT || objectArray[i]->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT )
+                continue;
             std::cout << "which click: " << objectArray[i]->GetInformationPosNumber() << std::endl;
             if ( is_click == 0  ) {
                 objectArray[0]->SetPosition( objectArray[i]->GetInformationPosition() );
