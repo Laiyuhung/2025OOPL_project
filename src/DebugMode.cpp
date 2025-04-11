@@ -11,23 +11,27 @@
 
 using namespace std;
 
-void DebugModeOfAppearance( std::shared_ptr<GameCharacter>* objectArray , int size ) {
-    for ( int i = 1 ; i < size+1 ; ++i ) {
-        std::cout << "Pos number: " << objectArray[i]->GetInformationPosNumber() << " Appear Bool: " << objectArray[i]->GetAppearBool() << std::endl;
+void DebugModeOfAppearance(const std::vector<std::shared_ptr<GameCharacter>>& objectArray, int size) {
+    for (int i = 1; i < size + 1; ++i) {
+        std::cout << "Pos number: " << objectArray.at(i)->GetInformationPosNumber()
+                  << " Appear Bool: " << objectArray.at(i)->GetAppearBool() << std::endl;
     }
 }
-void DebugModeOfPosition( std::shared_ptr<GameCharacter>* objectArray , int option) {
-    objectArray[option]->Appear();
-    objectArray[option]->DebugMode(2.5);
+
+void DebugModeOfPosition(std::vector<std::shared_ptr<GameCharacter>>& objectArray, int option) {
+    objectArray.at(option)->Appear();
+    objectArray.at(option)->DebugMode(2.5);
 }
 
-void DebugModeCancel( std::shared_ptr<GameCharacter>* objectArray , int option) {
-    objectArray[option]->DisAppear();
-    std::cout << "x : " << objectArray[option]->GetPosition().x << " y : " << objectArray[option]->GetPosition().y << "\n";
+void DebugModeCancel(std::vector<std::shared_ptr<GameCharacter>>& objectArray, int option) {
+    objectArray.at(option)->DisAppear();
+    std::cout << "x : " << objectArray.at(option)->GetPosition().x
+              << " y : " << objectArray.at(option)->GetPosition().y << "\n";
 }
 
-void DebugModeShowMapObject(std::shared_ptr<GameCharacter>* objectArray , int size ) {
-    for ( int i = 1 ; i < size+1 ; ++i ) {
-        cout << "Pos number: " << objectArray[i]->GetInformationPosNumber() << " Appear Bool: " << objectArray[i]->GetAppearBool() << endl;
+void DebugModeShowMapObject(const std::vector<std::shared_ptr<GameCharacter>>& objectArray, int size) {
+    for (int i = 1; i < size + 1; ++i) {
+        cout << "Pos number: " << objectArray.at(i)->GetInformationPosNumber()
+             << " Appear Bool: " << objectArray.at(i)->GetAppearBool() << endl;
     }
 }
