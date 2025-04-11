@@ -21,7 +21,7 @@ void App::Start() {
     m_BGM_Music.at(0) = std::make_shared<Music>(GA_RESOURCE_DIR "/Music/springDayShadow.mp3");
     m_BGM_Music.at(0)->Pause();
     m_BGM_Music.at(0)->SetVolume(30);
-
+ 
     m_Start_initial = std::make_shared<Character>(GA_RESOURCE_DIR "/Image/GameObject/initailStartButton.png");
     m_Start_initial->SetPosition({0, -160.5f});
     m_Start_initial->SetZIndex(10);
