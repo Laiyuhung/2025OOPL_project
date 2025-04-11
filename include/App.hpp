@@ -12,22 +12,19 @@
 #include "StageObject.hpp"
 #include "JumpPage.hpp"
 #include "Music.hpp"
+#include <vector>
 
-// #include "AnimatedCharacter.hpp"
-
-// Declare of Phase Main Action
-bool PhaseInitialImage(std::shared_ptr<Character> &chara_obj);
-int  PhaseHomePage( std::shared_ptr<Character>* buttoms );
-bool PhaseStage(std::shared_ptr<StageObject> StageObject, const int size, std::shared_ptr<TaskText> point, const int stage);
-// bool PhaseStage2( std::shared_ptr<StageObject> StageObject , const int size , std::shared_ptr<TaskText> point);
-void DebugPhaseStage1( std::shared_ptr<GameCharacter>* objectArray );
+bool PhaseInitialImage(std::shared_ptr<Character>& chara_obj);
+int PhaseHomePage(const std::vector<std::shared_ptr<Character>>& buttoms);
+bool PhaseStage(std::shared_ptr<StageObject> StageObject, int size, std::shared_ptr<TaskText> point, int stage);
+// bool PhaseStage2(std::shared_ptr<StageObject> StageObject, int size, std::shared_ptr<TaskText> point);
+void DebugPhaseStage1(std::vector<std::shared_ptr<GameCharacter>>& objectArray);
 
 // Declare of Debug Mode
-void DebugModeOfPosition( std::shared_ptr<GameCharacter>* objectArray , int option);
-void DebugModeCancel( std::shared_ptr<GameCharacter>* objectArray , int option);
-void DebugModeOfAppearance( std::shared_ptr<GameCharacter>* objectArray , int size );
-void DebugModeShowMapObject(std::shared_ptr<GameCharacter>* objectArray , int size );
-
+void DebugModeOfPosition(std::vector<std::shared_ptr<GameCharacter>>& objectArray, int option);
+void DebugModeCancel(std::vector<std::shared_ptr<GameCharacter>>& objectArray, int option);
+void DebugModeOfAppearance(const std::vector<std::shared_ptr<GameCharacter>>& objectArray, int size);
+void DebugModeShowMapObject(const std::vector<std::shared_ptr<GameCharacter>>& objectArray, int size);
 
 class App {
 public:
@@ -38,236 +35,108 @@ public:
     };
 
     State GetCurrentState() const { return m_CurrentState; }
-    
     void Start();
-
     void Update();
-
-    void End(); // NOLINT(readability-convert-member-functions-to-static)
-
-    void SetUpStage( int stage ) {
-        m_BGM_Music[0]->Playing( GA_RESOURCE_DIR"/Music/rickRoll.mp3");
-        if ( stage == 1 ) {
-            m_Stage_Object_GameCharacter[0] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/click.png" );
-            m_Stage_Object_GameCharacter[0]->SetVisible( false );
-            m_Stage_Object_GameCharacter[0]->SetZIndex( 9 );
-            m_Root.AddChild( m_Stage_Object_GameCharacter[0] );
-            for ( int i = 1 ; i < 38 ; ++i ) {
-                m_Stage_Object_GameCharacter[i] = std::make_shared<GameCharacter>( BLUE_NORMAL_OBJECT );
-                m_Stage_Object_GameCharacter[i]->SetVisible( false );
-                m_Stage_Object_GameCharacter[i]->SetZIndex( 10 );
-                m_Root.AddChild( m_Stage_Object_GameCharacter[i] );
-            }
-            m_Stage_Object[1] = std::make_shared<StageObject>( 37 , m_Stage_Object_GameCharacter );
-            m_Stage_Object[1]->SetStage( 0 );
-            m_Root.AddChild( m_Stage_Object[1] );
-            m_Stage_Goal_Object_Show = std::make_shared<GameCharacter>( BROWN_NORMAL_OBJECT );
-            m_Stage_Goal_Object_Show->SetPosition( stage_goal_position[1] );
-            m_Stage_Goal_Object_Show->SetVisible( true );
-            m_Root.AddChild( m_Stage_Goal_Object_Show );
+    void End();
+    
+    void SetUpStage(int stage) {
+        // m_Stage_Object.at(stage)->ClearObject();
+        m_BGM_Music.at(0)->Playing(GA_RESOURCE_DIR "/Music/rickRoll.mp3");
+        int size = 0;
+        if (stage == 1) size = 37;
+        else if (stage == 2) size = 45;
+        else if (stage == 3) size = 47;
+        else if (stage == 4) size = 64;
+        else if (stage == 5) size = 39;
+        
+        if (m_Stage_Object.size() <= static_cast<size_t>(stage)) m_Stage_Object.resize(stage + 1);
+        m_Stage_Object.at(stage) = std::make_shared<StageObject>(size);
+        m_Stage_Object.at(stage)->SetStage(0);
+        auto clickObj = std::make_shared<GameCharacter>(GA_RESOURCE_DIR "/Image/GameObject/click.png");
+        clickObj->SetVisible(false);
+        clickObj->SetZIndex(9);
+        m_Stage_Object[stage]->PushBackObject(clickObj);
+        m_Root.AddChild(clickObj);
+        
+        for (int i = 1; i <= size; ++i) {
+            auto obj = std::make_shared<GameCharacter>(BLUE_NORMAL_OBJECT);
+            obj->SetVisible(false);
+            obj->SetZIndex(10);
+            m_Stage_Object.at(stage)->PushBackObject(obj); // 先收集
+            m_Root.AddChild(obj);
         }
-        else if ( stage == 2 ) {
-            m_Stage_Object_GameCharacter[0] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/click.png" );
-            m_Stage_Object_GameCharacter[0]->SetVisible( false );
-            m_Stage_Object_GameCharacter[0]->SetZIndex( 9 );
-            m_Root.AddChild( m_Stage_Object_GameCharacter[0] );
-            for ( int i = 1 ; i < 46 ; ++i ) { 
-                m_Stage_Object_GameCharacter[i] = std::make_shared<GameCharacter>( BLUE_NORMAL_OBJECT );
-                m_Stage_Object_GameCharacter[i]->SetVisible( false );
-                m_Stage_Object_GameCharacter[i]->SetZIndex( 10 );
-                m_Root.AddChild( m_Stage_Object_GameCharacter[i] );
-            }
-            m_Stage_Object[2] = std::make_shared<StageObject>( 45 , m_Stage_Object_GameCharacter );
-            m_Stage_Object[2]->SetStage( 0 );
-            m_Root.AddChild( m_Stage_Object[2] );
-            m_Stage_Goal_Object_Show = std::make_shared<GameCharacter>( BROWN_NORMAL_OBJECT );
-            m_Stage_Goal_Object_Show->SetPosition( stage_goal_position[2] );
-            m_Stage_Goal_Object_Show->SetVisible( true );
-            m_Root.AddChild( m_Stage_Goal_Object_Show );
-        }
-        else if ( stage == 3 ) {
-            m_Stage_Object_GameCharacter[0] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/click.png" );
-            m_Stage_Object_GameCharacter[0]->SetVisible( false );
-            m_Stage_Object_GameCharacter[0]->SetZIndex( 9 );
-            m_Root.AddChild( m_Stage_Object_GameCharacter[0] );
-            for ( int i = 1 ; i < 48 ; ++i ) { 
-                m_Stage_Object_GameCharacter[i] = std::make_shared<GameCharacter>( BLUE_NORMAL_OBJECT );
-                m_Stage_Object_GameCharacter[i]->SetVisible( false );
-                m_Stage_Object_GameCharacter[i]->SetZIndex( 10 );
-                m_Root.AddChild( m_Stage_Object_GameCharacter[i] );
-            }
-            m_Stage_Object[3] = std::make_shared<StageObject>( 47 , m_Stage_Object_GameCharacter );
-            m_Stage_Object[3]->SetStage( 0 );
-            m_Root.AddChild( m_Stage_Object[3] );
-            m_Stage_Goal_Object_Show = std::make_shared<GameCharacter>( REACH_IMAGE );
-            m_Stage_Goal_Object_Show->SetPosition( stage_goal_position[3] );
-            m_Stage_Goal_Object_Show->SetVisible( true );
-            m_Root.AddChild( m_Stage_Goal_Object_Show );
-        }
-
-        else if ( stage == 4 ) {
-            m_Stage_Object_GameCharacter[0] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/click.png" );
-            m_Stage_Object_GameCharacter[0]->SetVisible( false );
-            m_Stage_Object_GameCharacter[0]->SetZIndex( 9 );
-            m_Root.AddChild( m_Stage_Object_GameCharacter[0] );
-            for ( int i = 1 ; i < 65 ; ++i ) {
-                m_Stage_Object_GameCharacter[i] = std::make_shared<GameCharacter>( BLUE_NORMAL_OBJECT );
-                m_Stage_Object_GameCharacter[i]->SetVisible( false );
-                m_Stage_Object_GameCharacter[i]->SetZIndex( 10 );
-                m_Root.AddChild( m_Stage_Object_GameCharacter[i] );
-            }
-            m_Stage_Object[4] = std::make_shared<StageObject>( 64 , m_Stage_Object_GameCharacter );
-            m_Stage_Object[4]->SetStage( 0 );
-            m_Root.AddChild( m_Stage_Object[4] );
-            m_Stage_Goal_Object_Show = std::make_shared<GameCharacter>( REACH_IMAGE );
-            m_Stage_Goal_Object_Show->SetPosition( stage_goal_position[4] );
-            m_Stage_Goal_Object_Show->SetVisible( true );
-            m_Root.AddChild( m_Stage_Goal_Object_Show );
-        }
-
-        else if ( stage == 5 ) {
-            m_Stage_Object_GameCharacter[0] = std::make_shared<GameCharacter>( GA_RESOURCE_DIR"/Image/GameObject/click.png" );
-            m_Stage_Object_GameCharacter[0]->SetVisible( false );
-            m_Stage_Object_GameCharacter[0]->SetZIndex( 9 );
-            m_Root.AddChild( m_Stage_Object_GameCharacter[0] );
-            for ( int i = 1 ; i < 40 ; ++i ) {
-                m_Stage_Object_GameCharacter[i] = std::make_shared<GameCharacter>( BLUE_NORMAL_OBJECT );
-                m_Stage_Object_GameCharacter[i]->SetVisible( false );
-                m_Stage_Object_GameCharacter[i]->SetZIndex( 10 );
-                m_Root.AddChild( m_Stage_Object_GameCharacter[i] );
-            }
-            m_Stage_Object[5] = std::make_shared<StageObject>( 39 , m_Stage_Object_GameCharacter );
-            m_Stage_Object[5]->SetStage( 0 );
-            m_Root.AddChild( m_Stage_Object[5] );
-            m_Stage_Goal_Object_Show = std::make_shared<GameCharacter>( REACH_IMAGE );
-            m_Stage_Goal_Object_Show->SetPosition( stage_goal_position[5] );
-            m_Stage_Goal_Object_Show->SetVisible( true );
-            m_Root.AddChild( m_Stage_Goal_Object_Show );
-        }
-
-        for ( int i = 1 ; i < 13 ; ++i ) {
-            m_Stage_Buttoms[i]->SetVisible( false );
-        }
+        
+        m_Root.AddChild(m_Stage_Object.at(stage));
+        
+        auto goalImage = (stage >= 3) ? REACH_IMAGE : BROWN_NORMAL_OBJECT;
+        m_Stage_Goal_Object_Show = std::make_shared<GameCharacter>(goalImage);
+        m_Stage_Goal_Object_Show->SetPosition(stage_goal_position[stage]);
+        m_Stage_Goal_Object_Show->SetVisible(true);
+        m_Root.AddChild(m_Stage_Goal_Object_Show);
+        
+        for (auto& btn : m_Stage_Buttoms) 
+            if ( btn )
+                btn->SetVisible(false);
         m_Jump_Page->AllDisappear();
-        m_Jump_Page->m_Pause_Buttom->SetVisible( true );
-        m_Text_Point->SetPoint( 0 );
-        m_Text_Point->SetVisible( true );
+        m_Jump_Page->m_Pause_Buttom->SetVisible(true);
+        m_Text_Point->SetPoint(0);
+        m_Text_Point->SetVisible(true);
     }
 
-    void RemoveStage( int stage ) {
-        if ( stage == 1 ) {
-            for ( int i = 0 ; i < 38 ; ++i ) { 
-                m_Root.RemoveChild( m_Stage_Object_GameCharacter[i] );
-            }
-            m_Root.RemoveChild( m_Stage_Goal_Object_Show );
-            m_Root.RemoveChild( m_Stage_Object[1] );
+    void RemoveStage(int stage) {
+        for ( int i = 0 ; i < m_Stage_Object.at(stage)->GetSize()+1 ; ++i ){
+            m_Root.RemoveChild( m_Stage_Object.at(stage)->GetStageObjectItem(i) );
         }
-        else if ( stage == 2 ) {
-            for ( int i = 0 ; i < 46 ; ++i ) { 
-                m_Root.RemoveChild( m_Stage_Object_GameCharacter[i] );
-            }
-            m_Root.RemoveChild( m_Stage_Goal_Object_Show );
-            m_Root.RemoveChild( m_Stage_Object[2] );
-        }
-        else if ( stage == 3 ) {
-            for ( int i = 0 ; i < 48 ; ++i ) { 
-                m_Root.RemoveChild( m_Stage_Object_GameCharacter[i] );
-            }
-            m_Root.RemoveChild( m_Stage_Goal_Object_Show );
-            m_Root.RemoveChild( m_Stage_Object[3] );
-        }
-
-        else if ( stage == 4 ) {
-            for ( int i = 0 ; i < 60 ; ++i ) {
-                m_Root.RemoveChild( m_Stage_Object_GameCharacter[i] );
-            }
-            m_Root.RemoveChild( m_Stage_Goal_Object_Show );
-            m_Root.RemoveChild( m_Stage_Object[4] );
-        }
-
-        else if ( stage == 5 ) {
-            for ( int i = 0 ; i < 40 ; ++i ) {
-                m_Root.RemoveChild( m_Stage_Object_GameCharacter[i] );
-            }
-            m_Root.RemoveChild( m_Stage_Goal_Object_Show );
-            m_Root.RemoveChild( m_Stage_Object[5] );
+        m_Stage_Object.at(stage)->ClearAll();
+        m_Root.RemoveChild(m_Stage_Goal_Object_Show);
+        if (static_cast<size_t>(stage) < m_Stage_Object.size()) {
+            m_Root.RemoveChild(m_Stage_Object.at(stage));
         }
     }
 
     void AppearHomePage() {
-        m_BGM_Music[0]->Playing( GA_RESOURCE_DIR"/Music/springDayShadow.mp3");
-        m_Text_Point->SetVisible( false );
-        for ( int i = 1 ; i < 13 ; ++i ) {
-            if ( ifClear[i] ) {
-                m_Stage_Buttoms[i]->SetImage( ClearStageList[i] );
-            }
-            else if ( ifClear[i-1] ) {
-                m_Stage_Buttoms[i]->SetImage( CurrentStageList[i] );
-            }
-            else {
-                m_Stage_Buttoms[i]->SetImage( LevelStageList[i] );
-            }
-            m_Stage_Buttoms[i]->SetVisible( true );
+        m_BGM_Music.at(0)->Playing(GA_RESOURCE_DIR "/Music/springDayShadow.mp3");
+        m_Text_Point->SetVisible(false);
+        for (size_t i = 1; i < m_Stage_Buttoms.size(); ++i) {
+            if (ifClear[i]) m_Stage_Buttoms.at(i)->SetImage(ClearStageList[i]);
+            else if (ifClear[i - 1]) m_Stage_Buttoms.at(i)->SetImage(CurrentStageList[i]);
+            else m_Stage_Buttoms.at(i)->SetImage(LevelStageList[i]);
+            m_Stage_Buttoms.at(i)->SetVisible(true);
         }
     }
 
-    void SetStage( int i ) {
-        m_stage_pos = i;
-    }
+    void SetStage(int i) { m_stage_pos = i; }
+    int GetStage() { return m_stage_pos; }
 
-    int GetStage() {
-        return m_stage_pos;
-    }
 private:
     void ValidTask();
 
 private:
     enum class Phase {
         INITIAL_IMAGE = 1,
-        HOME_PAGE = 2 ,
-        STAGE_1 = 3 ,
-        STAGE_2 = 4 ,
+        HOME_PAGE = 2,
+        STAGE_1 = 3,
+        STAGE_2 = 4,
         STAGE_3 = 5,
         STAGE_4 = 6,
         STAGE_5 = 7,
     };
 
-
-    // const int m_GameCharacterSize = 51;
     State m_CurrentState = State::START;
     Phase m_Phase = Phase::INITIAL_IMAGE;
 
     Util::Renderer m_Root;
-
-    std::shared_ptr<Music> m_BGM_Music[40];
-
+    std::vector<std::shared_ptr<Music>> m_BGM_Music;
     std::shared_ptr<Character> m_Start_initial;
-    std::shared_ptr<Character> m_Stage_Buttoms[13];
-    
-
-    // std::shared_ptr<GameCharacter> m_Normal_Game_Object[13];
-    
-    std::shared_ptr<GameCharacter> m_Stage_Object_GameCharacter[90];
-    // std::shared_ptr<GameCharacter> m_Stage_Object_GameCharacter[46];
-    // std::shared_ptr<GameCharacter> m_Stage_Object_GameCharacter[48];
-
+    std::vector<std::shared_ptr<Character>> m_Stage_Buttoms;
     std::shared_ptr<GameCharacter> m_Stage_Goal_Object_Show;
-
-    std::shared_ptr<StageObject> m_Stage_Object[13];
-
+    std::vector<std::shared_ptr<StageObject>> m_Stage_Object;
     std::shared_ptr<JumpPage> m_Jump_Page;
-    
-    // std::shared_ptr<Character> m_Chest;
-    // std::vector<std::shared_ptr<Character>> m_Doors;
-
-    // std::shared_ptr<AnimatedCharacter> m_Bee;
-    // std::shared_ptr<AnimatedCharacter> m_Ball;
     std::shared_ptr<TaskText> m_Text_Point;
-    
-    
     std::shared_ptr<PhaseResourceManager> m_PRM;
+
     int m_stage_pos = 0;
-    bool m_EnterDown = false; 
+    bool m_EnterDown = false;
 };
 
 #endif
