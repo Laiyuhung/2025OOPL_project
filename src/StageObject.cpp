@@ -140,7 +140,7 @@ bool StageObject::CheckAppearance( int s , int now_stage , bool ifShuffle ) {
     bool cont_to_check = false;
     bool flag = false;
     int stripe_side;
-
+    printf( "now stage %d\n" , now_stage );
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
         if( !m_Stage_Object[i] ) continue;
         m_Stage_Object[i]->SetAppearBool( true );
@@ -271,13 +271,13 @@ bool StageObject::CheckAppearance( int s , int now_stage , bool ifShuffle ) {
             flag = true;
     }
 
-    CheckObstaclesDisappear( );
+    CheckObstaclesDisappear( ifShuffle );
 
     if ( flag ) {
         // DebugModeOfAppearance( m_Stage_Object , size);
         MakeDisappear( );
         if ( s == 0 )
-            Dropping( s );
+            Dropping( s , now_stage , ifShuffle );
     }
 
     //check need shuffle or not
@@ -290,7 +290,7 @@ bool StageObject::CheckAppearance( int s , int now_stage , bool ifShuffle ) {
         if (result.first == -1 && result.second == -1) {
             printf( "SHUFFLE\n" );
             InitializeStageCharacter( now_stage );
-            CheckAppearance( s , now_stage );
+            CheckAppearance( s , now_stage , true );
         } else {
             std::cout << "Swap between " << result.first << " and " << result.second << std::endl;
         }
@@ -490,11 +490,11 @@ void StageObject::MakeDisappear() {
     }
 
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
-        if ((m_Stage_Object[i]->GetType() == NORMAL_OBJECT || m_Stage_Object[i]->GetType() == ONE_LAYER_COOKIE_OBJECT || m_Stage_Object[i]->GetType() == TWO_LAYER_COOKIE_OBJECT ) && !m_Stage_Object[i]->GetAppearBool()) {
+        if ((m_Stage_Object[i]->GetType() == NORMAL_OBJECT || m_Stage_Object[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT || m_Stage_Object[i]->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT ) && !m_Stage_Object[i]->GetAppearBool()) {
             GoalUpdate( i );
+            printf( "current type %d\n" , m_Stage_Object[i]->GetCurrentType() );
             m_Stage_Object[i]->SetCurrentType( m_Stage_Object[i]->GetType() ); //current == now, blockType = next(finished)
             m_Stage_Object[i]->SetBlockType( NORMAL_OBJECT );
-                
         }
         else if ( m_Stage_Object[i]->GetType() != NORMAL_OBJECT && !m_Stage_Object[i]->GetAppearBool() ) {
             PointUpdate( GetPoint() + 1 );
@@ -519,7 +519,7 @@ void StageObject::MakeDisappear() {
     startTime = std::chrono::steady_clock::now();
 }
 
-void StageObject::Dropping( int s ) {
+void StageObject::Dropping( int s , int now_stage ,  bool ifShuffle ) {
     if ( m_Stage != 0 && currentPhase != PHASE_DROPPING ) {
         return;
     }
@@ -550,7 +550,7 @@ void StageObject::Dropping( int s ) {
     if ( m_Stage != 0 )
         AppearAll();
     currentPhase = PHASE_NORMAL;
-    CheckAppearance( s , m_Stage);
+    CheckAppearance( s , now_stage , ifShuffle );
 }
 
 void StageObject::MakeObstaclesDisappear(int position) {
@@ -606,7 +606,7 @@ void StageObject::GoalUpdate( int i ) {
             stage_goal_counter[4]--;
             break;
         case 5:
-            if ( m_Stage_Object[i]->GetType() == ONE_LAYER_COOKIE_OBJECT ) {
+            if ( m_Stage_Object[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT ) {
                 stage_goal_counter[5]--;
             }
             break;
@@ -685,7 +685,7 @@ void StageObject::MakeDisappearWithObject( int current_pos ) {
         case ONE_LAYER_COOKIE_OBJECT:
             m_Stage_Object[current_pos]->DisAppear();
             m_Stage_Object[current_pos]->SetAppearBool( false );
-            m_Stage_Object[current_pos]->SetCurrentType( NORMAL_OBJECT );
+            // m_Stage_Object[current_pos]->SetCurrentType( NORMAL_OBJECT );
             break;
         case TWO_LAYER_COOKIE_OBJECT:
             break;
@@ -1398,7 +1398,7 @@ void StageObject::SetUp( int stage ) {
             m_Stage_Object[i]->Appear();
     }
     InitializeStageCharacter( stage );
-    CheckAppearance( 0 , stage );
+    CheckAppearance( 0 , stage , true);
 }
 
 void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText> point ) {
@@ -1462,7 +1462,7 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
             }
 
             //can't disappear
-            if ( !CheckAppearance( 1 , m_Stage ) ) {
+            if ( !CheckAppearance( 1 , m_Stage , false ) ) {
                 m_Stage_Object[i]->SwitchPosition( m_Stage_Object[check] );
                 std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[check];
                 m_Stage_Object[check] = m_Stage_Object[i];

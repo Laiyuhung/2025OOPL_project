@@ -34,7 +34,7 @@ class StageObject : public Util::GameObject {
         bool CheckAppearance( int s , int now_stage , bool ifShuffle );
         void CheckSpecialObject( int i );
         void MakeDisappear();
-        void Dropping( int s );
+        void Dropping( int s , int now_stage , bool ifShuffle );
         void CheckObstaclesDisappear( bool ifShuffle );
         void MakeObstaclesDisappear(int position);
         void PointUpdate( int point );

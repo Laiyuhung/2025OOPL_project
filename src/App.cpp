@@ -191,7 +191,7 @@ void App::Update() {
                 m_Root.Update();
             }
             else if ( currentPhase == PHASE_DROPPING ) {
-                m_Stage_Object[1]->Dropping( 1 );
+                m_Stage_Object[1]->Dropping( 1 , 1 , false );
                 m_Text_Point->SetPoint( stage_point_counter[1] );
                 m_Text_Point->SetGoal( stage_goal_counter[1] );
                 m_Text_Point->UpdateText();
@@ -245,7 +245,7 @@ void App::Update() {
                 m_Root.Update();
             }
             else if ( currentPhase == PHASE_DROPPING ) {
-                m_Stage_Object[2]->Dropping( 1 );
+                m_Stage_Object[2]->Dropping( 1 , 2 , false );
                 m_Text_Point->SetPoint( stage_point_counter[2] );
                 m_Text_Point->SetGoal( stage_goal_counter[2] );
                 m_Text_Point->UpdateText();
@@ -299,7 +299,7 @@ void App::Update() {
                 m_Root.Update();
             }
             else if ( currentPhase == PHASE_DROPPING ) {
-                m_Stage_Object[3]->Dropping( 1 );
+                m_Stage_Object[3]->Dropping( 1 , 3 , false );
                 // m_Text_Point->SetPoint( stage_point_counter[3] );
                 // m_Text_Point->SetGoal( stage_goal_counter[3] );
                 // m_Text_Point->UpdateText();
@@ -354,7 +354,7 @@ void App::Update() {
                 m_Root.Update();
             }
             else if ( currentPhase == PHASE_DROPPING ) {
-                m_Stage_Object[4]->Dropping( 1 );
+                m_Stage_Object[4]->Dropping( 1 , 4,  false );
                 // m_Text_Point->SetPoint( stage_point_counter[4] );
                 // m_Text_Point->SetGoal( stage_goal_counter[4] );
                 // m_Text_Point->UpdateText();
@@ -409,7 +409,7 @@ void App::Update() {
                 m_Root.Update();
             }
             else if ( currentPhase == PHASE_DROPPING ) {
-                m_Stage_Object[5]->Dropping( 1 );
+                m_Stage_Object[5]->Dropping( 1 , 5,  false );
                 m_Text_Point->SetPoint( stage_point_counter[5] );
                 m_Text_Point->SetGoal( stage_goal_counter[5] );
                 m_Text_Point->UpdateText();
