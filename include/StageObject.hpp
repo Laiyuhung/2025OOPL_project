@@ -44,8 +44,16 @@ public:
         return m_Size;
     }
 
+    std::shared_ptr<GameCharacter>  GetStageGoalObject() {
+        return this->m_Stage_Goal_Object_Show;
+    }
+
     void SetStage(int stage) {
         m_Stage = stage;
+    }
+
+    void SetStageGoalObject( std::shared_ptr<GameCharacter> Stage_Goal_Object ) {
+        this->m_Stage_Goal_Object_Show = Stage_Goal_Object;
     }
 
     virtual ~StageObject() = default;
@@ -71,6 +79,7 @@ protected:
     int m_Stage;
     int m_Size;
     std::vector<std::shared_ptr<GameCharacter>> m_Stage_Object;
+    std::shared_ptr<GameCharacter> m_Stage_Goal_Object_Show;
 
     void RandomChangeObject(int current_pos);
 

@@ -69,10 +69,12 @@ public:
         m_Root.AddChild(m_Stage_Object.at(stage));
         
         auto goalImage = (stage >= 3) ? REACH_IMAGE : BROWN_NORMAL_OBJECT;
-        m_Stage_Goal_Object_Show = std::make_shared<GameCharacter>(goalImage);
-        m_Stage_Goal_Object_Show->SetPosition(stage_goal_position[stage]);
-        m_Stage_Goal_Object_Show->SetVisible(true);
-        m_Root.AddChild(m_Stage_Goal_Object_Show);
+        auto stage_goal = std::make_shared<GameCharacter>(goalImage);
+        stage_goal->SetPosition(stage_goal_position[stage]);
+        stage_goal->SetVisible(true);
+        stage_goal->SetZIndex( 10 );
+        m_Root.AddChild(stage_goal);
+        m_Stage_Object.at(stage)->SetStageGoalObject( stage_goal );
         
         for (auto& btn : m_Stage_Buttoms) 
             if ( btn )
@@ -88,7 +90,7 @@ public:
             m_Root.RemoveChild( m_Stage_Object.at(stage)->GetStageObjectItem(i) );
         }
         m_Stage_Object.at(stage)->ClearAll();
-        m_Root.RemoveChild(m_Stage_Goal_Object_Show);
+        m_Root.RemoveChild(m_Stage_Object.at(stage)->GetStageGoalObject());
         if (static_cast<size_t>(stage) < m_Stage_Object.size()) {
             m_Root.RemoveChild(m_Stage_Object.at(stage));
         }
@@ -129,7 +131,6 @@ private:
     std::vector<std::shared_ptr<Music>> m_BGM_Music;
     std::shared_ptr<Character> m_Start_initial;
     std::vector<std::shared_ptr<Character>> m_Stage_Buttoms;
-    std::shared_ptr<GameCharacter> m_Stage_Goal_Object_Show;
     std::vector<std::shared_ptr<StageObject>> m_Stage_Object;
     std::shared_ptr<JumpPage> m_Jump_Page;
     std::shared_ptr<TaskText> m_Text_Point;
