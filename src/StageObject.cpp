@@ -1266,7 +1266,7 @@ void StageObject::SetUp(int stage) {
 
 void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText> point ) {
     for ( int j = 0 ; j < 6 ; ++j ) {
-        if( m_Stage_Object[i]->GetInformationNeibor()[j]%(m_Size+1) == check ) {
+        if( m_Stage_Object[i]->GetInformationNeibor()[j]%(m_Size+1) == check && m_Stage_Object[i]->GetInformationNeibor()[j] <= m_Size && m_Stage_Object[check]->GetInformationNeibor()[j] <= m_Size) {
             m_Stage_Object[i]->SetSwitched(2);
             m_Stage_Object[check]->SetSwitched(2);
             std::cout<<"pos: "<<i<<"  "<<check<<std::endl;
@@ -1324,7 +1324,7 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
                 cout<<"find stripe combined"<<endl;
             }
 
-            //can't disappear
+            //all check but no disappear
             if ( !CheckAppearance( 1 , m_Stage , false ) ) {
                 m_Stage_Object[i]->SwitchPosition( m_Stage_Object[check] );
                 std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[check];
