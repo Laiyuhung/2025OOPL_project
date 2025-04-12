@@ -26,6 +26,10 @@ int PhaseHomePage(const std::vector<std::shared_ptr<Character>>& buttoms) {
 
 bool PhaseStage(std::shared_ptr<StageObject> StageObject, int size, std::shared_ptr<TaskText> point, int stage) {
     auto objectArray = StageObject->GetStageObject();
+    if ( currentPhase != PHASE_NORMAL ) {
+        objectArray.at(0)->SetVisible(false);
+        return false;
+    }
     for (int i = 1; i < size + 1; ++i) {
         if (objectArray.at(i)->IfClick()) {
             if (objectArray.at(i)->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT ||
@@ -40,6 +44,7 @@ bool PhaseStage(std::shared_ptr<StageObject> StageObject, int size, std::shared_
                 is_click = i;
             } else {
                 std::cout << "test_else\n";
+                objectArray.at(0)->SetVisible(false);
                 if (is_click == i) {
                     is_click = 0;
                     break;
@@ -47,7 +52,6 @@ bool PhaseStage(std::shared_ptr<StageObject> StageObject, int size, std::shared_
                 int check = is_click;
                 is_click = 0;
                 StageObject->CheckClickSwitch(check, i, point);
-                objectArray.at(0)->SetVisible(false);
             }
         }
     }

@@ -460,10 +460,10 @@ void StageObject::GoalUpdate( int i ) {
             }
             break;
         case 3:
-            stage_goal_counter[3]--;
+            stage_goal_counter[3] = stage_point_goal[3] - stage_point_counter[3];
             break;
         case 4:
-            stage_goal_counter[4]--;
+            stage_goal_counter[4] = stage_point_goal[4] - stage_point_counter[4];
             break;
         case 5:
             if ( m_Stage_Object[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT ) {
@@ -485,6 +485,7 @@ void StageObject::AppearAll() {
         m_Stage_Object.at(i)->SetVisible( true );
         m_Stage_Object.at(i)->SetAppearBool( true );
     }
+    
 }
 
 void StageObject::DisAppearAll() {
@@ -494,6 +495,7 @@ void StageObject::DisAppearAll() {
             obj->DisAppear();
         }
     }
+    this->GetStageGoalObject()->DisAppear();
 }
 
 void StageObject::ClearAllClick() {
@@ -1259,6 +1261,7 @@ void StageObject::SetUp(int stage) {
         }
     }
     m_Stage_Object.at(0)->DisAppear();
+    this->GetStageGoalObject()->Appear();
     InitializeStageCharacter(stage);
     CheckAppearance(0, stage, true);
 }
