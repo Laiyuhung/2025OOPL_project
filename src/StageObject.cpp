@@ -208,9 +208,9 @@ bool StageObject::CheckAppearance(int s, int now_stage, bool ifShuffle) {
 
         if (obj->GetCurrentType() == RAINBOWBALL_OBJECT && obj->GetSwitchedInfo() == MOVE_BY_SWITCH) {
             obj->SetAppearBool(false);
-            MakeDisappear();
-            for (auto& o : m_Stage_Object) if (o) o->SetSwitched(NO_MOVE);
-            return true;
+            // MakeDisappear();
+            // for (auto& o : m_Stage_Object) if (o) o->SetSwitched(NO_MOVE);
+            // return true;
         }
 
         if ((obj->GetCurrentType() == FLOWER_COMBINED_OBJECT || obj->GetCurrentType() == FLOWER_STRIPE_OBJECT || obj->GetCurrentType() == STRIPE_COMBINED_OBJECT) && obj->GetSwitchedInfo() == MOVE_BY_SWITCH) {
@@ -491,6 +491,8 @@ void StageObject::MakeObstaclesDisappear(int position) {
 }
 
 void StageObject::CheckObstaclesDisappear(bool ifShuffle) {
+
+    cout<<"shuffle? "<<ifShuffle<<endl;
     if ( ifShuffle )
         return;
     for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
@@ -889,7 +891,17 @@ void StageObject::MakeDisappearWithRainbow( int current_pos ) { //get type: next
 
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
         if ( i != current_pos && m_Stage_Object[current_pos]->GetBlockType() == m_Stage_Object[i]->GetBlockType() ) {
+
             MakeDisappearWithObject( i );
+            for ( int j = 0 ; j < 6 ; ++j ) {
+                if (m_Stage_Object[i]->GetInformationNeibor()[j]%(m_Size+1) != -1 && m_Stage_Object[i]->GetCurrentType() == NORMAL_OBJECT){
+
+                    if (  m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]%(m_Size+1)]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT || m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]%(m_Size+1)]->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT)  {
+                        cout<<"hihi"<<endl;
+                        MakeDisappearWithObject( m_Stage_Object[i]->GetInformationNeibor()[j]%(m_Size+1) );
+                    }
+                }
+            }
         }
     }
 }

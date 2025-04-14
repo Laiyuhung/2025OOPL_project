@@ -107,12 +107,7 @@ void App::Update() {
                         m_Stage_Object[2]->AppearAll();
                         m_Stage_Object[2]->SetStage( 2 );
                         m_Text_Point->Initial( 2 );
-                        // m_Stage_Object[2]->GetStageObject()[37]->SetImage( COOKIE_TWO_IMAGE );
-                        // m_Stage_Object[2]->GetStageObject()[37]->SetBlockType( ONE_LAYER_COOKIE_OBJECT );
-                        // m_Stage_Object[2]->GetStageObject()[37]->SetCurrentType( TWO_LAYER_COOKIE_OBJECT );
-                        // m_Stage_Object[2]->GetStageObject()[37]->SetBlock( NO_COLOR );
-                        // m_Stage_Object[2]->GetStageObject()[37]->SetAppearBool( true );
-                        // m_Stage_Object[2]->GetStageObject()[37]->SetGenerate( false );
+
                         currentPhase = PHASE_NORMAL;
                         m_Phase = Phase::STAGE_2;
                     }
@@ -147,6 +142,12 @@ void App::Update() {
                         m_Stage_Object[5]->AppearAll();
                         m_Stage_Object[5]->SetStage( 5 );
                         m_Text_Point->Initial( 5 );
+                        m_Stage_Object[5]->GetStageObject()[37]->SetImage( RAINBOWBALL_OBJECT_LINK );
+                        m_Stage_Object[5]->GetStageObject()[37]->SetBlockType( NORMAL_OBJECT );
+                        m_Stage_Object[5]->GetStageObject()[37]->SetCurrentType( RAINBOWBALL_OBJECT );
+                        m_Stage_Object[5]->GetStageObject()[37]->SetBlock( NO_COLOR );
+                        m_Stage_Object[5]->GetStageObject()[37]->SetAppearBool( true );
+                        m_Stage_Object[5]->GetStageObject()[37]->SetGenerate( true );
                         currentPhase = PHASE_NORMAL;
                         m_Phase = Phase::STAGE_5;
                     }
@@ -176,7 +177,7 @@ void App::Update() {
                 ifClear[1] = true;
                 m_Jump_Page->EndPage( 1 );
             }
-            else if ( m_Text_Point->GetMove() <= 0 ) {
+            else if ( (m_Text_Point->GetMove() < 0 && stage_goal_counter[1] > 0) && currentPhase == PHASE_NORMAL ) {
                 m_Stage_Object[1]->DisAppearAll();
                 m_Text_Point->SetVisible( false );
                 ifClear[1] = false;
@@ -230,7 +231,7 @@ void App::Update() {
                 ifClear[2] = true;
                 m_Jump_Page->EndPage( 2 );
             } 
-            else if ( m_Text_Point->GetMove() <= 0 ) {
+            else if ( (m_Text_Point->GetMove() < 0 && stage_goal_counter[2] > 0) && currentPhase == PHASE_NORMAL ) {
                 m_Stage_Object[2]->DisAppearAll();
                 m_Text_Point->SetVisible( false );
                 ifClear[2] = false;
@@ -284,7 +285,7 @@ void App::Update() {
                 ifClear[3] = true;
                 m_Jump_Page->EndPage( 3 );
             } 
-            else if ( m_Text_Point->GetMove() <= 0 ) {
+            else if ( (m_Text_Point->GetMove() < 0 && stage_goal_counter[3] > 0) && currentPhase == PHASE_NORMAL) {
                 m_Stage_Object[3]->DisAppearAll();
                 m_Text_Point->SetVisible( false );
                 ifClear[3] = false;
@@ -339,7 +340,7 @@ void App::Update() {
                 ifClear[4] = true;
                 m_Jump_Page->EndPage( 4 );
             }
-            else if ( m_Text_Point->GetMove() <= 0 ) {
+            else if ((m_Text_Point->GetMove() < 0 && stage_goal_counter[4] > 0) && currentPhase == PHASE_NORMAL) {
                 m_Stage_Object[4]->DisAppearAll();
                 m_Text_Point->SetVisible( false );
                 ifClear[4] = false;
@@ -394,7 +395,7 @@ void App::Update() {
                 ifClear[5] = true;
                 m_Jump_Page->EndPage( 5 );
             }
-            else if ( m_Text_Point->GetMove() <= 0 ) {
+            else if ( (m_Text_Point->GetMove() < 0 && stage_goal_counter[5] > 0) && currentPhase == PHASE_NORMAL ) {
                 m_Stage_Object[5]->DisAppearAll();
                 m_Text_Point->SetVisible( false );
                 ifClear[5] = false;
