@@ -70,6 +70,13 @@ public:
         
         auto goalImage = (stage >= 3) ? REACH_IMAGE : BROWN_NORMAL_OBJECT;
         auto stage_goal = std::make_shared<GameCharacter>(goalImage);
+        if ( stage == 1 || stage == 2 ) 
+            stage_goal->SetImage( BROWN_NORMAL_OBJECT );
+        else if ( stage == 3 || stage == 3 )
+            stage_goal->SetImage( REACH_IMAGE );
+        else if ( stage == 5 )
+            stage_goal->SetImage( COOKIE_ONE_IMAGE );
+        
         stage_goal->SetPosition(stage_goal_position[stage]);
         stage_goal->SetVisible(true);
         stage_goal->SetZIndex( 10 );

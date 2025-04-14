@@ -30,14 +30,17 @@ bool PhaseStage(std::shared_ptr<StageObject> StageObject, int size, std::shared_
         objectArray.at(0)->SetVisible(false);
         return false;
     }
+    if ( !objectArray.at(0)->GetVisibility() ) {
+        is_click = 0;
+    }
     for (int i = 1; i < size + 1; ++i) {
         if (objectArray.at(i)->IfClick()) {
             if (objectArray.at(i)->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT ||
                 objectArray.at(i)->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT)
                 continue;
 
-            std::cout << "which click: " << objectArray.at(i)->GetInformationPosNumber() << std::endl;
-
+            // std::cout << "which click: " << objectArray.at(i)->GetInformationPosNumber() << std::endl;
+            
             if (is_click == 0) {
                 objectArray.at(0)->SetPosition(objectArray.at(i)->GetInformationPosition());
                 objectArray.at(0)->SetVisible(true);
@@ -50,8 +53,8 @@ bool PhaseStage(std::shared_ptr<StageObject> StageObject, int size, std::shared_
                     break;
                 }
                 int check = is_click;
-                is_click = 0;
                 StageObject->CheckClickSwitch(check, i, point);
+                is_click = 0;
             }
         }
     }

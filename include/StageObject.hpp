@@ -82,7 +82,8 @@ protected:
     std::shared_ptr<GameCharacter> m_Stage_Goal_Object_Show;
 
     void RandomChangeObject(int current_pos);
-
+    void ShuffleStageCharacter( int s );
+    
     void MakeDisappearWithObject(int current_pos);
     void MakeDisappearWithStripe(int current_pos);
     void MakeDisappearWithRainbow(int current_pos);

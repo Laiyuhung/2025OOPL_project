@@ -52,6 +52,72 @@ void StageObject::RandomChangeObject( int current_pos ) {
             break;
     }
 }
+void StageObject::ShuffleStageCharacter( int s ) {
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> distrib(1, 7);
+
+    for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
+        auto& obj = m_Stage_Object[i];
+        if (!obj) continue;
+
+        if (m_Stage != 0) {
+            auto type = obj->GetCurrentType();
+            if (type != NORMAL_OBJECT && type != ONE_LAYER_COOKIE_OBJECT && type != TWO_LAYER_COOKIE_OBJECT) {
+                continue;
+            }
+        }
+
+        if (s == 5 && i < 27 && obj->GetCurrentType() != NORMAL_OBJECT ) {
+            obj->SetImage(COOKIE_ONE_IMAGE);
+            obj->SetBlock(NO_COLOR);
+            obj->SetInformation(stage5[i]);
+            obj->SetPosition(stage5_position[i]);
+            obj->SetZIndex(10);
+            obj->SetSize({20, 25});
+            obj->DisAppear();
+            obj->SetAppearBool(true);
+            obj->SetBlockType(NORMAL_OBJECT);
+            obj->SetCurrentType(ONE_LAYER_COOKIE_OBJECT);
+            continue;
+        } else {
+            RandomChangeObject(i);
+        }
+
+        obj->SetZIndex(10);
+        obj->SetSize({20, 25});
+        obj->DisAppear();
+        obj->SetAppearBool(true);
+        obj->SetBlockType(NORMAL_OBJECT);
+        obj->SetCurrentType(NORMAL_OBJECT);
+
+        switch (s) {
+            case 1:
+                obj->SetInformation(stage1[i]);
+                obj->SetPosition(stage1_position[i]);
+                break;
+            case 2:
+                obj->SetInformation(stage2[i]);
+                obj->SetPosition(stage2_position[i]);
+                break;
+            case 3:
+                obj->SetInformation(stage3[i]);
+                obj->SetPosition(stage3_position[i]);
+                break;
+            case 4:
+                obj->SetInformation(stage4[i]);
+                obj->SetPosition(stage4_position[i]);
+                break;
+            case 5:
+                obj->SetInformation(stage5[i]);
+                obj->SetPosition(stage5_position[i]);
+                break;
+            default:
+                break;
+        }
+    }
+}
+
 
 void StageObject::InitializeStageCharacter(int s) {
     static std::random_device rd;
@@ -228,15 +294,16 @@ bool StageObject::CheckAppearance(int s, int now_stage, bool ifShuffle) {
 
     if (flag) {
         MakeDisappear();
-        if (s == 0)
+        if (s == 0 || ifShuffle)
             Dropping(s, now_stage, ifShuffle);
     } else {
         for (auto& obj : m_Stage_Object) if (obj) obj->SetSwitched(0);
         auto result = CheckShuffleDemands();
         if (result.first == -1 && result.second == -1) {
             std::cout << "SHUFFLE\n";
-            InitializeStageCharacter(now_stage);
+            ShuffleStageCharacter(now_stage);
             CheckAppearance(s, now_stage, true);
+            AppearAll();
         } else {
             std::cout << "Swap between " << result.first << " and " << result.second << std::endl;
         }
@@ -377,6 +444,7 @@ void StageObject::MakeDisappear() {
 void StageObject::Dropping(int s, int now_stage, bool ifShuffle) {
     if (m_Stage != 0 && currentPhase != PHASE_DROPPING) return;
 
+    // is_click = 0;
     size_t loop_count = 0;
     for (size_t i = 1; i < m_Stage_Object.size();) {
         if (loop_count > m_Stage_Object.size() || !m_Stage_Object[i] || m_Stage_Object[i]->GetInformationNeibor()[0]%(m_Size+1) == -1 || m_Stage_Object[i]->GetAppearBool()) {
@@ -402,7 +470,8 @@ void StageObject::Dropping(int s, int now_stage, bool ifShuffle) {
         m_Stage_Object[i]->SetAppearBool(true);
     }
 
-    if (m_Stage != 0) AppearAll();
+    if (m_Stage != 0 ) AppearAll();
+    // else if ( ifShuffle == true ) AppearAll();
     currentPhase = PHASE_NORMAL;
     CheckAppearance(s, now_stage, ifShuffle);
 }
@@ -422,6 +491,8 @@ void StageObject::MakeObstaclesDisappear(int position) {
 }
 
 void StageObject::CheckObstaclesDisappear(bool ifShuffle) {
+    if ( ifShuffle )
+        return;
     for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
         auto& obj = m_Stage_Object[i];
         if (!obj) continue;
@@ -430,7 +501,7 @@ void StageObject::CheckObstaclesDisappear(bool ifShuffle) {
             int* neighbors = obj->GetInformationNeibor();
             for (int j = 0; j < 6; ++j) {
                 int neighborIdx = neighbors[j]%(m_Size+1);
-                if (!ifShuffle && neighborIdx != -1 && neighborIdx < static_cast<int>(m_Stage_Object.size())) {
+                if (neighborIdx != -1 && neighborIdx < static_cast<int>(m_Stage_Object.size())) {
                     auto& neighbor = m_Stage_Object[neighborIdx];
                     if (neighbor && !neighbor->GetAppearBool() && neighbor->GetCurrentType() <= STRIPE_COMBINED_OBJECT) {
                         MakeObstaclesDisappear(static_cast<int>(i));
