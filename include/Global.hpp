@@ -158,6 +158,7 @@
 #include <stack>
 #include <memory>
 #include <string>
+#include <set>
 #include "ObjectInformation.hpp"
 
 extern glm::vec2 stage_position[13];
@@ -191,6 +192,10 @@ extern Objectinformation stage6[73];
 extern glm::vec2 stage7_position[61];
 extern int stage7_neibor[61][6];
 extern Objectinformation stage7[61];
+
+extern std::set<int> one_layer_7;
+extern std::set<int> two_layer_7;
+
 
 extern std::string ClearStageList[13];
 extern std::string LevelStageList[13];
