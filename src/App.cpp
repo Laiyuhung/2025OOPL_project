@@ -48,12 +48,12 @@ void App::Start() {
     m_Jump_Page->SetSize({5, 5});
     m_Root.AddChild(m_Jump_Page);
 
-    m_Root.AddChild(m_Jump_Page->m_Play_Buttom);
-    m_Root.AddChild(m_Jump_Page->m_Cancel_Buttom);
-    m_Root.AddChild(m_Jump_Page->m_Pause_Buttom);
-    m_Root.AddChild(m_Jump_Page->m_Stop_Buttom);
-    m_Root.AddChild(m_Jump_Page->m_Continue_Buttom);
-    m_Root.AddChild(m_Jump_Page->m_info_Buttom);
+    m_Root.AddChild(m_Jump_Page->GetPlayButtom());
+    m_Root.AddChild(m_Jump_Page->GetCancelButtom());
+    m_Root.AddChild(m_Jump_Page->GetPauseButtom());
+    m_Root.AddChild(m_Jump_Page->GetStopButtom());
+    m_Root.AddChild(m_Jump_Page->GetContinueButtom());
+    m_Root.AddChild(m_Jump_Page->GetInfoButtom());
 
     m_Text_Point = std::make_shared<TaskText>();
     m_Text_Point->SetPosition({-125, 210});
@@ -142,12 +142,12 @@ void App::Update() {
                         m_Stage_Object[5]->AppearAll();
                         m_Stage_Object[5]->SetStage( 5 );
                         m_Text_Point->Initial( 5 );
-                        m_Stage_Object[5]->GetStageObject()[37]->SetImage( RAINBOWBALL_OBJECT_LINK );
-                        m_Stage_Object[5]->GetStageObject()[37]->SetBlockType( NORMAL_OBJECT );
-                        m_Stage_Object[5]->GetStageObject()[37]->SetCurrentType( RAINBOWBALL_OBJECT );
-                        m_Stage_Object[5]->GetStageObject()[37]->SetBlock( NO_COLOR );
-                        m_Stage_Object[5]->GetStageObject()[37]->SetAppearBool( true );
-                        m_Stage_Object[5]->GetStageObject()[37]->SetGenerate( true );
+                        // m_Stage_Object[5]->GetStageObject()[37]->SetImage( RAINBOWBALL_OBJECT_LINK );
+                        // m_Stage_Object[5]->GetStageObject()[37]->SetBlockType( NORMAL_OBJECT );
+                        // m_Stage_Object[5]->GetStageObject()[37]->SetCurrentType( RAINBOWBALL_OBJECT );
+                        // m_Stage_Object[5]->GetStageObject()[37]->SetBlock( NO_COLOR );
+                        // m_Stage_Object[5]->GetStageObject()[37]->SetAppearBool( true );
+                        // m_Stage_Object[5]->GetStageObject()[37]->SetGenerate( true );
                         currentPhase = PHASE_NORMAL;
                         m_Phase = Phase::STAGE_5;
                     }
@@ -170,7 +170,7 @@ void App::Update() {
             break;
 
         case Phase::STAGE_1:
-            m_Jump_Page->m_Pause_Buttom->SetVisible( true );
+            m_Jump_Page->GetPauseButtom()->SetVisible( true );
             if (PhaseStage( m_Stage_Object[1], m_Stage_Object[1]->GetSize() , m_Text_Point , 1 )){
                 m_Stage_Object[1]->DisAppearAll();
                 m_Text_Point->SetVisible( false );
@@ -224,7 +224,7 @@ void App::Update() {
             break;
 
         case Phase::STAGE_2:
-            m_Jump_Page->m_Pause_Buttom->SetVisible( true );
+            m_Jump_Page->GetPauseButtom()->SetVisible( true );
             if (PhaseStage( m_Stage_Object[2], m_Stage_Object[2]->GetSize() , m_Text_Point , 2)){
                 m_Stage_Object[2]->DisAppearAll();
                 m_Text_Point->SetVisible( false );
@@ -278,7 +278,7 @@ void App::Update() {
             break;
 
         case Phase::STAGE_3:
-            m_Jump_Page->m_Pause_Buttom->SetVisible( true );
+            m_Jump_Page->GetPauseButtom()->SetVisible( true );
             if (PhaseStage( m_Stage_Object[3], m_Stage_Object[3]->GetSize() , m_Text_Point , 3)){
                 m_Stage_Object[3]->DisAppearAll();
                 m_Text_Point->SetVisible( false );
@@ -299,9 +299,6 @@ void App::Update() {
             }
             else if ( currentPhase == PHASE_DROPPING ) {
                 m_Stage_Object[3]->Dropping( 1 , 3 , false );
-                // m_Text_Point->SetPoint( stage_point_counter[3] );
-                // m_Text_Point->SetGoal( stage_goal_counter[3] );
-                // m_Text_Point->UpdateText();
             }
             if ( m_Jump_Page->ifClickWithPauseButtom() ) {
                 m_Jump_Page->PausePage();
@@ -333,7 +330,7 @@ void App::Update() {
 
 
         case Phase::STAGE_4:
-            m_Jump_Page->m_Pause_Buttom->SetVisible( true );
+            m_Jump_Page->GetPauseButtom()->SetVisible( true );
             if (PhaseStage( m_Stage_Object[4], m_Stage_Object[4]->GetSize() , m_Text_Point , 4)){
                 m_Stage_Object[4]->DisAppearAll();
                 m_Text_Point->SetVisible( false );
@@ -354,9 +351,6 @@ void App::Update() {
             }
             else if ( currentPhase == PHASE_DROPPING ) {
                 m_Stage_Object[4]->Dropping( 1 , 4,  false );
-                // m_Text_Point->SetPoint( stage_point_counter[4] );
-                // m_Text_Point->SetGoal( stage_goal_counter[4] );
-                // m_Text_Point->UpdateText();
             }
             if ( m_Jump_Page->ifClickWithPauseButtom() ) {
                 m_Jump_Page->PausePage();
@@ -388,7 +382,7 @@ void App::Update() {
 
 
         case Phase::STAGE_5:
-            m_Jump_Page->m_Pause_Buttom->SetVisible( true );
+            m_Jump_Page->GetPauseButtom()->SetVisible( true );
             if (PhaseStage( m_Stage_Object[5], m_Stage_Object[5]->GetSize() , m_Text_Point , 5)){
                 m_Stage_Object[5]->DisAppearAll();
                 m_Text_Point->SetVisible( false );
