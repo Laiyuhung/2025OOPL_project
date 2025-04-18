@@ -1349,7 +1349,7 @@ void StageObject::SetUp(int stage) {
     m_Stage_Object.at(0)->DisAppear();
     this->GetStageGoalObject()->Appear();
     InitializeStageCharacter(stage);
-    // CheckAppearance(0, stage, true);
+    CheckAppearance(0, stage, true);
 }
 
 
