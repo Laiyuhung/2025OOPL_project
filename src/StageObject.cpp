@@ -191,7 +191,7 @@ bool StageObject::CheckAppearance(int s, int now_stage, bool ifShuffle) {
 
     bool flag = false;
     int stripe_side;
-    std::cout << "now stage " << now_stage << std::endl;
+    // std::cout << "now stage " << now_stage << std::endl;
 
     for (auto& obj : m_Stage_Object) {
         if (obj) obj->SetAppearBool(true);
@@ -413,7 +413,7 @@ void StageObject::MakeDisappear() {
              m_Stage_Object[i]->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT) &&
              !m_Stage_Object[i]->GetAppearBool()) {
             GoalUpdate(static_cast<int>(i));
-            printf("current type %d\n", m_Stage_Object[i]->GetCurrentType());
+            // printf("current type %d\n", m_Stage_Object[i]->GetCurrentType());
             m_Stage_Object[i]->SetCurrentType(m_Stage_Object[i]->GetType());
             m_Stage_Object[i]->SetBlockType(NORMAL_OBJECT);
         } else if (m_Stage_Object[i]->GetType() != NORMAL_OBJECT &&
@@ -459,7 +459,7 @@ void StageObject::Dropping(int s, int now_stage, bool ifShuffle) {
 
     for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
         if (!m_Stage_Object[i]->GetAppearBool() && m_Stage_Object[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT) {
-            std::cout << "testing\n";
+            // std::cout << "testing\n";
             m_Stage_Object[i]->SetImage(COOKIE_ONE_IMAGE);
             m_Stage_Object[i]->SetBlock(NO_COLOR);
             m_Stage_Object[i]->SetBlockType(NORMAL_OBJECT);
@@ -897,7 +897,6 @@ void StageObject::MakeDisappearWithRainbow( int current_pos ) { //get type: next
                 if (m_Stage_Object[i]->GetInformationNeibor()[j]%(m_Size+1) != -1 && m_Stage_Object[i]->GetCurrentType() == NORMAL_OBJECT){
 
                     if (  m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]%(m_Size+1)]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT || m_Stage_Object[m_Stage_Object[i]->GetInformationNeibor()[j]%(m_Size+1)]->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT)  {
-                        cout<<"hihi"<<endl;
                         MakeDisappearWithObject( m_Stage_Object[i]->GetInformationNeibor()[j]%(m_Size+1) );
                     }
                 }

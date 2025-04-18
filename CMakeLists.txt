@@ -41,6 +41,7 @@ add_executable(${PROJECT_NAME}
     ${SRC_DIR}/PhaseResourceManager.cpp
     ${SRC_DIR}/StageObject.cpp
     ${SRC_DIR}/JumpPage.cpp
+    ${SRC_DIR}/AppStage.cpp
     # ${SRC_DIR}/Disappear.cpp
     # ${SRC_DIR}/Drop.cpp
     # ${SRC_DIR}/ObjectChange.cpp
