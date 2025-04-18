@@ -14,6 +14,7 @@ void App::Start() {
     InitializeStage4();
     InitializeStage5();
     InitializeStage6();
+    InitializeStage7();
 
     startTime = std::chrono::steady_clock::now();
     m_Stage_Object.resize( 13 );
@@ -91,7 +92,7 @@ void App::Update() {
                 } 
                 if ( m_Jump_Page->ifClickWithPlayButtom() ) {
                     SetUpStage( m_stage_pos );
-                    if ( m_stage_pos >= 1 && m_stage_pos <= 6 ) { 
+                    if ( m_stage_pos >= 1 && m_stage_pos <= 7 ) { 
                         m_Stage_Object[m_stage_pos]->SetUp( m_stage_pos );
                         m_Stage_Object[m_stage_pos]->AppearAll();
                         m_Stage_Object[m_stage_pos]->SetStage( m_stage_pos );
@@ -181,7 +182,10 @@ void App::Update() {
         case Phase::STAGE_6:
             Stage( 6 );
             break;
-            
+        
+        case Phase::STAGE_7:
+            Stage( 7 );
+            break;
         }
 
         /*

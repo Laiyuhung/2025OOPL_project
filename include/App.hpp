@@ -49,7 +49,7 @@ public:
         else if (stage == 4) size = 64;
         else if (stage == 5) size = 39;
         else if (stage == 6) size = 72;
-        // else if (stage == 7) size = ;
+        else if (stage == 7) size = 60;
         
         if (m_Stage_Object.size() <= static_cast<size_t>(stage)) m_Stage_Object.resize(stage + 1);
         m_Stage_Object.at(stage) = std::make_shared<StageObject>(size);
@@ -80,8 +80,9 @@ public:
             stage_goal->SetImage( COOKIE_ONE_IMAGE );
         else if ( stage == 6 )
             stage_goal->SetImage( COOKIE_ONE_IMAGE );
-        // else if ( stage == 7 )
-        
+        else if ( stage == 7 )
+            stage_goal->SetImage( COOKIE_ONE_IMAGE );
+            
         stage_goal->SetPosition(stage_goal_position[stage]);
         stage_goal->SetVisible(true);
         stage_goal->SetZIndex( 10 );
