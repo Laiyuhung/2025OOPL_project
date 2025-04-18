@@ -6,6 +6,30 @@ class JumpPage : public Character {
         JumpPage(const std::string& ImagePath);
         virtual void SetImage(const std::string& ImagePath);
 
+        std::shared_ptr<Character> GetPlayButtom() {
+            return m_Play_Buttom;
+        }
+        
+        std::shared_ptr<Character> GetCancelButtom() {
+            return m_Cancel_Buttom;
+        }
+
+        std::shared_ptr<Character> GetPauseButtom() {
+            return m_Pause_Buttom;
+        }
+
+        std::shared_ptr<Character> GetContinueButtom() {
+            return m_Continue_Buttom;
+        }
+
+        std::shared_ptr<Character> GetStopButtom() {
+            return m_Stop_Buttom;
+        }
+
+        std::shared_ptr<Character> GetInfoButtom() {
+            return m_info_Buttom;
+        }        
+
         void AllDisappear() {
             m_Play_Buttom->SetVisible( false );
             m_Cancel_Buttom->SetVisible( false );
@@ -114,6 +138,7 @@ class JumpPage : public Character {
         bool ifClickWithCancelButtomInEnd() { return m_Cancel_Buttom->GetVisibility() && m_Cancel_Buttom->IfClick() && ( GetStatus() == JUMP_END ); }
         
         bool ifClickWithInfoButtom() { return m_info_Buttom->GetVisibility() && m_info_Buttom->IfClick(); }
+private:
         int m_Status;
         std::string m_ImagePath;
         std::shared_ptr<Character> m_Play_Buttom;

@@ -87,7 +87,7 @@ public:
             if ( btn )
                 btn->SetVisible(false);
         m_Jump_Page->AllDisappear();
-        m_Jump_Page->m_Pause_Buttom->SetVisible(true);
+        m_Jump_Page->GetPauseButtom()->SetVisible(true);
         m_Text_Point->SetPoint(0);
         m_Text_Point->SetVisible(true);
     }
