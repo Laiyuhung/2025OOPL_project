@@ -80,7 +80,36 @@ void StageObject::ShuffleStageCharacter( int s ) {
             obj->SetBlockType(NORMAL_OBJECT);
             obj->SetCurrentType(ONE_LAYER_COOKIE_OBJECT);
             continue;
-        } else {
+        } 
+        if (s == 6 && m_Size - i <= 35 && obj->GetCurrentType() != NORMAL_OBJECT) {
+            if ( obj->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT ) {
+                obj->SetImage(COOKIE_ONE_IMAGE);
+                obj->SetBlock(NO_COLOR);
+                obj->SetInformation(stage6[i]);
+                obj->SetPosition(stage6_position[i]);
+                obj->SetZIndex(10);
+                obj->SetSize({20, 25});
+                obj->DisAppear();
+                obj->SetAppearBool(true);
+                obj->SetBlockType(NORMAL_OBJECT);
+                obj->SetCurrentType(ONE_LAYER_COOKIE_OBJECT);
+            } 
+            else if ( obj->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT ) {
+                printf( "tesinging\n");
+                obj->SetImage(COOKIE_TWO_IMAGE);
+                obj->SetBlock(NO_COLOR);
+                obj->SetInformation(stage6[i]);
+                obj->SetPosition(stage6_position[i]);
+                obj->SetZIndex(10);
+                obj->SetSize({20, 25});
+                obj->DisAppear();
+                obj->SetAppearBool(true);
+                obj->SetBlockType(ONE_LAYER_COOKIE_OBJECT);
+                obj->SetCurrentType(TWO_LAYER_COOKIE_OBJECT);
+            }
+            continue;
+        } 
+        else {
             RandomChangeObject(i);
         }
 
@@ -111,6 +140,10 @@ void StageObject::ShuffleStageCharacter( int s ) {
             case 5:
                 obj->SetInformation(stage5[i]);
                 obj->SetPosition(stage5_position[i]);
+                break;
+            case 6:
+                obj->SetInformation(stage6[i]);
+                obj->SetPosition(stage6_position[i]);
                 break;
             default:
                 break;
@@ -147,7 +180,21 @@ void StageObject::InitializeStageCharacter(int s) {
             obj->SetBlockType(NORMAL_OBJECT);
             obj->SetCurrentType(ONE_LAYER_COOKIE_OBJECT);
             continue;
-        } else {
+        } 
+        if (s == 6 && m_Size - i <= 35) {
+            obj->SetImage(COOKIE_TWO_IMAGE);
+            obj->SetBlock(NO_COLOR);
+            obj->SetInformation(stage6[i]);
+            obj->SetPosition(stage6_position[i]);
+            obj->SetZIndex(10);
+            obj->SetSize({20, 25});
+            obj->DisAppear();
+            obj->SetAppearBool(true);
+            obj->SetBlockType(ONE_LAYER_COOKIE_OBJECT);
+            obj->SetCurrentType(TWO_LAYER_COOKIE_OBJECT);
+            continue;
+        } 
+        else {
             RandomChangeObject(i);
         }
 
@@ -209,6 +256,8 @@ bool StageObject::CheckAppearance(int s, int now_stage, bool ifShuffle) {
 
         int* neighbors = obj->GetInformationNeibor();
         obj->GetBlockType();
+
+        
 
         if (obj->GetCurrentType() == RAINBOWBALL_OBJECT && obj->GetSwitchedInfo() == MOVE_BY_SWITCH) {
             obj->SetAppearBool(false);
@@ -278,21 +327,31 @@ bool StageObject::CheckAppearance(int s, int now_stage, bool ifShuffle) {
             m_Stage_Object[i]->SetBlockType(STRIPE_OBJECT);
         }
     }
+
+    // for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
+    //     printf( "current type %d , next %d\n" , m_Stage_Object[i]->GetCurrentType() , m_Stage_Object[i]->GetType() );
+    // }
+
     for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
         if (DisappearMethodOfOneLine(i, total_length[i].data())) {
             m_Stage_Object[i]->SetBlockType(NORMAL_OBJECT);
         }
     }
-    for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
-        if (s == 0)
-            m_Stage_Object[i]->SetBlockType(NORMAL_OBJECT);
-    }
+    
+    
+    // for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
+    //     if (s == 0 && m_Stage_Object[i]->GetCurrentType() != TWO_LAYER_COOKIE_OBJECT )
+    //         m_Stage_Object[i]->SetBlockType(NORMAL_OBJECT);
+    // }
+
 
     for (auto& obj : m_Stage_Object) if (obj) obj->SetSwitched(NO_MOVE);
 
     for (auto& obj : m_Stage_Object) {
         if (obj && !obj->GetAppearBool()) flag = true;
     }
+
+    
 
     CheckObstaclesDisappear(ifShuffle);
 
@@ -405,6 +464,7 @@ void StageObject::MakeDisappear() {
         if (!m_Stage_Object[i]->GetAppearBool() &&
             (m_Stage_Object[i]->GetCurrentType() == NORMAL_OBJECT ||
              m_Stage_Object[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT ||
+             m_Stage_Object[i]->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT ||
              m_Stage_Object[i]->GetGenerate())) {
             MakeDisappearWithObject(static_cast<int>(i));
             m_Stage_Object[i]->SetGenerate(false);
@@ -413,14 +473,19 @@ void StageObject::MakeDisappear() {
 
     for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
         if ((m_Stage_Object[i]->GetType() == NORMAL_OBJECT ||
-             m_Stage_Object[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT ||
-             m_Stage_Object[i]->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT) &&
+             m_Stage_Object[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT) &&
              !m_Stage_Object[i]->GetAppearBool()) {
             GoalUpdate(static_cast<int>(i));
-            // printf("current type %d\n", m_Stage_Object[i]->GetCurrentType());
+            // printf( "current type %d , next %d\n" , m_Stage_Object[i]->GetCurrentType() , m_Stage_Object[i]->GetType() );
             m_Stage_Object[i]->SetCurrentType(m_Stage_Object[i]->GetType());
             m_Stage_Object[i]->SetBlockType(NORMAL_OBJECT);
-        } else if (m_Stage_Object[i]->GetType() != NORMAL_OBJECT &&
+        }
+        else if ( !m_Stage_Object[i]->GetAppearBool() &&
+        m_Stage_Object[i]->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT ) {
+            m_Stage_Object[i]->SetCurrentType(ONE_LAYER_COOKIE_OBJECT);
+            m_Stage_Object[i]->SetBlockType(NORMAL_OBJECT);
+        } 
+        else if (m_Stage_Object[i]->GetType() != NORMAL_OBJECT &&
                    !m_Stage_Object[i]->GetAppearBool()) {
             PointUpdate(GetPoint() + 1);
             GoalUpdate(static_cast<int>(i));
@@ -463,11 +528,18 @@ void StageObject::Dropping(int s, int now_stage, bool ifShuffle) {
 
     for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
         if (!m_Stage_Object[i]->GetAppearBool() && m_Stage_Object[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT) {
-            // std::cout << "testing\n";
+            std::cout << "testing\n";
             m_Stage_Object[i]->SetImage(COOKIE_ONE_IMAGE);
             m_Stage_Object[i]->SetBlock(NO_COLOR);
             m_Stage_Object[i]->SetBlockType(NORMAL_OBJECT);
-        } else if (!m_Stage_Object[i]->GetAppearBool()) {
+        }
+        else if (!m_Stage_Object[i]->GetAppearBool() && m_Stage_Object[i]->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT) {
+            // std::cout << "testing\n";
+            m_Stage_Object[i]->SetImage(COOKIE_TWO_IMAGE);
+            m_Stage_Object[i]->SetBlock(NO_COLOR);
+            m_Stage_Object[i]->SetBlockType(ONE_LAYER_COOKIE_OBJECT);
+        } 
+        else if (!m_Stage_Object[i]->GetAppearBool()) {
             RandomChangeObject(static_cast<int>(i));
             m_Stage_Object[i]->SetBlockType(NORMAL_OBJECT);
         }
@@ -547,7 +619,11 @@ void StageObject::GoalUpdate( int i ) {
                 stage_goal_counter[5]--;
             }
             break;
-        
+        case 6:
+            if ( m_Stage_Object[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT ) {
+                stage_goal_counter[6]--;
+            }
+            break;
         default:
             break;
     }
@@ -622,11 +698,13 @@ void StageObject::MakeDisappearWithObject( int current_pos ) {
             m_Stage_Object[current_pos]->SetAppearBool( false );
             break;
         case ONE_LAYER_COOKIE_OBJECT:
-            m_Stage_Object[current_pos]->DisAppear();
+            // m_Stage_Object[current_pos]->DisAppear();
             m_Stage_Object[current_pos]->SetAppearBool( false );
             // m_Stage_Object[current_pos]->SetCurrentType( NORMAL_OBJECT );
             break;
         case TWO_LAYER_COOKIE_OBJECT:
+            // m_Stage_Object[current_pos]->DisAppear();
+            m_Stage_Object[current_pos]->SetAppearBool( false );
             break;
         default:
             m_Stage_Object[current_pos]->DisAppear();
