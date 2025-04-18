@@ -13,6 +13,8 @@ void App::Start() {
     InitializeStage3();
     InitializeStage4();
     InitializeStage5();
+    InitializeStage6();
+    
     startTime = std::chrono::steady_clock::now();
     m_Stage_Object.resize( 13 );
 
@@ -89,42 +91,35 @@ void App::Update() {
                 } 
                 if ( m_Jump_Page->ifClickWithPlayButtom() ) {
                     SetUpStage( m_stage_pos );
-                    if ( m_stage_pos >= 1 && m_stage_pos <= 5 ) { 
+                    if ( m_stage_pos >= 1 && m_stage_pos <= 6 ) { 
                         m_Stage_Object[m_stage_pos]->SetUp( m_stage_pos );
                         m_Stage_Object[m_stage_pos]->AppearAll();
                         m_Stage_Object[m_stage_pos]->SetStage( m_stage_pos );
                         m_Text_Point->Initial( m_stage_pos );
+                        m_Jump_Page->AllDisappear();
+                        currentPhase = PHASE_NORMAL;
                         if ( m_stage_pos == 1  ) {
                             std::cout << "Level1 Character clicked!" << std::endl;
-                            m_Jump_Page->AllDisappear();
                             m_PRM->NextPhase(PHASE_STAGE_1);
-                            currentPhase = PHASE_NORMAL;
                             m_Phase = Phase::STAGE_1;
                         }
                         else if ( m_stage_pos == 2 ) {
                             std::cout << "Level2 Character clicked!" << std::endl;
-                            m_Jump_Page->AllDisappear();
                             m_PRM->NextPhase(PHASE_STAGE_2);
-                            currentPhase = PHASE_NORMAL;
                             m_Phase = Phase::STAGE_2;
                         }
                         else if ( m_stage_pos == 3 ) {
                             std::cout << "Level3 Character clicked!" << std::endl;
-                            m_Jump_Page->AllDisappear();
                             m_PRM->NextPhase(PHASE_STAGE_3);
-                            currentPhase = PHASE_NORMAL;
                             m_Phase = Phase::STAGE_3;
                         }
                         else if ( m_stage_pos == 4 ) {
                             std::cout << "Level4 Character clicked!" << std::endl;
-                            m_Jump_Page->AllDisappear();
                             m_PRM->NextPhase(PHASE_STAGE_4);
-                            currentPhase = PHASE_NORMAL;
                             m_Phase = Phase::STAGE_4;
                         }
                         else if ( m_stage_pos == 5 ) {
                             std::cout << "Level5 Character clicked!" << std::endl;
-                            m_Jump_Page->AllDisappear();
                             m_PRM->NextPhase(PHASE_STAGE_5);
                             // m_Stage_Object[5]->GetStageObject()[37]->SetImage( RAINBOWBALL_OBJECT_LINK );
                             // m_Stage_Object[5]->GetStageObject()[37]->SetBlockType( NORMAL_OBJECT );
@@ -132,21 +127,16 @@ void App::Update() {
                             // m_Stage_Object[5]->GetStageObject()[37]->SetBlock( NO_COLOR );
                             // m_Stage_Object[5]->GetStageObject()[37]->SetAppearBool( true );
                             // m_Stage_Object[5]->GetStageObject()[37]->SetGenerate( true );
-                            currentPhase = PHASE_NORMAL;
                             m_Phase = Phase::STAGE_5;
                         }
                         else if ( m_stage_pos == 6 ) {
                             std::cout << "Level6 Character clicked!" << std::endl;
-                            m_Jump_Page->AllDisappear();
                             m_PRM->NextPhase(PHASE_STAGE_6);
-                            currentPhase = PHASE_NORMAL;
                             m_Phase = Phase::STAGE_6;
                         }
                         else if ( m_stage_pos == 7 ) {
                             std::cout << "Level7 Character clicked!" << std::endl;
-                            m_Jump_Page->AllDisappear();
                             m_PRM->NextPhase(PHASE_STAGE_7);
-                            currentPhase = PHASE_NORMAL;
                             m_Phase = Phase::STAGE_7;
                         }
                     }
@@ -186,6 +176,10 @@ void App::Update() {
 
         case Phase::STAGE_5:
             Stage( 5 );
+            break;
+
+        case Phase::STAGE_6:
+            Stage( 6 );
             break;
         }
 
