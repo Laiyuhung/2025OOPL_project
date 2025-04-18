@@ -9,6 +9,8 @@
 #define PHASE_STAGE_3 5
 #define PHASE_STAGE_4 6
 #define PHASE_STAGE_5 7
+#define PHASE_STAGE_6 8
+#define PHASE_STAGE_7 9
 
 #define JUMP_NORMAL 0
 #define JUMP_PLAY 1

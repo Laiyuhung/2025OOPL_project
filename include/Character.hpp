@@ -9,6 +9,7 @@
 #include "Util/Keycode.hpp"
 #include "Util/Animation.hpp"
 #include "Util/Image.hpp"
+#include "Global.hpp"
 
 class Character : public Util::GameObject {
 public:
@@ -75,6 +76,7 @@ public:
     }
     
     [[nodiscard]] bool IfClick() {
+        if ( currentPhase != PHASE_NORMAL ) return false;
         glm::vec2 mousePos = Util::Input::GetCursorPosition();
     
         glm::vec2 pos = GetPosition();
