@@ -52,6 +52,10 @@ class JumpPage : public Character {
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage4Info.png");
             if ( stage == 5 )
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage5Info.png");
+            if ( stage == 6 )
+                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage6Info.png");
+            if ( stage == 7 )
+                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage7Info.png");
             this->SetVisible( true );
             SetStatus( JUMP_INFO );
         }
@@ -72,8 +76,10 @@ class JumpPage : public Character {
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage5Start.png" );
             else if ( stage == 6 )
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage6Start.png" );
+            else if ( stage == 7 )
+                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage7Start.png" );
             
-                this->SetVisible( true );
+            this->SetVisible( true );
             SetStatus( JUMP_PLAY );
         }
 
@@ -92,6 +98,8 @@ class JumpPage : public Character {
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage5End.png" );
             else if ( stage == 6 )
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage6End.png" );
+            else if ( stage == 7 )
+                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage7End.png" );
             SetStatus( JUMP_END );
             this->SetVisible( true );
         }
@@ -111,6 +119,8 @@ class JumpPage : public Character {
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage5Fail.png" );
             else if ( stage == 6 )
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage6Fail.png" );
+            else if ( stage == 7 )
+                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage7Fail.png" );
             
             SetStatus( JUMP_END );
             this->SetVisible( true );
