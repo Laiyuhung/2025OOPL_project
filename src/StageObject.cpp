@@ -179,6 +179,10 @@ void StageObject::InitializeStageCharacter(int s) {
                 obj->SetInformation(stage5[i]);
                 obj->SetPosition(stage5_position[i]);
                 break;
+            case 6:
+                // obj->SetInformation(stage6[i]);
+                obj->SetPosition(stage6_position[i]);
+                break;
             default:
                 break;
         }
@@ -1345,7 +1349,7 @@ void StageObject::SetUp(int stage) {
     m_Stage_Object.at(0)->DisAppear();
     this->GetStageGoalObject()->Appear();
     InitializeStageCharacter(stage);
-    CheckAppearance(0, stage, true);
+    // CheckAppearance(0, stage, true);
 }
 
 

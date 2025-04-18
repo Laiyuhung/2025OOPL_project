@@ -48,7 +48,7 @@ public:
         else if (stage == 3) size = 47;
         else if (stage == 4) size = 64;
         else if (stage == 5) size = 39;
-        // else if (stage == 6) size = ;
+        else if (stage == 6) size = 72;
         // else if (stage == 7) size = ;
         
         if (m_Stage_Object.size() <= static_cast<size_t>(stage)) m_Stage_Object.resize(stage + 1);
@@ -78,7 +78,8 @@ public:
             stage_goal->SetImage( REACH_IMAGE );
         else if ( stage == 5 )
             stage_goal->SetImage( COOKIE_ONE_IMAGE );
-        // else if ( stage == 6 )
+        else if ( stage == 6 )
+            stage_goal->SetImage( COOKIE_ONE_IMAGE );
         // else if ( stage == 7 )
         
         stage_goal->SetPosition(stage_goal_position[stage]);
