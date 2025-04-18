@@ -14,7 +14,7 @@ void App::Stage( int stage_pos ) {
         ifClear[stage_pos] = true;
         m_Jump_Page->EndPage( stage_pos );
     }
-    else if ( (m_Text_Point->GetMove() < 0 && stage_goal_counter[stage_pos] > 0) && currentPhase == PHASE_NORMAL ) {
+    else if ( (m_Text_Point->GetMove() <= 0 && stage_goal_counter[stage_pos] > 0) && currentPhase == PHASE_NORMAL ) {
         m_Stage_Object[stage_pos]->DisAppearAll();
         m_Text_Point->SetVisible( false );
         ifClear[stage_pos] = false;

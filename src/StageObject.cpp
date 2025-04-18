@@ -95,7 +95,6 @@ void StageObject::ShuffleStageCharacter( int s ) {
                 obj->SetCurrentType(ONE_LAYER_COOKIE_OBJECT);
             } 
             else if ( obj->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT ) {
-                printf( "tesinging\n");
                 obj->SetImage(COOKIE_TWO_IMAGE);
                 obj->SetBlock(NO_COLOR);
                 obj->SetInformation(stage6[i]);
@@ -481,9 +480,12 @@ void StageObject::MakeDisappear() {
             m_Stage_Object[i]->SetBlockType(NORMAL_OBJECT);
         }
         else if ( !m_Stage_Object[i]->GetAppearBool() &&
-        m_Stage_Object[i]->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT ) {
+            m_Stage_Object[i]->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT ) {
             m_Stage_Object[i]->SetCurrentType(ONE_LAYER_COOKIE_OBJECT);
             m_Stage_Object[i]->SetBlockType(NORMAL_OBJECT);
+            m_Stage_Object[i]->SetAppearBool( true );
+            m_Stage_Object[i]->SetImage(COOKIE_ONE_IMAGE);
+            m_Stage_Object[i]->SetBlock(NO_COLOR);
         } 
         else if (m_Stage_Object[i]->GetType() != NORMAL_OBJECT &&
                    !m_Stage_Object[i]->GetAppearBool()) {
@@ -533,12 +535,6 @@ void StageObject::Dropping(int s, int now_stage, bool ifShuffle) {
             m_Stage_Object[i]->SetBlock(NO_COLOR);
             m_Stage_Object[i]->SetBlockType(NORMAL_OBJECT);
         }
-        else if (!m_Stage_Object[i]->GetAppearBool() && m_Stage_Object[i]->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT) {
-            // std::cout << "testing\n";
-            m_Stage_Object[i]->SetImage(COOKIE_TWO_IMAGE);
-            m_Stage_Object[i]->SetBlock(NO_COLOR);
-            m_Stage_Object[i]->SetBlockType(ONE_LAYER_COOKIE_OBJECT);
-        } 
         else if (!m_Stage_Object[i]->GetAppearBool()) {
             RandomChangeObject(static_cast<int>(i));
             m_Stage_Object[i]->SetBlockType(NORMAL_OBJECT);
@@ -620,7 +616,8 @@ void StageObject::GoalUpdate( int i ) {
             }
             break;
         case 6:
-            if ( m_Stage_Object[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT ) {
+            if ( m_Stage_Object[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT  && m_Stage_Object[i]->GetType() == NORMAL_OBJECT ) {
+                printf( "test\n" );
                 stage_goal_counter[6]--;
             }
             break;
