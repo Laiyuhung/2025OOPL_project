@@ -6,6 +6,7 @@
 #include "Util/GameObject.hpp"
 #include <vector>
 #include <mutex>
+#include "Item.hpp"
 #include <condition_variable>
 
 class StageObject : public Util::GameObject {
@@ -74,6 +75,10 @@ public:
     void ClearAllClick();
     bool IsSameColor(int blockType1, int blockType2);
     void CheckClickSwitch(int check, int i, std::shared_ptr<TaskText> point);
+
+    void UseHammer(std::shared_ptr<Item> Tool);
+    void UseMagicStick(std::shared_ptr<Item> Tool);
+    void UseMagicGlove(std::shared_ptr<Item> Tool);
 
 protected:
     int m_Stage;

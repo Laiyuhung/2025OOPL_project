@@ -297,16 +297,17 @@ void StageObject::InitializeStageCharacter(int s) {
 }
 
 bool StageObject::CheckAppearance(int s, int now_stage, bool ifShuffle) {
-    if (s != 0 && currentPhase != PHASE_NORMAL)
+    if (s != 0 && currentPhase != PHASE_NORMAL && currentPhase != PHASE_ITEM_USED )
         return false;
 
     bool flag = false;
     int stripe_side;
     // std::cout << "now stage " << now_stage << std::endl;
 
-    for (auto& obj : m_Stage_Object) {
-        if (obj) obj->SetAppearBool(true);
-    }
+    if ( currentPhase == PHASE_NORMAL )
+        for (auto& obj : m_Stage_Object) {
+            if (obj) obj->SetAppearBool(true);
+        }
 
     std::vector<std::vector<int>> total_length(m_Stage_Object.size(), std::vector<int>(6, 0));
 
@@ -353,6 +354,11 @@ bool StageObject::CheckAppearance(int s, int now_stage, bool ifShuffle) {
     }
     for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
         if (DisappearMethodOfRainbowBall(i, total_length[i].data(), 1)) {
+            m_Stage_Object[i]->SetBlockType(RAINBOWBALL_OBJECT);
+        }
+    }
+    for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
+        if (DisappearMethodOfRainbowBall(i, total_length[i].data(), 0)) {
             m_Stage_Object[i]->SetBlockType(RAINBOWBALL_OBJECT);
         }
     }
@@ -414,8 +420,9 @@ bool StageObject::CheckAppearance(int s, int now_stage, bool ifShuffle) {
     
 
     CheckObstaclesDisappear(ifShuffle);
+    // cout<<"flag: "<<flag<<endl;
 
-    if (flag) {
+    if (flag || currentPhase == PHASE_ITEM_USED ) {
         MakeDisappear();
         if (s == 0 || ifShuffle)
             Dropping(s, now_stage, ifShuffle);
@@ -515,17 +522,18 @@ void StageObject::CheckSpecialObject(int i) {
 }
 
 void StageObject::MakeDisappear() {
-    if (m_Stage != 0 && currentPhase != PHASE_NORMAL)
+    if (m_Stage != 0 && currentPhase != PHASE_NORMAL && currentPhase != PHASE_ITEM_USED)
         return;
-
+    
     for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
         if (!m_Stage_Object[i]->GetVisibility()) continue;
-
+        
         if (!m_Stage_Object[i]->GetAppearBool() &&
-            (m_Stage_Object[i]->GetCurrentType() == NORMAL_OBJECT ||
-             m_Stage_Object[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT ||
-             m_Stage_Object[i]->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT ||
-             m_Stage_Object[i]->GetGenerate())) {
+        (m_Stage_Object[i]->GetCurrentType() == NORMAL_OBJECT ||
+        m_Stage_Object[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT ||
+        m_Stage_Object[i]->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT ||
+        m_Stage_Object[i]->GetGenerate())) {
+            
             MakeDisappearWithObject(static_cast<int>(i));
             m_Stage_Object[i]->SetGenerate(false);
         }
@@ -574,7 +582,7 @@ void StageObject::MakeDisappear() {
 }
 
 void StageObject::Dropping(int s, int now_stage, bool ifShuffle) {
-    if (m_Stage != 0 && currentPhase != PHASE_DROPPING) return;
+    if (m_Stage != 0 && currentPhase != PHASE_DROPPING ) return;
 
     // is_click = 0;
     size_t loop_count = 0;
@@ -1685,4 +1693,80 @@ std::pair<int, int> StageObject::CheckSpecialBlocksNeighbor() {
         }
     }
     return {-1, -1};
+}
+
+void StageObject::UseHammer( std::shared_ptr<Item> Tool ) {
+
+    for ( int i = 1 ; i < m_Size+1 ; ++i ) {
+        if ( m_Stage_Object.at(i)->IfClick() ) {
+            printf( "HAMMER\n");
+            m_Stage_Object.at(i)->SetAppearBool(false);
+            CheckAppearance( 1 , m_Stage , false );
+            Tool->Update();
+        }
+    }
+
+}
+
+void StageObject::UseMagicStick (std::shared_ptr<Item> Tool) {
+
+    
+    for ( int i = 1 ; i < m_Size+1 ; ++i ) {
+        if ( m_Stage_Object.at(i)->IfClick() ) {
+            cout<<"UseMagicStick"<<endl;
+            std::random_device rd;  // 硬體隨機數產生器
+            std::mt19937 gen(rd()); // Mersenne Twister 亂數引擎
+            std::uniform_int_distribution<int> dist(5, 7); // 產生 5 到 7 之間的整數
+
+            int random_number = dist(gen);
+
+            m_Stage_Object.at(i)->SetCurrentType(random_number);
+            m_Stage_Object.at(i)->SetBlockType(random_number);
+            CheckSpecialObject(static_cast<int>(i));
+            m_Stage_Object.at(i)->SetBlockType(NORMAL_OBJECT);
+            
+            m_Stage_Object[i]->SetGenerate(true);
+            MakeDisappear();
+            Tool->Update();
+            break;
+        }
+    }
+
+}
+
+void StageObject::UseMagicGlove(std::shared_ptr<Item> Tool) {
+
+    auto objectArray = this->GetStageObject();
+    
+    if ( !objectArray.at(0)->GetVisibility() ) {
+        is_click = 0;
+    }
+    for (int i = 1; i < m_Size + 1; ++i) {
+        if (objectArray.at(i)->IfClick()) {
+            if (objectArray.at(i)->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT ||
+                objectArray.at(i)->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT)
+                continue;
+
+            if (is_click == 0) {
+                objectArray.at(0)->SetPosition(objectArray.at(i)->GetInformationPosition());
+                objectArray.at(0)->SetVisible(true);
+                is_click = i;
+            } else {
+                std::cout << "test_else\n";
+                objectArray.at(0)->SetVisible(false);
+                if (is_click == i) {
+                    is_click = 0;
+                    break;
+                }
+                int check = is_click;
+                m_Stage_Object[i]->SwitchPosition( m_Stage_Object[check] );
+                std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[check];
+                m_Stage_Object[check] = m_Stage_Object[i];
+                m_Stage_Object[i] = NewObject;
+                is_click = 0;
+                CheckAppearance( 1 , m_Stage , false );
+                Tool->Update();
+            }
+        }
+    }
 }

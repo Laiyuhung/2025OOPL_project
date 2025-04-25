@@ -48,6 +48,14 @@
 #define ONE_LAYER_COOKIE_OBJECT 31
 #define TWO_LAYER_COOKIE_OBJECT 32
 
+#define HAMMER 0
+#define MAGIC_STICK 1
+#define GLOVES 2
+
+#define HAMMER_IMAGE GA_RESOURCE_DIR"/Image/GameObject/item1.png"
+#define MAGIC_STICK_IMAGE GA_RESOURCE_DIR"/Image/GameObject/item2.png"
+#define GLOVES_IMAGE GA_RESOURCE_DIR"/Image/GameObject/item3.png"
+
 #define REACH_IMAGE GA_RESOURCE_DIR"/Image/GameObject/reach.png"
 
 #define EMPTY_OBJECT GA_RESOURCE_DIR"/Image/GameObject/emptyObject.png"
@@ -201,6 +209,10 @@ extern std::string ClearStageList[13];
 extern std::string LevelStageList[13];
 extern std::string CurrentStageList[13];
 
+extern int item_num[3];
+extern glm::vec2 item_position[3];
+extern glm::vec2 item_num_position[3];
+
 extern int is_click;
 extern glm::vec2 point_position[13];
 extern int stage_point_goal[13];
@@ -221,7 +233,8 @@ void InitializeStage7();
 enum GamePhase {
     PHASE_NORMAL,
     PHASE_PAUSE_FOR_DISAPPEAR,
-    PHASE_DROPPING
+    PHASE_DROPPING,
+    PHASE_ITEM_USED
 };
 
 extern GamePhase currentPhase;

@@ -12,11 +12,12 @@
 #include "StageObject.hpp"
 #include "JumpPage.hpp"
 #include "Music.hpp"
+#include "Item.hpp"
 #include <vector>
 
 bool PhaseInitialImage(std::shared_ptr<Character>& chara_obj);
 int PhaseHomePage(const std::vector<std::shared_ptr<Character>>& buttoms);
-bool PhaseStage(std::shared_ptr<StageObject> StageObject, int size, std::shared_ptr<TaskText> point, int stage);
+bool PhaseStage(std::shared_ptr<StageObject> StageObject, int size, std::shared_ptr<TaskText> point, int stage , std::vector< std::shared_ptr<Item> > Tools );
 // bool PhaseStage2(std::shared_ptr<StageObject> StageObject, int size, std::shared_ptr<TaskText> point);
 void DebugPhaseStage1(std::vector<std::shared_ptr<GameCharacter>>& objectArray);
 
@@ -148,6 +149,8 @@ private:
     std::shared_ptr<Character> m_Start_initial;
     std::vector<std::shared_ptr<Character>> m_Stage_Buttoms;
     std::vector<std::shared_ptr<StageObject>> m_Stage_Object;
+    std::vector<std::shared_ptr<Item>> m_Tools;
+
     std::shared_ptr<JumpPage> m_Jump_Page;
     std::shared_ptr<TaskText> m_Text_Point;
     std::shared_ptr<PhaseResourceManager> m_PRM;

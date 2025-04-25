@@ -24,13 +24,25 @@ int PhaseHomePage(const std::vector<std::shared_ptr<Character>>& buttoms) {
     return 0;
 }
 
-bool PhaseStage(std::shared_ptr<StageObject> StageObject, int size, std::shared_ptr<TaskText> point, int stage) {
+bool PhaseStage(std::shared_ptr<StageObject> StageObject, int size, std::shared_ptr<TaskText> point, int stage, std::vector<std::shared_ptr<Item>> Tools ) {
     auto objectArray = StageObject->GetStageObject();
     // DebugModeOfPosition( objectArray , 2 );
     // return false;
+    if ( currentPhase == PHASE_ITEM_USED ) {
+        return false;
+    }
     if ( currentPhase != PHASE_NORMAL ) {
         objectArray.at(0)->SetVisible(false);
         return false;
+    }
+    
+    for ( int i = 0 ; i < 3 ; ++i ) {
+        if ( Tools.at(i)->ifClickInUse() ) {
+            Tools.at(i)->SetClick();
+            // printf( "Is Click in %d\n" , i );
+            currentPhase = PHASE_ITEM_USED;
+            return false;
+        }
     }
     if ( !objectArray.at(0)->GetVisibility() ) {
         is_click = 0;

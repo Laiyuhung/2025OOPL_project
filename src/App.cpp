@@ -64,6 +64,18 @@ void App::Start() {
     m_Text_Point->SetVisible(false);
     m_Root.AddChild(m_Text_Point);
 
+    m_Tools.resize(3);
+    m_Tools.at( HAMMER ) = std::make_shared<Item>( HAMMER_IMAGE );
+    m_Tools.at( MAGIC_STICK ) = std::make_shared<Item>( MAGIC_STICK_IMAGE );
+    m_Tools.at( GLOVES ) = std::make_shared<Item>( GLOVES_IMAGE );
+    
+    for ( int i = 0 ; i < 3 ; ++i ) {
+        m_Tools.at(i)->SetUp( i );
+        m_Root.AddChild( m_Tools.at(i)->GetText() );
+        m_Root.AddChild( m_Tools.at(i) );
+    }
+    
+
     m_PRM = std::make_shared<PhaseResourceManager>();
     m_Root.AddChildren(m_PRM->GetChildren());
 
@@ -84,6 +96,10 @@ void App::Update() {
             break;
         case Phase::HOME_PAGE:
             {
+                m_Tools[0]->Disappear();
+                m_Tools[1]->Disappear();
+                m_Tools[2]->Disappear();
+
                 int get_stage = PhaseHomePage(m_Stage_Buttoms);
                 if ( get_stage != 0 ){
                     m_stage_pos = get_stage;
@@ -102,6 +118,9 @@ void App::Update() {
                         if ( m_stage_pos == 1  ) {
                             std::cout << "Level1 Character clicked!" << std::endl;
                             m_PRM->NextPhase(PHASE_STAGE_1);
+                            m_Tools[0]->Appear();
+                            m_Tools[1]->Appear();
+                            m_Tools[2]->Appear();
                             m_Phase = Phase::STAGE_1;
                         }
                         else if ( m_stage_pos == 2 ) {
