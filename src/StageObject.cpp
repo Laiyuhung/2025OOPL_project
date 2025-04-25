@@ -358,11 +358,6 @@ bool StageObject::CheckAppearance(int s, int now_stage, bool ifShuffle) {
         }
     }
     for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
-        if (DisappearMethodOfRainbowBall(i, total_length[i].data(), 0)) {
-            m_Stage_Object[i]->SetBlockType(RAINBOWBALL_OBJECT);
-        }
-    }
-    for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
         if (DisappearMethodOfFlower(i, total_length[i].data())) {
             m_Stage_Object[i]->SetBlockType(FLOWER_OBJECT);
         }
@@ -1763,6 +1758,8 @@ void StageObject::UseMagicGlove(std::shared_ptr<Item> Tool) {
                 std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[check];
                 m_Stage_Object[check] = m_Stage_Object[i];
                 m_Stage_Object[i] = NewObject;
+                m_Stage_Object[i]->SetSwitched( MOVE_BY_SWITCH );
+                m_Stage_Object[check]->SetSwitched( MOVE_BY_SWITCH );
                 is_click = 0;
                 CheckAppearance( 1 , m_Stage , false );
                 Tool->Update();
