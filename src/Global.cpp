@@ -8,7 +8,7 @@ std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now
 int is_click = 0;
 
 int item_num[3] = {
-    5, 3, 2
+    5, 3, 20
 };
 
 glm::vec2 item_position[3] {
