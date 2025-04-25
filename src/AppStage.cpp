@@ -19,14 +19,16 @@ void App::Stage( int stage_pos ) {
         for ( int i = 0 ; i < 3 ; ++i ) {
             if ( m_Tools.at(i)->Click() ) {
                 if ( i == HAMMER ) {
+                    // printf( "HAMMER\n");
                     m_Stage_Object.at(stage_pos)->UseHammer( m_Tools.at( HAMMER ));
                 }
-                // else if ( i == MAGIC_STICK ) {
-                //     m_Stage_Object.at(stage_pos)->UseMagicStick( m_Tools.at( MAGIC_STICK ) );
-                // }
-                // else if ( i == GLOVES ) {
-                //     m_Stage_Object.at(stage_pos)->UseMagicGlove( m_Tools.at( GLOVES ) );
-                // }
+                else if ( i == MAGIC_STICK ) {
+                    // printf( "MAGIC\n");
+                    m_Stage_Object.at(stage_pos)->UseMagicStick( m_Tools.at( MAGIC_STICK ) );
+                }
+                else if ( i == GLOVES ) {
+                    m_Stage_Object.at(stage_pos)->UseMagicGlove( m_Tools.at( GLOVES ) );
+                }
             }
         }
     }

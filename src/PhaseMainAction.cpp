@@ -28,7 +28,9 @@ bool PhaseStage(std::shared_ptr<StageObject> StageObject, int size, std::shared_
     auto objectArray = StageObject->GetStageObject();
     // DebugModeOfPosition( objectArray , 2 );
     // return false;
-    
+    if ( currentPhase == PHASE_ITEM_USED ) {
+        return false;
+    }
     if ( currentPhase != PHASE_NORMAL ) {
         objectArray.at(0)->SetVisible(false);
         return false;
@@ -36,6 +38,8 @@ bool PhaseStage(std::shared_ptr<StageObject> StageObject, int size, std::shared_
     
     for ( int i = 0 ; i < 3 ; ++i ) {
         if ( Tools.at(i)->ifClickInUse() ) {
+            Tools.at(i)->SetClick();
+            // printf( "Is Click in %d\n" , i );
             currentPhase = PHASE_ITEM_USED;
             return false;
         }

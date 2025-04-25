@@ -82,12 +82,13 @@ public:
         glm::vec2 pos = GetPosition();
         // std::cout << pos.x << " " << pos.y << std::endl;
         glm::vec2 size = this -> m_Size; 
-        bool insideX = (mousePos.x >= pos.x && mousePos.x <= pos.x + size.x);
-        bool insideY = (mousePos.y >= pos.y && mousePos.y <= pos.y + size.y);
+        bool insideX = (mousePos.x >= pos.x && mousePos.x <= pos.x + size.x );
+        bool insideY = (mousePos.y >= pos.y && mousePos.y <= pos.y + size.y );
         bool isClicked = Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB);
         
         if ( insideX && insideY && isClicked ) {
-            std::cout << "click\n" ;
+            printf( "Mouse %f %f\n" , mousePos.x , mousePos.y );
+            printf( "Position %f %f\n" , pos.x , pos.y );
         }
         return insideX && insideY && isClicked;
     }

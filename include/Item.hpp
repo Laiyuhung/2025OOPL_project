@@ -18,19 +18,24 @@
 class Item : public Character {
 public:
     Item(const std::string& ImagePath)
-        : Character(ImagePath), m_ImagePath(ImagePath) {}
+        : Character(ImagePath), m_ImagePath(ImagePath) {
+            this->SetSize({20, 25});
+        }
     virtual ~Item() = default;
 
     int GetNum() { return m_Num; }
     
     bool ifClickInUse() { 
-        m_Click = true;
         return ( m_Num > 0 ) && ( this->IfClick() && this->GetVisibility() ); 
     }
-
+    
     bool Click() {
         return m_Click;
     }
+    void SetClick() {
+        m_Click = true;
+    }
+
 
     void UnClick() {
         m_Click = false;
@@ -63,6 +68,7 @@ public:
         this->SetNum( this->GetNum()-1 );
         m_ItemNumberShow->SetNum( this->GetNum() );
         m_ItemNumberShow->UpdateInItem();
+        this->UnClick();
     }
 
     void Appear() {
