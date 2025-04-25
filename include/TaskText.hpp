@@ -53,6 +53,14 @@ public:
         }
     }
 
+    void SetNum( int num ) { m_Num = num; }
+    void UpdateInItem() {  
+        auto* temp = dynamic_cast<Util::Text*>(m_Drawable.get());
+        if (temp) {
+            temp->SetText( std::to_string( m_Num ) );
+        }
+    }
+
 private:
     inline static std::string append_string_views(const std::string& sv1, const std::string& sv2) {
         return sv1 + "\n" + sv2;
@@ -65,6 +73,7 @@ private:
     int m_Point = 0;
     int m_Goal = 0;
     int m_Movement = 0;
+    int m_Num = 0;
     std::string m_goal_des;
 };
 

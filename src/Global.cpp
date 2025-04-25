@@ -7,6 +7,22 @@ std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now
 
 int is_click = 0;
 
+int item_num[3] = {
+    5, 3, 2
+};
+
+glm::vec2 item_position[3] {
+    { -47 , -257.5 },
+    { 0.5 , -257.5 },
+    { 48  , -257.5 } 
+};
+
+glm::vec2 item_num_position[3] {
+    { -34 , -238.5 },
+    { 13.5 , -238.5 },
+    { 61  , -238.5 } 
+};
+
 std::string LevelStageList[13] = {
     "",
     LEVEL_ONE_IMAGE,

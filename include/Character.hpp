@@ -76,7 +76,7 @@ public:
     }
     
     [[nodiscard]] bool IfClick() {
-        if ( currentPhase != PHASE_NORMAL ) return false;
+        if ( currentPhase != PHASE_NORMAL && currentPhase != PHASE_ITEM_USED ) return false;
         glm::vec2 mousePos = Util::Input::GetCursorPosition();
     
         glm::vec2 pos = GetPosition();

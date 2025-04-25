@@ -8,12 +8,27 @@
 
 void App::Stage( int stage_pos ) {
     m_Jump_Page->GetPauseButtom()->SetVisible( true );
-    if (stage_goal_counter[stage_pos] <= 0 || PhaseStage( m_Stage_Object[stage_pos], m_Stage_Object[stage_pos]->GetSize() , m_Text_Point , stage_pos )){
+    if (stage_goal_counter[stage_pos] <= 0 || PhaseStage( m_Stage_Object[stage_pos], m_Stage_Object[stage_pos]->GetSize() , m_Text_Point , stage_pos , m_Tools )){
         m_Stage_Object[stage_pos]->DisAppearAll();
         m_Text_Point->SetVisible( false );
         ifClear[stage_pos] = true;
         m_Jump_Page->EndPage( stage_pos );
         m_Jump_Page->SetStatus( JUMP_END );
+    }
+    else if ( currentPhase == PHASE_ITEM_USED ) {
+        for ( int i = 0 ; i < 3 ; ++i ) {
+            if ( m_Tools.at(i)->Click() ) {
+                if ( i == HAMMER ) {
+                    m_Stage_Object.at(stage_pos)->UseHammer( m_Tools.at( HAMMER ));
+                }
+                // else if ( i == MAGIC_STICK ) {
+                //     m_Stage_Object.at(stage_pos)->UseMagicStick( m_Tools.at( MAGIC_STICK ) );
+                // }
+                // else if ( i == GLOVES ) {
+                //     m_Stage_Object.at(stage_pos)->UseMagicGlove( m_Tools.at( GLOVES ) );
+                // }
+            }
+        }
     }
     else if ( (m_Text_Point->GetMove() <= 0 && stage_goal_counter[stage_pos] > 0) && currentPhase == PHASE_NORMAL ) {
         m_Stage_Object[stage_pos]->DisAppearAll();
