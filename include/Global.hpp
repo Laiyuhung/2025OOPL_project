@@ -201,6 +201,8 @@ extern glm::vec2 stage7_position[61];
 extern int stage7_neibor[61][6];
 extern Objectinformation stage7[61];
 
+extern int stage8_neibor[71][6];
+
 extern std::set<int> one_layer_7;
 extern std::set<int> two_layer_7;
 
