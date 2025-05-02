@@ -689,6 +689,11 @@ void StageObject::GoalUpdate( int i ) {
                 stage_goal_counter[7]--;
             }
             break;
+        case 8:
+            if ( m_Stage_Object[i]->GetCurrentType() == FLOWER_OBJECT || m_Stage_Object[i]->GetCurrentType() == TRIANGLEFLOWER_OBJECT || m_Stage_Object[i]->GetCurrentType() == STARFLOWER_OBJECT ) {
+                stage_goal_counter[8]--;
+            }
+            break;
         default:
             break;
     }
@@ -1492,7 +1497,7 @@ void StageObject::SetUp(int stage) {
     m_Stage_Object.at(0)->DisAppear();
     this->GetStageGoalObject()->Appear();
     InitializeStageCharacter(stage);
-    CheckAppearance(0, stage, true);
+    // CheckAppearance(0, stage, true);
 }
 
 

@@ -108,19 +108,25 @@ void App::Update() {
                 } 
                 if ( m_Jump_Page->ifClickWithPlayButtom() ) {
                     SetUpStage( m_stage_pos );
-                    if ( m_stage_pos >= 1 && m_stage_pos <= 7 ) { 
+                    if ( m_stage_pos >= 1 && m_stage_pos <= 8 ) { 
                         m_Stage_Object[m_stage_pos]->SetUp( m_stage_pos );
                         m_Stage_Object[m_stage_pos]->AppearAll();
                         m_Stage_Object[m_stage_pos]->SetStage( m_stage_pos );
                         m_Text_Point->Initial( m_stage_pos );
                         m_Jump_Page->AllDisappear();
+                        if ( ifClear[7] ) {
+                            m_Tools[0]->Appear();
+                        }
+                        if ( ifClear[8] ) {
+                            m_Tools[1]->Appear();
+                        } 
+                        if ( ifClear[9] ) {
+                            m_Tools[2]->Appear();
+                        }
                         currentPhase = PHASE_NORMAL;
                         if ( m_stage_pos == 1  ) {
                             std::cout << "Level1 Character clicked!" << std::endl;
                             m_PRM->NextPhase(PHASE_STAGE_1);
-                            m_Tools[0]->Appear();
-                            m_Tools[1]->Appear();
-                            m_Tools[2]->Appear();
                             m_Phase = Phase::STAGE_1;
                         }
                         else if ( m_stage_pos == 2 ) {
@@ -158,6 +164,11 @@ void App::Update() {
                             std::cout << "Level7 Character clicked!" << std::endl;
                             m_PRM->NextPhase(PHASE_STAGE_7);
                             m_Phase = Phase::STAGE_7;
+                        }
+                        else if ( m_stage_pos == 8 ) {
+                            std::cout << "Level8 Character clicked!" << std::endl;
+                            m_PRM->NextPhase(PHASE_STAGE_8);
+                            m_Phase = Phase::STAGE_8;
                         }
                     }
                 }
@@ -204,6 +215,10 @@ void App::Update() {
         
         case Phase::STAGE_7:
             Stage( 7 );
+            break;
+        
+        case Phase::STAGE_8:
+            Stage( 8 );
             break;
         }
 
