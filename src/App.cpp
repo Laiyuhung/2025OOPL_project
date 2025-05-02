@@ -15,6 +15,7 @@ void App::Start() {
     InitializeStage5();
     InitializeStage6();
     InitializeStage7();
+    InitializeStage8();
 
     startTime = std::chrono::steady_clock::now();
     m_Stage_Object.resize( 13 );
@@ -108,20 +109,20 @@ void App::Update() {
                 } 
                 if ( m_Jump_Page->ifClickWithPlayButtom() ) {
                     SetUpStage( m_stage_pos );
-                    if ( m_stage_pos >= 1 && m_stage_pos <= 8 ) { 
+                    if ( m_stage_pos >= 1 && m_stage_pos <= 9 ) { 
                         m_Stage_Object[m_stage_pos]->SetUp( m_stage_pos );
                         m_Stage_Object[m_stage_pos]->AppearAll();
                         m_Stage_Object[m_stage_pos]->SetStage( m_stage_pos );
                         m_Text_Point->Initial( m_stage_pos );
                         m_Jump_Page->AllDisappear();
                         if ( ifClear[7] ) {
-                            m_Tools[0]->Appear();
+                            m_Tools[1]->Appear();
                         }
                         if ( ifClear[8] ) {
-                            m_Tools[1]->Appear();
+                            m_Tools[2]->Appear();
                         } 
                         if ( ifClear[9] ) {
-                            m_Tools[2]->Appear();
+                            m_Tools[0]->Appear();
                         }
                         currentPhase = PHASE_NORMAL;
                         if ( m_stage_pos == 1  ) {
@@ -147,12 +148,6 @@ void App::Update() {
                         else if ( m_stage_pos == 5 ) {
                             std::cout << "Level5 Character clicked!" << std::endl;
                             m_PRM->NextPhase(PHASE_STAGE_5);
-                            // m_Stage_Object[5]->GetStageObject()[37]->SetImage( RAINBOWBALL_OBJECT_LINK );
-                            // m_Stage_Object[5]->GetStageObject()[37]->SetBlockType( NORMAL_OBJECT );
-                            // m_Stage_Object[5]->GetStageObject()[37]->SetCurrentType( RAINBOWBALL_OBJECT );
-                            // m_Stage_Object[5]->GetStageObject()[37]->SetBlock( NO_COLOR );
-                            // m_Stage_Object[5]->GetStageObject()[37]->SetAppearBool( true );
-                            // m_Stage_Object[5]->GetStageObject()[37]->SetGenerate( true );
                             m_Phase = Phase::STAGE_5;
                         }
                         else if ( m_stage_pos == 6 ) {
@@ -170,6 +165,26 @@ void App::Update() {
                             m_PRM->NextPhase(PHASE_STAGE_8);
                             m_Phase = Phase::STAGE_8;
                         }
+                        else if ( m_stage_pos == 9 ) {
+                            std::cout << "Level9 Character clicked!" << std::endl;
+                            m_PRM->NextPhase(PHASE_STAGE_9);
+                            m_Phase = Phase::STAGE_9;
+                        }
+                        // else if ( m_stage_pos == 10 ) {
+                        //     std::cout << "Level10 Character clicked!" << std::endl;
+                        //     m_PRM->NextPhase(PHASE_STAGE_10);
+                        //     m_Phase = Phase::STAGE_10;
+                        // }
+                        // else if ( m_stage_pos == 11 ) {
+                        //     std::cout << "Level11 Character clicked!" << std::endl;
+                        //     m_PRM->NextPhase(PHASE_STAGE_11);
+                        //     m_Phase = Phase::STAGE_11;
+                        // }
+                        // else if ( m_stage_pos == 12 ) {
+                        //     std::cout << "Level12 Character clicked!" << std::endl;
+                        //     m_PRM->NextPhase(PHASE_STAGE_12);
+                        //     m_Phase = Phase::STAGE_12;
+                        // }
                     }
                 }
                 if ( m_Jump_Page->ifClickWithInfoButtom() ) {
@@ -219,6 +234,9 @@ void App::Update() {
         
         case Phase::STAGE_8:
             Stage( 8 );
+            break;
+        case Phase::STAGE_9:
+            Stage( 9 );
             break;
         }
 

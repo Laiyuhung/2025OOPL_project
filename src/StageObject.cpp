@@ -290,6 +290,10 @@ void StageObject::InitializeStageCharacter(int s) {
                 obj->SetInformation(stage7[i]);
                 obj->SetPosition(stage7_position[i]);
                 break;
+            case 8:
+                obj->SetInformation(stage8[i]);
+                obj->SetPosition(stage8_position[i]);
+                break;
             default:
                 break;
         }
@@ -690,7 +694,7 @@ void StageObject::GoalUpdate( int i ) {
             }
             break;
         case 8:
-            if ( m_Stage_Object[i]->GetCurrentType() == FLOWER_OBJECT || m_Stage_Object[i]->GetCurrentType() == TRIANGLEFLOWER_OBJECT || m_Stage_Object[i]->GetCurrentType() == STARFLOWER_OBJECT ) {
+            if ( m_Stage_Object[i]->GetCurrentType() == FLOWER_OBJECT || m_Stage_Object[i]->GetCurrentType() == TRIANGLEFLOWER_OBJECT || m_Stage_Object[i]->GetCurrentType() == STARFLOWER_OBJECT || m_Stage_Object[i]->GetCurrentType() == FLOWER_COMBINED_OBJECT || m_Stage_Object[i]->GetCurrentType() == FLOWER_STRIPE_OBJECT ) {
                 stage_goal_counter[8]--;
             }
             break;
@@ -1703,14 +1707,13 @@ void StageObject::UseHammer( std::shared_ptr<Item> Tool ) {
             m_Stage_Object.at(i)->SetAppearBool(false);
             CheckAppearance( 1 , m_Stage , false );
             Tool->Update();
+            Tool->SetImage( HAMMER_IMAGE );
         }
     }
 
 }
 
 void StageObject::UseMagicStick (std::shared_ptr<Item> Tool) {
-
-    
     for ( int i = 1 ; i < m_Size+1 ; ++i ) {
         if ( m_Stage_Object.at(i)->IfClick() ) {
             cout<<"UseMagicStick"<<endl;
@@ -1728,6 +1731,7 @@ void StageObject::UseMagicStick (std::shared_ptr<Item> Tool) {
             m_Stage_Object[i]->SetGenerate(true);
             MakeDisappear();
             Tool->Update();
+            Tool->SetImage(MAGIC_STICK_IMAGE);
             break;
         }
     }
@@ -1768,6 +1772,7 @@ void StageObject::UseMagicGlove(std::shared_ptr<Item> Tool) {
                 is_click = 0;
                 CheckAppearance( 1 , m_Stage , false );
                 Tool->Update();
+                Tool->SetImage(GLOVES_IMAGE);
             }
         }
     }

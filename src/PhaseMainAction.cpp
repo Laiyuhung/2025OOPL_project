@@ -26,11 +26,21 @@ int PhaseHomePage(const std::vector<std::shared_ptr<Character>>& buttoms) {
 
 bool PhaseStage(std::shared_ptr<StageObject> StageObject, int size, std::shared_ptr<TaskText> point, int stage, std::vector<std::shared_ptr<Item>> Tools ) {
     auto objectArray = StageObject->GetStageObject();
-    if ( stage == 8 ) {
+    if ( stage == 9 ) {
         DebugModeOfPosition( objectArray , 2 );
         return false;
     }
     if ( currentPhase == PHASE_ITEM_USED ) {
+        for ( int i = 0 ; i < 3 ; ++i ) {
+            if ( Tools.at(i)->ifClickInUse() && Tools.at(i)->Click() ) {
+                if ( i == 1 )
+                    Tools.at(i)->SetImage( MAGIC_STICK_IMAGE );
+                else if ( i == 2 )
+                    Tools.at(i)->SetImage( GLOVES_IMAGE );
+                Tools.at(i)->UnClick();
+                currentPhase = PHASE_NORMAL;
+            }
+        }   
         return false;
     }
     if ( currentPhase != PHASE_NORMAL ) {
@@ -40,6 +50,12 @@ bool PhaseStage(std::shared_ptr<StageObject> StageObject, int size, std::shared_
     
     for ( int i = 0 ; i < 3 ; ++i ) {
         if ( Tools.at(i)->ifClickInUse() ) {
+            if ( i == 1 ) {
+                Tools.at(i)->SetImage( GA_RESOURCE_DIR "/Image/GameObject/item2Click.png" );
+            }
+            else if ( i == 2 ) {
+                Tools.at(i)->SetImage( GA_RESOURCE_DIR "/Image/GameObject/item3Click.png" );
+            }
             Tools.at(i)->SetClick();
             // printf( "Is Click in %d\n" , i );
             currentPhase = PHASE_ITEM_USED;

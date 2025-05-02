@@ -37,11 +37,11 @@ public:
 
     bool ifEmpty() { return this->m_Stage_Object.empty(); }
 
-    int GetStage() const {
+    int  GetStage() const {
         return m_Stage;
     }
 
-    int GetSize() const {
+    int  GetSize() const {
         return m_Size;
     }
 
@@ -68,7 +68,7 @@ public:
     void CheckObstaclesDisappear(bool ifShuffle);
     void MakeObstaclesDisappear(int position);
     void PointUpdate(int point);
-    int GetPoint();
+    int  GetPoint();
     void GoalUpdate(int i);
     void AppearAll();
     void DisAppearAll();

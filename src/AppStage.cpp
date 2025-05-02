@@ -8,7 +8,7 @@
 
 void App::Stage( int stage_pos ) {
     m_Jump_Page->GetPauseButtom()->SetVisible( true );
-    if (stage_goal_counter[stage_pos] <= 0 || PhaseStage( m_Stage_Object[stage_pos], m_Stage_Object[stage_pos]->GetSize() , m_Text_Point , stage_pos , m_Tools )){
+    if ( m_Jump_Page->GetStatus() != JUMP_END && (stage_goal_counter[stage_pos] <= 0 || PhaseStage( m_Stage_Object[stage_pos], m_Stage_Object[stage_pos]->GetSize() , m_Text_Point , stage_pos , m_Tools) )){
         m_Stage_Object[stage_pos]->DisAppearAll();
         m_Text_Point->SetVisible( false );
         ifClear[stage_pos] = true;
