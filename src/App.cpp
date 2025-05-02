@@ -16,6 +16,7 @@ void App::Start() {
     InitializeStage6();
     InitializeStage7();
     InitializeStage8();
+    InitializeStage9();
 
     startTime = std::chrono::steady_clock::now();
     m_Stage_Object.resize( 13 );
@@ -235,6 +236,7 @@ void App::Update() {
         case Phase::STAGE_8:
             Stage( 8 );
             break;
+
         case Phase::STAGE_9:
             Stage( 9 );
             break;

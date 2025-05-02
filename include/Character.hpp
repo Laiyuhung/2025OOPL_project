@@ -86,10 +86,10 @@ public:
         bool insideY = (mousePos.y >= pos.y && mousePos.y <= pos.y + size.y );
         bool isClicked = Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB);
         
-        if ( insideX && insideY && isClicked ) {
-            printf( "Mouse %f %f\n" , mousePos.x , mousePos.y );
-            printf( "Position %f %f\n" , pos.x , pos.y );
-        }
+        // if ( insideX && insideY && isClicked ) {
+        //     printf( "Mouse %f %f\n" , mousePos.x , mousePos.y );
+        //     printf( "Position %f %f\n" , pos.x , pos.y );
+        // }
         return insideX && insideY && isClicked;
     }
     
