@@ -24,6 +24,7 @@
 #define NO_MOVE 0
 #define MOVE_BY_DROP 1
 #define MOVE_BY_SWITCH 2
+#define MOVE_BY_TOOL 3
 
 #define NO_COLOR 0
 #define BLUE_OBJECT 1

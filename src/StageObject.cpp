@@ -381,7 +381,7 @@ bool StageObject::CheckAppearance(int s, int now_stage, bool ifShuffle) {
         }
     }
     for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
-        stripe_side = DisappearMethodOfStripe(i, total_length[i].data(), 2);
+        stripe_side = DisappearMethodOfStripe(i, total_length[i].data(), MOVE_BY_SWITCH);
         if (stripe_side != -1) {
             if (stripe_side == 0 || stripe_side == 3)
                 m_Stage_Object[i]->SetBlockType(STRIPE_OBJECT);
@@ -392,12 +392,12 @@ bool StageObject::CheckAppearance(int s, int now_stage, bool ifShuffle) {
         }
     }
     for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
-        if (DisappearMethodOfStripe(i, total_length[i].data(), 1) != -1) {
+        if (DisappearMethodOfStripe(i, total_length[i].data(), MOVE_BY_DROP) != -1) {
             m_Stage_Object[i]->SetBlockType(STRIPE_OBJECT);
         }
     }
     for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
-        if (DisappearMethodOfStripe(i, total_length[i].data(), 0) != -1) {
+        if (DisappearMethodOfStripe(i, total_length[i].data(), MOVE_BY_TOOL) != -1) {
             m_Stage_Object[i]->SetBlockType(STRIPE_OBJECT);
         }
     }
@@ -1212,7 +1212,7 @@ int StageObject::DisappearMethodOfStripe( int current_pos, int* total_length, in
         if ( (total_length[i] + total_length[j] ) == 3 ) {
             bool left_check = true ;
             bool right_check = true ;
-
+            cout<<"priority: "<<priority<<endl;
             //check all side appear
             if (total_length[i] > 0)
                 left_check = checkAppearanceOfObject( m_Stage_Object[current_pos]->GetInformationNeibor()[i]%(m_Size+1), i, total_length[i]-1);
@@ -1221,7 +1221,7 @@ int StageObject::DisappearMethodOfStripe( int current_pos, int* total_length, in
                 right_check = checkAppearanceOfObject( m_Stage_Object[current_pos]->GetInformationNeibor()[j]%(m_Size+1) , j, total_length[j]-1);
 
             // check initial switch -> find switch side
-            if (m_Stage_Object[current_pos]->GetSwitchedInfo() == 2 && priority == 2 && m_Stage_Object[current_pos]->GetAppearBool() == true  && left_check == true && right_check == true)
+            if (m_Stage_Object[current_pos]->GetSwitchedInfo() == MOVE_BY_SWITCH && priority == MOVE_BY_SWITCH && m_Stage_Object[current_pos]->GetAppearBool() == true  && left_check == true && right_check == true)
             {
                 m_Stage_Object[current_pos]->SetAppearBool( false );
                 //all disappear(except switched blocks)
@@ -1243,7 +1243,7 @@ int StageObject::DisappearMethodOfStripe( int current_pos, int* total_length, in
                     }
                 }
             }
-            else if (m_Stage_Object[current_pos]->GetSwitchedInfo() == 1 && priority == 1 && m_Stage_Object[current_pos]->GetAppearBool() == true  && left_check == true && right_check == true)
+            else if (m_Stage_Object[current_pos]->GetSwitchedInfo() == MOVE_BY_DROP && priority == MOVE_BY_DROP && m_Stage_Object[current_pos]->GetAppearBool() == true  && left_check == true && right_check == true)
             {
                 //all disappear
                 m_Stage_Object[current_pos]->SetAppearBool( false );
@@ -1255,7 +1255,7 @@ int StageObject::DisappearMethodOfStripe( int current_pos, int* total_length, in
                 cout << "Stripe" << endl;
                 return 0;
             }
-            else if ( m_Stage_Object[current_pos]->GetAppearBool() == true  && left_check == true && right_check == true)
+            else if ( m_Stage_Object[current_pos]->GetSwitchedInfo() == MOVE_BY_TOOL && priority == MOVE_BY_TOOL && m_Stage_Object[current_pos]->GetAppearBool() == true  && left_check == true && right_check == true)
             {
                 //all disappear
                 m_Stage_Object[current_pos]->SetAppearBool( false );
@@ -1793,8 +1793,8 @@ void StageObject::UseMagicGlove(std::shared_ptr<Item> Tool) {
                 std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[check];
                 m_Stage_Object[check] = m_Stage_Object[i];
                 m_Stage_Object[i] = NewObject;
-                m_Stage_Object[i]->SetSwitched( MOVE_BY_SWITCH );
-                m_Stage_Object[check]->SetSwitched( MOVE_BY_SWITCH );
+                m_Stage_Object[i]->SetSwitched( MOVE_BY_TOOL );
+                m_Stage_Object[check]->SetSwitched( MOVE_BY_TOOL );
                 is_click = 0;
                 CheckAppearance( 1 , m_Stage , false );
                 Tool->Update();
