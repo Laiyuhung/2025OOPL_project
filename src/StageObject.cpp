@@ -294,6 +294,10 @@ void StageObject::InitializeStageCharacter(int s) {
                 obj->SetInformation(stage8[i]);
                 obj->SetPosition(stage8_position[i]);
                 break;
+            case 9:
+                obj->SetInformation(stage9[i]);
+                obj->SetPosition(stage9_position[i]);
+                break;
             default:
                 break;
         }
@@ -389,6 +393,11 @@ bool StageObject::CheckAppearance(int s, int now_stage, bool ifShuffle) {
     }
     for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
         if (DisappearMethodOfStripe(i, total_length[i].data(), 1) != -1) {
+            m_Stage_Object[i]->SetBlockType(STRIPE_OBJECT);
+        }
+    }
+    for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
+        if (DisappearMethodOfStripe(i, total_length[i].data(), 0) != -1) {
             m_Stage_Object[i]->SetBlockType(STRIPE_OBJECT);
         }
     }
@@ -696,6 +705,11 @@ void StageObject::GoalUpdate( int i ) {
         case 8:
             if ( m_Stage_Object[i]->GetCurrentType() == FLOWER_OBJECT || m_Stage_Object[i]->GetCurrentType() == TRIANGLEFLOWER_OBJECT || m_Stage_Object[i]->GetCurrentType() == STARFLOWER_OBJECT || m_Stage_Object[i]->GetCurrentType() == FLOWER_COMBINED_OBJECT || m_Stage_Object[i]->GetCurrentType() == FLOWER_STRIPE_OBJECT ) {
                 stage_goal_counter[8]--;
+            }
+            break;
+        case 9:
+            if ( m_Stage_Object[i]->GetCurrentType() == STRIPE_OBJECT || m_Stage_Object[i]->GetCurrentType() == STRIPE_LEFT_RIGHT_OBJECT || m_Stage_Object[i]->GetCurrentType() == STRIPE_RIGHT_LEFT_OBJECT || m_Stage_Object[i]->GetCurrentType() == STRIPE_COMBINED_OBJECT || m_Stage_Object[i]->GetCurrentType() == FLOWER_STRIPE_OBJECT ) {
+                stage_goal_counter[9]--;
             }
             break;
         default:
@@ -1241,6 +1255,18 @@ int StageObject::DisappearMethodOfStripe( int current_pos, int* total_length, in
                 cout << "Stripe" << endl;
                 return 0;
             }
+            else if ( m_Stage_Object[current_pos]->GetAppearBool() == true  && left_check == true && right_check == true)
+            {
+                //all disappear
+                m_Stage_Object[current_pos]->SetAppearBool( false );
+                if (total_length[i] > 0)
+                    DisappearBySingleObject( m_Stage_Object[current_pos]->GetInformationNeibor()[i]%(m_Size+1), i, total_length[i]-1);
+                if (total_length[j] > 0)
+                    DisappearBySingleObject( m_Stage_Object[current_pos]->GetInformationNeibor()[j]%(m_Size+1), j, total_length[j]-1);
+
+                cout << "Stripe 0" << endl;
+                return 0;
+            }
 
         }
     }
@@ -1501,7 +1527,7 @@ void StageObject::SetUp(int stage) {
     m_Stage_Object.at(0)->DisAppear();
     this->GetStageGoalObject()->Appear();
     InitializeStageCharacter(stage);
-    // CheckAppearance(0, stage, true);
+    CheckAppearance(0, stage, true);
 }
 
 
