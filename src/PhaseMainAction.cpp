@@ -26,10 +26,10 @@ int PhaseHomePage(const std::vector<std::shared_ptr<Character>>& buttoms) {
 
 bool PhaseStage(std::shared_ptr<StageObject> StageObject, int size, std::shared_ptr<TaskText> point, int stage, std::vector<std::shared_ptr<Item>> Tools ) {
     auto objectArray = StageObject->GetStageObject();
-    // if ( stage == 9 ) {
-    //     DebugModeOfPosition( objectArray , 2 );
-    //     return false;
-    // }
+    if ( stage == 9 ) {
+        DebugModeOfPosition( objectArray , 2 );
+        return false;
+    }
     if ( currentPhase == PHASE_ITEM_USED ) {
         for ( int i = 0 ; i < 3 ; ++i ) {
             if ( Tools.at(i)->ifClickInUse() && Tools.at(i)->Click() ) {
