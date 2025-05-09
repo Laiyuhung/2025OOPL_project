@@ -52,7 +52,7 @@ public:
         else if (stage == 6) size = 72;
         else if (stage == 7) size = 60;
         else if (stage == 8) size = 70;
-        else if (stage == 9) size = 53;
+        else if (stage == 9) size = 43;
         
         if (m_Stage_Object.size() <= static_cast<size_t>(stage)) m_Stage_Object.resize(stage + 1);
         m_Stage_Object.at(stage) = std::make_shared<StageObject>(size);

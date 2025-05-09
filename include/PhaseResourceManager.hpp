@@ -11,7 +11,6 @@ public:
     PhaseResourceManager();
 
     [[nodiscard]] std::vector<std::shared_ptr<Util::GameObject>> GetChildren() const {
-        printf( "testing4\n");
         return {m_Background};
     }
 
