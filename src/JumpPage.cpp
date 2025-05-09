@@ -17,6 +17,7 @@ JumpPage::JumpPage(const std::string& ImagePath)
             m_Cancel_Buttom = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/closeButton.png");
             m_Cancel_Buttom->SetPosition( { 100, 146 } );
             m_Cancel_Buttom->SetZIndex( 13 );
+            m_Cancel_Buttom->SetSize( {100, 100} );
             m_Cancel_Buttom->SetVisible(false);
         
             m_Pause_Buttom = std::make_shared<Character>(GA_RESOURCE_DIR"/Image/GameObject/pauseButton.png");

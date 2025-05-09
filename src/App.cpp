@@ -117,12 +117,18 @@ void App::Update() {
                         m_Text_Point->Initial( m_stage_pos );
                         m_Jump_Page->AllDisappear();
                         if ( ifClear[7] ) {
+                            m_Tools[1]->SetImage( MAGIC_STICK_IMAGE );
+                            m_Tools[1]->UnClick();
                             m_Tools[1]->Appear();
                         }
                         if ( ifClear[8] ) {
+                            m_Tools[2]->SetImage( GLOVES_IMAGE );
+                            m_Tools[2]->UnClick();
                             m_Tools[2]->Appear();
                         } 
                         if ( ifClear[9] ) {
+                            m_Tools[0]->SetImage( HAMMER_IMAGE );
+                            m_Tools[0]->UnClick();
                             m_Tools[0]->Appear();
                         }
                         currentPhase = PHASE_NORMAL;
