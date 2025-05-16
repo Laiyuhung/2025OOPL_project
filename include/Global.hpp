@@ -13,6 +13,7 @@
 #define PHASE_STAGE_7 9
 #define PHASE_STAGE_8 10
 #define PHASE_STAGE_9 11
+#define PHASE_STAGE_10 12
 
 #define JUMP_NORMAL 0
 #define JUMP_PLAY 1
@@ -212,8 +213,14 @@ extern glm::vec2 stage9_position[44];
 extern int stage9_neibor[44][6];
 extern Objectinformation stage9[44];
 
+extern glm::vec2 stage10_position[74];
+extern int stage10_neibor[74][6];
+extern Objectinformation stage10[74];
+
 extern std::set<int> one_layer_7;
 extern std::set<int> two_layer_7;
+
+extern std::set<int> one_layer_10;
 
 
 extern std::string ClearStageList[13];
@@ -242,6 +249,7 @@ void InitializeStage6();
 void InitializeStage7();
 void InitializeStage8();
 void InitializeStage9();
+void InitializeStage10();
 
 enum GamePhase {
     PHASE_NORMAL,

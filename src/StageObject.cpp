@@ -136,6 +136,21 @@ void StageObject::ShuffleStageCharacter( int s ) {
                 continue;
             }
         } 
+        if ( s == 10 && obj->GetCurrentType() != NORMAL_OBJECT) {
+            if ( one_layer_10.find(i) != one_layer_10.end() ) {
+                obj->SetImage(COOKIE_ONE_IMAGE);
+                obj->SetBlock(NO_COLOR);
+                obj->SetInformation(stage10[i]);
+                obj->SetPosition(stage10_position[i]);
+                obj->SetZIndex(10);
+                obj->SetSize({20, 25});
+                obj->DisAppear();
+                obj->SetAppearBool(true);
+                obj->SetBlockType(NORMAL_OBJECT);
+                obj->SetCurrentType(ONE_LAYER_COOKIE_OBJECT);
+                continue;
+            }
+        }
         RandomChangeObject(i);
 
         obj->SetZIndex(10);
@@ -173,6 +188,18 @@ void StageObject::ShuffleStageCharacter( int s ) {
             case 7:
                 obj->SetInformation(stage7[i]);
                 obj->SetPosition(stage7_position[i]);
+                break;
+            case 8:
+                obj->SetInformation(stage8[i]);
+                obj->SetPosition(stage8_position[i]);
+                break;
+            case 9:
+                obj->SetInformation(stage9[i]);
+                obj->SetPosition(stage9_position[i]);
+                break;
+            case 10:
+                obj->SetInformation(stage10[i]);
+                obj->SetPosition(stage10_position[i]);
                 break;
             default:
                 break;
@@ -251,6 +278,21 @@ void StageObject::InitializeStageCharacter(int s) {
                 continue;
             }
         } 
+        if ( s == 10 ) {
+            if ( one_layer_10.find(i) != one_layer_10.end() ) {
+                obj->SetImage(COOKIE_ONE_IMAGE);
+                obj->SetBlock(NO_COLOR);
+                obj->SetInformation(stage10[i]);
+                obj->SetPosition(stage10_position[i]);
+                obj->SetZIndex(10);
+                obj->SetSize({20, 25});
+                obj->DisAppear();
+                obj->SetAppearBool(true);
+                obj->SetBlockType(NORMAL_OBJECT);
+                obj->SetCurrentType(ONE_LAYER_COOKIE_OBJECT);
+                continue;
+            }
+        }
         RandomChangeObject(i);
         
 
@@ -298,6 +340,11 @@ void StageObject::InitializeStageCharacter(int s) {
                 obj->SetInformation(stage9[i]);
                 obj->SetPosition(stage9_position[i]);
                 break;
+            case 10:
+                obj->SetInformation(stage10[i]);
+                obj->SetPosition(stage10_position[i]);
+                break;
+                
             default:
                 break;
         }
@@ -718,6 +765,10 @@ void StageObject::GoalUpdate( int i ) {
                 stage_goal_counter[9]--;
             }
             break;
+        case 10:
+            if ( m_Stage_Object[i]->GetCurrentType() == STRIPE_OBJECT || m_Stage_Object[i]->GetCurrentType() == STRIPE_LEFT_RIGHT_OBJECT || m_Stage_Object[i]->GetCurrentType() == STRIPE_RIGHT_LEFT_OBJECT || m_Stage_Object[i]->GetCurrentType() == STRIPE_COMBINED_OBJECT || m_Stage_Object[i]->GetCurrentType() == FLOWER_STRIPE_OBJECT ) {
+                stage_goal_counter[10]--;
+            }
         default:
             break;
     }
