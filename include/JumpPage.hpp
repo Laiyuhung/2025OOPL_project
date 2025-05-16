@@ -87,6 +87,8 @@ class JumpPage : public Character {
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage8Start.png" );
             else if ( stage == 9 )
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage9Start.png" );
+            else if ( stage == 10 )
+                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage10Start.png" );
             
             this->SetVisible( true );
             SetStatus( JUMP_PLAY );
@@ -113,6 +115,8 @@ class JumpPage : public Character {
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage8End.png" );
             else if ( stage == 9 )
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage9End.png" );
+            else if ( stage == 10 )
+                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage10End.png" );
             
             SetStatus( JUMP_END );
             this->SetVisible( true );
@@ -139,6 +143,8 @@ class JumpPage : public Character {
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage8Fail.png" );
             else if ( stage == 9 )
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage9Fail.png" );
+            else if ( stage == 10 )
+                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage10Fail.png" );
             
             SetStatus( JUMP_END );
             this->SetVisible( true );

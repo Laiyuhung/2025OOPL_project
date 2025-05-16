@@ -603,7 +603,8 @@ void StageObject::MakeDisappear() {
         if ((m_Stage_Object[i]->GetType() == NORMAL_OBJECT ||
              m_Stage_Object[i]->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT) &&
              !m_Stage_Object[i]->GetAppearBool()) {
-            // GoalUpdate(static_cast<int>(i));
+            if (m_Stage_Object[i]->GetCurrentType() != NORMAL_OBJECT)
+                GoalUpdate(static_cast<int>(i));
             // printf( "current type %d , next %d\n" , m_Stage_Object[i]->GetCurrentType() , m_Stage_Object[i]->GetType() );
             m_Stage_Object[i]->SetCurrentType(m_Stage_Object[i]->GetType());
             m_Stage_Object[i]->SetBlockType(NORMAL_OBJECT);
@@ -626,11 +627,20 @@ void StageObject::MakeDisappear() {
             m_Stage_Object[i]->SetCurrentType(m_Stage_Object[i]->GetType());
             m_Stage_Object[i]->SetBlockType(NORMAL_OBJECT);
         }
+        // else if (m_Stage_Object[i]->GetCurrentType() == STRIPE_OBJECT && m_Stage_Object[i]->GetAppearBool() == False ) {
+        //     PointUpdate(GetPoint() + 1);
+        //     GoalUpdate(static_cast<int>(i));
+        //     m_Stage_Object[i]->SetAppearBool(true);
+        //     CheckSpecialObject(static_cast<int>(i));
+        //     m_Stage_Object[i]->SetCurrentType(m_Stage_Object[i]->GetType());
+        //     m_Stage_Object[i]->SetBlockType(NORMAL_OBJECT);
+        // }
     }
 
     for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
         if (!m_Stage_Object[i]->GetAppearBool()) {
             PointUpdate(GetPoint() + 1);
+            printf( "Current Type %d Type %d\n" , m_Stage_Object[i]->GetCurrentType(), m_Stage_Object[i]->GetType() );
             GoalUpdate(static_cast<int>(i));
         }
     }
@@ -769,6 +779,7 @@ void StageObject::GoalUpdate( int i ) {
             if ( m_Stage_Object[i]->GetCurrentType() == STRIPE_OBJECT || m_Stage_Object[i]->GetCurrentType() == STRIPE_LEFT_RIGHT_OBJECT || m_Stage_Object[i]->GetCurrentType() == STRIPE_RIGHT_LEFT_OBJECT || m_Stage_Object[i]->GetCurrentType() == STRIPE_COMBINED_OBJECT || m_Stage_Object[i]->GetCurrentType() == FLOWER_STRIPE_OBJECT ) {
                 stage_goal_counter[10]--;
             }
+            break;
         default:
             break;
     }
