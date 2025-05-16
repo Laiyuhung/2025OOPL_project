@@ -53,6 +53,13 @@ public:
         }
     }
 
+    void UpdateEndPoint( int point ) {  
+        auto* temp = dynamic_cast<Util::Text*>(m_Drawable.get());
+        if (temp) {
+            temp->SetText(endpoint_string( point ));
+        }
+    }
+
     void SetNum( int num ) { m_Num = num; }
     void UpdateInItem() {  
         auto* temp = dynamic_cast<Util::Text*>(m_Drawable.get());
@@ -68,6 +75,10 @@ private:
 
     inline static std::string show_string(std::string goal_descript , int goal , int move , int point ) {
         return  "          " + std::to_string(goal) + "                         " + std::to_string(move) + "       Point: " + std::to_string(point) + "\n\n\nGoal Description: \n" + goal_descript + "\n" ;
+    }
+
+    inline static std::string endpoint_string( int point ) {
+        return "Point : " + std::to_string( point ) + "\n"; 
     }
 
     int m_Point = 0;
