@@ -56,11 +56,11 @@ else()
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic)
 endif()
 
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    target_compile_definitions(${PROJECT_NAME} PRIVATE GA_RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/Resources")
-else()
-    target_compile_definitions(${PROJECT_NAME} PRIVATE GA_RESOURCE_DIR="${CMAKE_INSTALL_PREFIX}/Resources")
-endif()
+# Always use the full path to Resources
+target_compile_definitions(${PROJECT_NAME} PRIVATE GA_RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/Resources")
+
+# Add an install rule to install the Resources directory
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Resources DESTINATION .)
 
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${DEPENDENCY_INCLUDE_DIRS})
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/PTSD/include)

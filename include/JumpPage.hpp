@@ -60,7 +60,9 @@ class JumpPage : public Character {
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage8Info.png");
             if ( stage == 9 )
                 this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage9Info.png");
-            
+            if ( stage == 10 )
+                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage10Info.png");
+
             this->SetVisible( true );
             SetStatus( JUMP_INFO );
         }
