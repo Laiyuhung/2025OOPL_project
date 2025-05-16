@@ -53,6 +53,7 @@ public:
         else if (stage == 7) size = 60;
         else if (stage == 8) size = 70;
         else if (stage == 9) size = 43;
+        else if (stage == 10) size = 73;
         
         if (m_Stage_Object.size() <= static_cast<size_t>(stage)) m_Stage_Object.resize(stage + 1);
         m_Stage_Object.at(stage) = std::make_shared<StageObject>(size);
@@ -88,6 +89,8 @@ public:
         else if ( stage == 8 )
             stage_goal->SetImage( WHITE_STARFLOWER_OBJECT );
         else if ( stage == 9 )
+            stage_goal->SetImage( WHITE_STRIPE_OBJECT );
+        else if ( stage == 10 )
             stage_goal->SetImage( WHITE_STRIPE_OBJECT );
 
         stage_goal->SetPosition(stage_goal_position[stage]);
@@ -147,6 +150,7 @@ private:
         STAGE_7 = 9,
         STAGE_8 = 10,
         STAGE_9 = 11,
+        STAGE_10 = 12,
     };
 
     State m_CurrentState = State::START;

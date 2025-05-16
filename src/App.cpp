@@ -17,6 +17,7 @@ void App::Start() {
     InitializeStage7();
     InitializeStage8();
     InitializeStage9();
+    InitializeStage10();
 
     startTime = std::chrono::steady_clock::now();
     m_Stage_Object.resize( 13 );
@@ -110,7 +111,7 @@ void App::Update() {
                 } 
                 if ( m_Jump_Page->ifClickWithPlayButtom() ) {
                     SetUpStage( m_stage_pos );
-                    if ( m_stage_pos >= 1 && m_stage_pos <= 9 ) { 
+                    if ( m_stage_pos >= 1 && m_stage_pos <= 10 ) { 
                         m_Stage_Object[m_stage_pos]->SetUp( m_stage_pos );
                         m_Stage_Object[m_stage_pos]->AppearAll();
                         m_Stage_Object[m_stage_pos]->SetStage( m_stage_pos );
@@ -177,11 +178,11 @@ void App::Update() {
                             m_PRM->NextPhase(PHASE_STAGE_9);
                             m_Phase = Phase::STAGE_9;
                         }
-                        // else if ( m_stage_pos == 10 ) {
-                        //     std::cout << "Level10 Character clicked!" << std::endl;
-                        //     m_PRM->NextPhase(PHASE_STAGE_10);
-                        //     m_Phase = Phase::STAGE_10;
-                        // }
+                        else if ( m_stage_pos == 10 ) {
+                            std::cout << "Level10 Character clicked!" << std::endl;
+                            m_PRM->NextPhase(PHASE_STAGE_10);
+                            m_Phase = Phase::STAGE_10;
+                        }
                         // else if ( m_stage_pos == 11 ) {
                         //     std::cout << "Level11 Character clicked!" << std::endl;
                         //     m_PRM->NextPhase(PHASE_STAGE_11);
@@ -245,6 +246,9 @@ void App::Update() {
 
         case Phase::STAGE_9:
             Stage( 9 );
+            break;
+        case Phase::STAGE_10:
+            Stage( 10 );
             break;
         }
 
