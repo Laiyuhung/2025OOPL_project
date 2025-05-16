@@ -11,6 +11,8 @@ void App::Stage( int stage_pos ) {
     if ( m_Jump_Page->GetStatus() != JUMP_END && (stage_goal_counter[stage_pos] <= 0 || PhaseStage( m_Stage_Object[stage_pos], m_Stage_Object[stage_pos]->GetSize() , m_Text_Point , stage_pos , m_Tools) )){
         m_Stage_Object[stage_pos]->DisAppearAll();
         m_Text_Point->SetVisible( false );
+        m_End_Point->UpdateEndPoint( stage_point_counter[stage_pos] );
+        m_End_Point->SetVisible( true );
         ifClear[stage_pos] = true;
         m_Jump_Page->EndPage( stage_pos );
         m_Jump_Page->SetStatus( JUMP_END );
@@ -70,6 +72,7 @@ void App::Stage( int stage_pos ) {
     }
     if ( m_Jump_Page->ifClickWithCancelButtomInEnd() ) {
         m_Jump_Page->AllDisappear();
+        m_End_Point->SetVisible( false );
         m_PRM->NextPhase(PHASE_HOME_PAGE);
         RemoveStage( stage_pos );
         m_Phase = Phase::HOME_PAGE;

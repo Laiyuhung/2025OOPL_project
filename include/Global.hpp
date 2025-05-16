@@ -14,6 +14,7 @@
 #define PHASE_STAGE_8 10
 #define PHASE_STAGE_9 11
 #define PHASE_STAGE_10 12
+#define PHASE_STAGE_11 13
 
 #define JUMP_NORMAL 0
 #define JUMP_PLAY 1
@@ -163,9 +164,6 @@
 #define LEVEL_ELEVEN_CURRENT GA_RESOURCE_DIR"/Image/GameObject/levelCurrentEleven.png"
 #define LEVEL_TWELVE_CURRENT GA_RESOURCE_DIR"/Image/GameObject/levelCurrentTwelve.png"
 
-
-
-
 #include <glm/vec2.hpp> 
 #include <stack>
 #include <memory>
@@ -217,11 +215,15 @@ extern glm::vec2 stage10_position[74];
 extern int stage10_neibor[74][6];
 extern Objectinformation stage10[74];
 
+extern glm::vec2 stage11_position[60];
+extern int stage11_neibor[60][6];
+extern Objectinformation stage11[60];
+
 extern std::set<int> one_layer_7;
 extern std::set<int> two_layer_7;
 
 extern std::set<int> one_layer_10;
-
+extern std::set<int> two_layer_11;
 
 extern std::string ClearStageList[13];
 extern std::string LevelStageList[13];
@@ -250,6 +252,8 @@ void InitializeStage7();
 void InitializeStage8();
 void InitializeStage9();
 void InitializeStage10();
+void InitializeStage11();
+
 
 enum GamePhase {
     PHASE_NORMAL,

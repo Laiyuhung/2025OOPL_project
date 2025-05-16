@@ -18,6 +18,7 @@ void App::Start() {
     InitializeStage8();
     InitializeStage9();
     InitializeStage10();
+    InitializeStage11();
 
     startTime = std::chrono::steady_clock::now();
     m_Stage_Object.resize( 13 );
@@ -67,6 +68,13 @@ void App::Start() {
     m_Text_Point->SetVisible(false);
     m_Root.AddChild(m_Text_Point);
 
+    m_End_Point = std::make_shared<TaskText>();
+    m_End_Point->SetPosition({0, -52.5});
+    m_End_Point->Initial(0);
+    m_End_Point->UpdateText();
+    m_End_Point->SetVisible(false);
+    m_Root.AddChild(m_End_Point);
+
     m_Tools.resize(3);
     m_Tools.at( HAMMER ) = std::make_shared<Item>( HAMMER_IMAGE );
     m_Tools.at( MAGIC_STICK ) = std::make_shared<Item>( MAGIC_STICK_IMAGE );
@@ -111,11 +119,13 @@ void App::Update() {
                 } 
                 if ( m_Jump_Page->ifClickWithPlayButtom() ) {
                     SetUpStage( m_stage_pos );
-                    if ( m_stage_pos >= 1 && m_stage_pos <= 10 ) { 
+                    if ( m_stage_pos >= 1 && m_stage_pos <= 11 ) { 
                         m_Stage_Object[m_stage_pos]->SetUp( m_stage_pos );
                         m_Stage_Object[m_stage_pos]->AppearAll();
                         m_Stage_Object[m_stage_pos]->SetStage( m_stage_pos );
                         m_Text_Point->Initial( m_stage_pos );
+                        m_End_Point->Initial( m_stage_pos );
+                        m_End_Point->SetPosition( { 5 , -52.5 });
                         m_Jump_Page->AllDisappear();
                         if ( ifClear[7] ) {
                             m_Tools[1]->SetImage( MAGIC_STICK_IMAGE );
@@ -183,11 +193,11 @@ void App::Update() {
                             m_PRM->NextPhase(PHASE_STAGE_10);
                             m_Phase = Phase::STAGE_10;
                         }
-                        // else if ( m_stage_pos == 11 ) {
-                        //     std::cout << "Level11 Character clicked!" << std::endl;
-                        //     m_PRM->NextPhase(PHASE_STAGE_11);
-                        //     m_Phase = Phase::STAGE_11;
-                        // }
+                        else if ( m_stage_pos == 11 ) {
+                            std::cout << "Level11 Character clicked!" << std::endl;
+                            m_PRM->NextPhase(PHASE_STAGE_11);
+                            m_Phase = Phase::STAGE_11;
+                        }
                         // else if ( m_stage_pos == 12 ) {
                         //     std::cout << "Level12 Character clicked!" << std::endl;
                         //     m_PRM->NextPhase(PHASE_STAGE_12);
@@ -249,6 +259,9 @@ void App::Update() {
             break;
         case Phase::STAGE_10:
             Stage( 10 );
+            break;
+        case Phase::STAGE_11:
+            Stage( 11 );
             break;
         }
 

@@ -54,6 +54,7 @@ public:
         else if (stage == 8) size = 70;
         else if (stage == 9) size = 43;
         else if (stage == 10) size = 73;
+        else if (stage == 11) size = 59;
         
         if (m_Stage_Object.size() <= static_cast<size_t>(stage)) m_Stage_Object.resize(stage + 1);
         m_Stage_Object.at(stage) = std::make_shared<StageObject>(size);
@@ -80,7 +81,7 @@ public:
             stage_goal->SetImage( BROWN_NORMAL_OBJECT );
         else if ( stage == 3 || stage == 3 )
             stage_goal->SetImage( REACH_IMAGE );
-        else if ( stage == 5 )
+        else if ( stage == 5 || stage == 11 )
             stage_goal->SetImage( COOKIE_ONE_IMAGE );
         else if ( stage == 6 )
             stage_goal->SetImage( COOKIE_ONE_IMAGE );
@@ -151,6 +152,7 @@ private:
         STAGE_8 = 10,
         STAGE_9 = 11,
         STAGE_10 = 12,
+        STAGE_11 = 13,
     };
 
     State m_CurrentState = State::START;
@@ -165,6 +167,7 @@ private:
 
     std::shared_ptr<JumpPage> m_Jump_Page;
     std::shared_ptr<TaskText> m_Text_Point;
+    std::shared_ptr<TaskText> m_End_Point;
     std::shared_ptr<PhaseResourceManager> m_PRM;
 
     int m_stage_pos = 0;
