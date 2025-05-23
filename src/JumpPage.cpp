@@ -35,6 +35,11 @@ JumpPage::JumpPage(const std::string& ImagePath)
             m_Stop_Buttom->SetZIndex( 14 );
             m_Stop_Buttom->SetVisible(false);
 
+            m_BGM_Buttom = std::make_shared<Character>( GA_RESOURCE_DIR"/Image/GameObject/on.png" );
+            m_BGM_Buttom->SetPosition( {0 , -30} );
+            m_BGM_Buttom->SetZIndex( 31 );
+            m_BGM_Buttom->SetVisible(false);
+
         }
 
 void JumpPage::SetImage(const std::string& ImagePath) {

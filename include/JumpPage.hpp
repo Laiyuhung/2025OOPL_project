@@ -28,7 +28,18 @@ class JumpPage : public Character {
 
         std::shared_ptr<Character> GetInfoButtom() {
             return m_info_Buttom;
-        }        
+        }
+        std::shared_ptr<Character> GetBGMButtom() {
+            return m_BGM_Buttom;
+        }
+
+        bool ifBGM() {
+            return BGM;
+        }
+
+        void SetBGM( bool f ) {
+            BGM = f;
+        }
 
         void AllDisappear() {
             m_Play_Buttom->SetVisible( false );
@@ -37,6 +48,7 @@ class JumpPage : public Character {
             m_Continue_Buttom->SetVisible( false );
             m_Stop_Buttom->SetVisible( false );
             m_info_Buttom->SetVisible( false );
+            m_BGM_Buttom->SetVisible( false );
             this->SetVisible( false );
         }
 
@@ -44,6 +56,8 @@ class JumpPage : public Character {
             m_Cancel_Buttom->SetVisible( true );
             this->SetImage( GA_RESOURCE_DIR"/Image/Background/setting.png" );
             this->SetVisible( true );
+            m_BGM_Buttom->SetVisible( true );
+            printf( "%d\n" , m_BGM_Buttom->GetVisibility() );
             SetStatus( JUMP_SETTING );
         }
 
@@ -113,6 +127,8 @@ class JumpPage : public Character {
         bool ifClickWithCancelButtomInEnd() { return m_Cancel_Buttom->GetVisibility() && m_Cancel_Buttom->IfClick() && ( GetStatus() == JUMP_END ); }
         
         bool ifClickWithInfoButtom() { return m_info_Buttom->GetVisibility() && m_info_Buttom->IfClick(); }
+
+        bool ifClickWithBGM() { return m_BGM_Buttom->GetVisibility() && m_BGM_Buttom->IfClick(); }
 private:
         int m_Status;
         std::string m_ImagePath;
@@ -122,6 +138,8 @@ private:
         std::shared_ptr<Character> m_Continue_Buttom;
         std::shared_ptr<Character> m_Stop_Buttom;
         std::shared_ptr<Character> m_info_Buttom;
+        std::shared_ptr<Character> m_BGM_Buttom;
+        bool BGM = true;
         inline std::string ImagePath(const std::string& phase) {
             return (GA_RESOURCE_DIR "/Image/Background/" + phase );
         }
