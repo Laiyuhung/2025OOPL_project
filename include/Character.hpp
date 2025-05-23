@@ -92,10 +92,19 @@ public:
         // }
         return insideX && insideY && isClicked;
     }
+
+    bool on_or_off() {
+        return m_on_or_off;
+    }
+
+    void switch_on_or_off() {
+        m_on_or_off = !m_on_or_off;
+    }
     
 protected:
     void ResetPosition() { m_Transform.translation = {0, 0}; }
 
+    bool m_on_or_off = true;
     glm::vec2 m_Size = { 50.0f, 50.0f };
     std::string m_ImagePath;
 };

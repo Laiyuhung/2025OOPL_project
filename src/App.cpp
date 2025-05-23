@@ -67,6 +67,10 @@ void App::Start() {
     m_Root.AddChild(m_Jump_Page->GetStopButtom());
     m_Root.AddChild(m_Jump_Page->GetContinueButtom());
     m_Root.AddChild(m_Jump_Page->GetInfoButtom());
+    m_Root.AddChild(m_Jump_Page->GetBGMButtom());
+    // m_Root.AddChild(m_Jump_Page->GetPlusButtom1());
+    // m_Root.AddChild(m_Jump_Page->GetPlusButtom2());
+    // m_Root.AddChild(m_Jump_Page->GetPlusButtom3());
 
     m_Text_Point = std::make_shared<TaskText>();
     m_Text_Point->SetPosition({-125, 210});
@@ -135,7 +139,21 @@ void App::Update() {
                     m_stage_pos = get_stage;
                     m_Jump_Page->PlayPage( m_stage_pos );
                     m_Jump_Page->SetStatus( JUMP_PLAY );
-                } 
+                }
+                if ( m_Jump_Page->GetStatus() == JUMP_SETTING ) {
+                    if ( m_Jump_Page->ifClickWithBGM() ) {
+                        if ( m_Jump_Page->GetBGMButtom()->on_or_off() ) {
+                            m_BGM_Music.at(0)->SetVolume(0);
+                            m_Jump_Page->GetBGMButtom()->switch_on_or_off();
+                            m_Jump_Page->GetBGMButtom()->SetImage( OFF_IMAGE );
+                        }
+                        else {
+                            m_BGM_Music.at(0)->SetVolume(30);
+                            m_Jump_Page->GetBGMButtom()->switch_on_or_off();
+                            m_Jump_Page->GetBGMButtom()->SetImage( ON_IMAGE );
+                        }
+                    }
+                }
                 if ( m_Jump_Page->ifClickWithPlayButtom() ) {
                     SetUpStage( m_stage_pos );
                     if ( m_stage_pos >= 1 && m_stage_pos <= 12 ) { 

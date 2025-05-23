@@ -30,11 +30,25 @@ JumpPage::JumpPage(const std::string& ImagePath)
             m_Continue_Buttom->SetZIndex( 14 );
             m_Continue_Buttom->SetVisible(false);
         
-            m_Stop_Buttom = std::make_shared<Character>( GA_RESOURCE_DIR"/Image/GameObject/stopButtom.png" );
-            m_Stop_Buttom->SetPosition( {0 , -30} );
-            m_Stop_Buttom->SetZIndex( 14 );
-            m_Stop_Buttom->SetVisible(false);
+            m_BGM_Buttom = std::make_shared<Character>( GA_RESOURCE_DIR"/Image/GameObject/on.png" );
+            m_BGM_Buttom->SetPosition( {0 , 0} );
+            m_BGM_Buttom->SetZIndex( 14 );
+            m_BGM_Buttom->SetVisible(false);
 
+            // m_Plus_Buttom_1 = std::make_shared<Character>( GA_RESOURCE_DIR"/Image/GameObject/plus.png" );
+            // m_Plus_Buttom_1->SetPosition( {0 , -30} );
+            // m_Plus_Buttom_1->SetZIndex( 14 );
+            // m_Plus_Buttom_1->SetVisible(false);
+
+            // m_Plus_Buttom_2 = std::make_shared<Character>( GA_RESOURCE_DIR"/Image/GameObject/plus.png" );
+            // m_Plus_Buttom_2->SetPosition( {0 , -30} );
+            // m_Plus_Buttom_2->SetZIndex( 14 );
+            // m_Plus_Buttom_2->SetVisible(false);
+
+            // m_Plus_Buttom_3 = std::make_shared<Character>( GA_RESOURCE_DIR"/Image/GameObject/plus.png" );
+            // m_Plus_Buttom_3->SetPosition( {0 , -30} );
+            // m_Plus_Buttom_3->SetZIndex( 14 );
+            // m_Plus_Buttom_3->SetVisible(false);
         }
 
 void JumpPage::SetImage(const std::string& ImagePath) {
