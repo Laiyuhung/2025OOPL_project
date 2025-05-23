@@ -246,6 +246,10 @@ void StageObject::ShuffleStageCharacter( int s ) {
                 obj->SetInformation(stage11[i]);
                 obj->SetPosition(stage11_position[i]);
                 break;
+            case 12:
+                obj->SetInformation(stage12[i]);
+                obj->SetPosition(stage12_position[i]);
+                break;
             default:
                 break;
         }
@@ -408,6 +412,9 @@ void StageObject::InitializeStageCharacter(int s) {
                 obj->SetInformation(stage11[i]);
                 obj->SetPosition(stage11_position[i]);
                 break;  
+            case 12:
+                obj->SetInformation(stage12[i]);
+                obj->SetPosition(stage12_position[i]);
             default:
                 break;
         }
@@ -540,8 +547,6 @@ bool StageObject::CheckAppearance(int s, int now_stage, bool ifShuffle) {
         if (obj && !obj->GetAppearBool()) flag = true;
     }
 
-    
-
     CheckObstaclesDisappear(ifShuffle);
     // cout<<"flag: "<<flag<<endl;
 
@@ -554,9 +559,13 @@ bool StageObject::CheckAppearance(int s, int now_stage, bool ifShuffle) {
         auto result = CheckShuffleDemands();
         if (result.first == -1 && result.second == -1) {
             std::cout << "SHUFFLE\n";
-            ShuffleStageCharacter(now_stage);
-            CheckAppearance(s, now_stage, true);
-            AppearAll();
+            if ( s == 0 || ifShuffle ) {
+                ShuffleStageCharacter(now_stage);
+                CheckAppearance(s, now_stage, true);
+                AppearAll();
+            }
+            else 
+                currentPhase = PHASE_SHUFFLE;
         } else {
             std::cout << "Swap between " << result.first << " and " << result.second << std::endl;
         }
@@ -848,6 +857,11 @@ void StageObject::GoalUpdate( int i ) {
                 stage_goal_counter[11]--;
             }
             break;
+        case 12:
+            if ( m_Stage_Object[i]->GetCurrentType() == RAINBOWBALL_OBJECT ) {
+                stage_goal_counter[12]--;
+            }
+            
         default:
             break;
     }
@@ -1609,7 +1623,7 @@ void StageObject::Dropping_method( const int current_position ) {
         m_Stage_Object[current_position] = m_Stage_Object[next_position];
         m_Stage_Object[next_position] = NewObject;
         m_Stage_Object[current_position]->SetAppearBool( flag );
-
+        
         Dropping_method( next_position );
     }
 

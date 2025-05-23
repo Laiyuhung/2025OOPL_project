@@ -34,6 +34,16 @@ void App::Stage( int stage_pos ) {
             }
         }
     }
+    else if ( currentPhase == PHASE_SHUFFLE ){
+        m_Show_Text->SetVisible( true );
+        if ( (std::chrono::steady_clock::now() - startTime) >= std::chrono::seconds(3)) {
+            m_Stage_Object[stage_pos]->ShuffleStageCharacter( stage_pos );
+            m_Show_Text->SetVisible( false );
+            currentPhase = PHASE_NORMAL;
+        }
+        m_Stage_Object[stage_pos]->CheckAppearance(1, stage_pos, true);
+        m_Stage_Object[stage_pos]->AppearAll();
+    }
     else if ( (m_Text_Point->GetMove() <= 0 && stage_goal_counter[stage_pos] > 0) && currentPhase == PHASE_NORMAL ) {
         m_Stage_Object[stage_pos]->DisAppearAll();
         m_Text_Point->SetVisible( false );

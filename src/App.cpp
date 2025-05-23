@@ -19,6 +19,7 @@ void App::Start() {
     InitializeStage9();
     InitializeStage10();
     InitializeStage11();
+    InitializeStage12();
 
     startTime = std::chrono::steady_clock::now();
     m_Stage_Object.resize( 13 );
@@ -32,6 +33,12 @@ void App::Start() {
     m_Start_initial->SetPosition({0, -160.5f});
     m_Start_initial->SetZIndex(10);
     m_Root.AddChild(m_Start_initial);
+
+    m_Setting = std::make_shared<Character>(GA_RESOURCE_DIR "/Image/GameObject/setting.png");
+    m_Setting->SetPosition({0, -160.5f});
+    m_Setting->SetZIndex(10);
+    m_Setting->SetVisible( false );
+    m_Root.AddChild(m_Setting);
 
     m_Stage_Buttoms.resize(13);
     const std::vector<std::string> levelImages = {
@@ -67,6 +74,14 @@ void App::Start() {
     m_Text_Point->UpdateText();
     m_Text_Point->SetVisible(false);
     m_Root.AddChild(m_Text_Point);
+
+    m_Show_Text = std::make_shared<TaskText>();
+    m_Show_Text->Initial(0);
+    m_Show_Text->SetPosition({0, -52.5});
+    m_Show_Text->UpdateString("SHUFFLE!!!");
+    m_Show_Text->SetVisible(false);
+    m_Show_Text->SetZIndex( 30 );
+    m_Root.AddChild(m_Show_Text);
 
     m_End_Point = std::make_shared<TaskText>();
     m_End_Point->SetPosition({0, -52.5});
@@ -112,20 +127,27 @@ void App::Update() {
                 m_Tools[2]->Disappear();
 
                 int get_stage = PhaseHomePage(m_Stage_Buttoms);
-                if ( get_stage != 0 ){
+                if ( m_Setting->IfClick() ) {
+                    m_Jump_Page->SettingPage();
+                    m_Jump_Page->SetStatus( JUMP_SETTING );
+                }
+                else if ( get_stage != 0 ){
                     m_stage_pos = get_stage;
                     m_Jump_Page->PlayPage( m_stage_pos );
                     m_Jump_Page->SetStatus( JUMP_PLAY );
                 } 
                 if ( m_Jump_Page->ifClickWithPlayButtom() ) {
                     SetUpStage( m_stage_pos );
-                    if ( m_stage_pos >= 1 && m_stage_pos <= 11 ) { 
+                    if ( m_stage_pos >= 1 && m_stage_pos <= 12 ) { 
                         m_Stage_Object[m_stage_pos]->SetUp( m_stage_pos );
                         m_Stage_Object[m_stage_pos]->AppearAll();
                         m_Stage_Object[m_stage_pos]->SetStage( m_stage_pos );
                         m_Text_Point->Initial( m_stage_pos );
+                        m_Show_Text->Initial( m_stage_pos );
                         m_End_Point->Initial( m_stage_pos );
+                        m_Show_Text->UpdateString("SHUFFLE!!!");
                         m_End_Point->SetPosition( { 5 , -52.5 });
+                        m_Show_Text->SetPosition( {0, 250});
                         m_Jump_Page->AllDisappear();
                         if ( ifClear[7] ) {
                             m_Tools[1]->SetImage( MAGIC_STICK_IMAGE );
@@ -198,11 +220,11 @@ void App::Update() {
                             m_PRM->NextPhase(PHASE_STAGE_11);
                             m_Phase = Phase::STAGE_11;
                         }
-                        // else if ( m_stage_pos == 12 ) {
-                        //     std::cout << "Level12 Character clicked!" << std::endl;
-                        //     m_PRM->NextPhase(PHASE_STAGE_12);
-                        //     m_Phase = Phase::STAGE_12;
-                        // }
+                        else if ( m_stage_pos == 12 ) {
+                            std::cout << "Level12 Character clicked!" << std::endl;
+                            m_PRM->NextPhase(PHASE_STAGE_12);
+                            m_Phase = Phase::STAGE_12;
+                        }
                     }
                 }
                 if ( m_Jump_Page->ifClickWithInfoButtom() ) {
@@ -213,6 +235,11 @@ void App::Update() {
                     m_Jump_Page->AllDisappear();
                     m_Jump_Page->PlayPage( m_stage_pos );
                     m_Jump_Page->SetStatus( JUMP_PLAY );
+                }
+                else if ( m_Jump_Page->ifClickWithCancelButtom() && m_Jump_Page->GetStatus() == JUMP_SETTING ) {
+                    m_Jump_Page->AllDisappear();
+                    m_Jump_Page->SetStatus( JUMP_NORMAL );
+                    m_stage_pos = 0;
                 }
                 else if (m_Jump_Page->ifClickWithCancelButtom() && m_Jump_Page->GetStatus() == JUMP_PLAY ) {
                     m_Jump_Page->AllDisappear();
@@ -262,6 +289,9 @@ void App::Update() {
             break;
         case Phase::STAGE_11:
             Stage( 11 );
+            break;
+        case Phase::STAGE_12:
+            Stage( 12 );
             break;
         }
 

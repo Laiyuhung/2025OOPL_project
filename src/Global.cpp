@@ -100,7 +100,7 @@ glm::vec2 stage_goal_position[13] = {
     { -100 , 235 },
     { -100 , 235 },
     { -100 , 235 },
-    {-100000, -100000}
+    { -100 , 235 },
 };
 
 glm::vec2 point_position[13] = {
@@ -116,15 +116,15 @@ glm::vec2 point_position[13] = {
     { 5 , 185 },
     { 5 , 185 },
     { 5 , 185 },
-    {-100000, -100000}
+    { 5 , 185 },
 };
 
 int stage_point_goal[13] = {
-    0, 15, 15, 140, 160, 26, 35, 25, 8, 10, 10, 35, 40
+    0, 15, 15, 140, 160, 26, 35, 25, 8, 10, 10, 35, 3
 };
 
 int stage_goal_counter[13] = {
-    0, 15, 15, 140, 160, 26, 35, 25, 8, 10, 10, 35, 40
+    0, 15, 15, 140, 160, 26, 35, 25, 8, 10, 10, 35, 3
 };
 
 char stage_goal_type[13][30] = {
@@ -140,14 +140,14 @@ char stage_goal_type[13][30] = {
     "Create And Remove Any Stripes",
     "Create And Remove Any Stripes",
     "Remove Cookies",
-    ""
+    "Remove All Rainbowballs"
 
 };
 
 int stage_point_counter[13] = {0};
 
 int stage_moves[13] = {
-    0, 30, 30, 40, 40, 25, 40, 40, 50, 40, 40, 40, 40
+    0, 30, 30, 40, 40, 25, 40, 40, 50, 40, 40, 40, 50
 };
 
 bool ifClear[13] = {
@@ -162,7 +162,7 @@ bool ifClear[13] = {
     true,
     true,
     true,
-    false,
+    true,
     false
 };
 
@@ -1263,9 +1263,9 @@ int stage12_neibor[70][6]= {
 Objectinformation stage12[70];
 void InitializeStage12() {
     for ( int i = 0 ; i < 70 ; ++i ) {
-        stage12[i].SetNeibor( stage11_neibor[i] );
+        stage12[i].SetNeibor( stage12_neibor[i] );
         stage12[i].SetPosNumber( i );
-        stage12[i].SetPosition( stage11_position[i] );
+        stage12[i].SetPosition( stage12_position[i] );
         stage12[i].SetStage(12);
     }
 }

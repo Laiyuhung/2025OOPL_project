@@ -68,6 +68,13 @@ public:
         }
     }
 
+    void UpdateString( std::string s ) {
+        auto* temp = dynamic_cast<Util::Text*>(m_Drawable.get());
+        if (temp) {
+            temp->SetText( s );
+        }
+    }
+
 private:
     inline static std::string append_string_views(const std::string& sv1, const std::string& sv2) {
         return sv1 + "\n" + sv2;

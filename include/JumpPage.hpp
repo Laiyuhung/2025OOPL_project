@@ -40,30 +40,17 @@ class JumpPage : public Character {
             this->SetVisible( false );
         }
 
+        void SettingPage() {
+            m_Cancel_Buttom->SetVisible( true );
+            this->SetImage( GA_RESOURCE_DIR"/Image/Background/setting.png" );
+            this->SetVisible( true );
+            SetStatus( JUMP_SETTING );
+        }
+
         void InfoPage( int stage ) {
             m_Cancel_Buttom->SetVisible( true );
-            if ( stage == 1 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage1Info.png");
-            if ( stage == 2 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage2Info.png");
-            if ( stage == 3 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage3Info.png");
-            if ( stage == 4 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage4Info.png");
-            if ( stage == 5 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage5Info.png");
-            if ( stage == 6 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage6Info.png");
-            if ( stage == 7 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage7Info.png");
-            if ( stage == 8 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage8Info.png");
-            if ( stage == 9 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage9Info.png");
-            if ( stage == 10 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage10Info.png");
-            if ( stage == 11 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage11Info.png");
+            std::string path = "stage" + std::to_string( stage ) + "Info.png";
+            this->SetImage( GA_RESOURCE_DIR"/Image/Background/" + path );
             this->SetVisible( true );
             SetStatus( JUMP_INFO );
         }
@@ -72,28 +59,8 @@ class JumpPage : public Character {
             m_Play_Buttom->SetVisible( true );
             m_Cancel_Buttom->SetVisible( true );
             m_info_Buttom->SetVisible( true );
-            if ( stage == 1 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage1Start.png" );
-            else if ( stage == 2 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage2Start.png" );
-            else if ( stage == 3 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage3Start.png" );
-            else if ( stage == 4 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage4Start.png" );
-            else if ( stage == 5 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage5Start.png" );
-            else if ( stage == 6 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage6Start.png" );
-            else if ( stage == 7 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage7Start.png" );
-            else if ( stage == 8 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage8Start.png" );
-            else if ( stage == 9 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage9Start.png" );
-            else if ( stage == 10 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage10Start.png" );
-            else if ( stage == 11 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage11Start.png" );
+            std::string path = "stage" + std::to_string( stage ) + "Start.png";
+            this->SetImage( GA_RESOURCE_DIR"/Image/Background/" + path );
             this->SetVisible( true );
             SetStatus( JUMP_PLAY );
         }
@@ -101,29 +68,8 @@ class JumpPage : public Character {
         void EndPage( int stage ) {
             AllDisappear();
             m_Cancel_Buttom->SetVisible( true );
-            if ( stage == 1 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage1End.png" );
-            else if ( stage == 2 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage2End.png" );
-            else if ( stage == 3 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage3End.png" );
-            else if ( stage == 4 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage4End.png" );
-            else if ( stage == 5 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage5End.png" );
-            else if ( stage == 6 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage6End.png" );
-            else if ( stage == 7 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage7End.png" );
-            else if ( stage == 8 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage8End.png" );
-            else if ( stage == 9 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage9End.png" );
-            else if ( stage == 10 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage10End.png" );
-            else if ( stage == 11 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage11End.png" );
-            
+            std::string path = "stage" + std::to_string( stage ) + "End.png";
+            this->SetImage( GA_RESOURCE_DIR"/Image/Background/" + path );
             SetStatus( JUMP_END );
             this->SetVisible( true );
         }
@@ -131,29 +77,8 @@ class JumpPage : public Character {
         void FailPage( int stage ) {
             AllDisappear();
             m_Cancel_Buttom->SetVisible( true );
-            if ( stage == 1 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage1fail.png" );
-            else if ( stage == 2 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage2Fail.png" );
-            else if ( stage == 3 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage3Fail.png" );
-            else if ( stage == 4 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage4Fail.png" );
-            else if ( stage == 5 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage5Fail.png" );
-            else if ( stage == 6 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage6Fail.png" );
-            else if ( stage == 7 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage7Fail.png" );
-            else if ( stage == 8 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage8Fail.png" );
-            else if ( stage == 9 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage9Fail.png" );
-            else if ( stage == 10 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage10Fail.png" );
-            else if ( stage == 11 )
-                this->SetImage( GA_RESOURCE_DIR"/Image/Background/stage11Fail.png" );
-            
+            std::string path = "stage" + std::to_string( stage ) + "fail.png";
+            this->SetImage( GA_RESOURCE_DIR"/Image/Background/" + path );
             SetStatus( JUMP_END );
             this->SetVisible( true );
         }
@@ -198,8 +123,6 @@ private:
         std::shared_ptr<Character> m_Stop_Buttom;
         std::shared_ptr<Character> m_info_Buttom;
         inline std::string ImagePath(const std::string& phase) {
-            // std::cout<<"hihi"<<phase<<std::endl;
             return (GA_RESOURCE_DIR "/Image/Background/" + phase );
-
         }
 };

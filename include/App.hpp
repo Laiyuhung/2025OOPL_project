@@ -55,6 +55,7 @@ public:
         else if (stage == 9) size = 43;
         else if (stage == 10) size = 73;
         else if (stage == 11) size = 59;
+        else if (stage == 12) size = 69;
         
         if (m_Stage_Object.size() <= static_cast<size_t>(stage)) m_Stage_Object.resize(stage + 1);
         m_Stage_Object.at(stage) = std::make_shared<StageObject>(size);
@@ -81,18 +82,14 @@ public:
             stage_goal->SetImage( BROWN_NORMAL_OBJECT );
         else if ( stage == 3 || stage == 3 )
             stage_goal->SetImage( REACH_IMAGE );
-        else if ( stage == 5 || stage == 11 )
-            stage_goal->SetImage( COOKIE_ONE_IMAGE );
-        else if ( stage == 6 )
-            stage_goal->SetImage( COOKIE_ONE_IMAGE );
-        else if ( stage == 7 )
+        else if ( stage == 5 || stage == 6 || stage == 7 || stage == 11  )
             stage_goal->SetImage( COOKIE_ONE_IMAGE );
         else if ( stage == 8 )
             stage_goal->SetImage( WHITE_STARFLOWER_OBJECT );
-        else if ( stage == 9 )
+        else if ( stage == 9 || stage == 10 )
             stage_goal->SetImage( WHITE_STRIPE_OBJECT );
-        else if ( stage == 10 )
-            stage_goal->SetImage( WHITE_STRIPE_OBJECT );
+        else if ( stage == 12 )
+            stage_goal->SetImage( RAINBOWBALL_OBJECT_LINK );
 
         stage_goal->SetPosition(stage_goal_position[stage]);
         stage_goal->SetVisible(true);
@@ -123,6 +120,7 @@ public:
     void AppearHomePage() {
         m_BGM_Music.at(0)->Playing(GA_RESOURCE_DIR "/Music/springDayShadow.mp3");
         m_Text_Point->SetVisible(false);
+        m_Setting->SetVisible( true );
         for (size_t i = 1; i < m_Stage_Buttoms.size(); ++i) {
             if (ifClear[i]) m_Stage_Buttoms.at(i)->SetImage(ClearStageList[i]);
             else if (ifClear[i - 1]) m_Stage_Buttoms.at(i)->SetImage(CurrentStageList[i]);
@@ -153,6 +151,7 @@ private:
         STAGE_9 = 11,
         STAGE_10 = 12,
         STAGE_11 = 13,
+        STAGE_12 = 14,
     };
 
     State m_CurrentState = State::START;
@@ -161,6 +160,7 @@ private:
     Util::Renderer m_Root;
     std::vector<std::shared_ptr<Music>> m_BGM_Music;
     std::shared_ptr<Character> m_Start_initial;
+    std::shared_ptr<Character> m_Setting;
     std::vector<std::shared_ptr<Character>> m_Stage_Buttoms;
     std::vector<std::shared_ptr<StageObject>> m_Stage_Object;
     std::vector<std::shared_ptr<Item>> m_Tools;
@@ -168,6 +168,7 @@ private:
     std::shared_ptr<JumpPage> m_Jump_Page;
     std::shared_ptr<TaskText> m_Text_Point;
     std::shared_ptr<TaskText> m_End_Point;
+    std::shared_ptr<TaskText> m_Show_Text;
     std::shared_ptr<PhaseResourceManager> m_PRM;
 
     int m_stage_pos = 0;

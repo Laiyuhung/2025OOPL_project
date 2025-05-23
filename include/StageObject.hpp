@@ -79,7 +79,8 @@ public:
     void UseHammer(std::shared_ptr<Item> Tool);
     void UseMagicStick(std::shared_ptr<Item> Tool);
     void UseMagicGlove(std::shared_ptr<Item> Tool);
-
+    void ShuffleStageCharacter( int s );
+    
 protected:
     int m_Stage;
     int m_Size;
@@ -87,7 +88,6 @@ protected:
     std::shared_ptr<GameCharacter> m_Stage_Goal_Object_Show;
 
     void RandomChangeObject(int current_pos);
-    void ShuffleStageCharacter( int s );
     
     void MakeDisappearWithObject(int current_pos);
     void MakeDisappearWithStripe(int current_pos);

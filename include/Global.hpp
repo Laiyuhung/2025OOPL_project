@@ -15,12 +15,14 @@
 #define PHASE_STAGE_9 11
 #define PHASE_STAGE_10 12
 #define PHASE_STAGE_11 13
+#define PHASE_STAGE_12 14
 
 #define JUMP_NORMAL 0
 #define JUMP_PLAY 1
 #define JUMP_END 2
 #define JUMP_PAUSE 3
 #define JUMP_INFO 4
+#define JUMP_SETTING 5
 
 
 #define NO_MOVE 0
@@ -56,6 +58,10 @@
 #define HAMMER 0
 #define MAGIC_STICK 1
 #define GLOVES 2
+
+#define ON_IMAGE GA_RESOURCE_DIR"/Image/GameObject/on.png"
+#define OFF_IMAGE GA_RESOURCE_DIR"/Image/GameObject/off.png"
+#define SETTING GA_RESOURCE_DIR"/Image/Background/setting.png"
 
 #define HAMMER_IMAGE GA_RESOURCE_DIR"/Image/GameObject/item1.png"
 #define MAGIC_STICK_IMAGE GA_RESOURCE_DIR"/Image/GameObject/item2.png"
@@ -219,6 +225,10 @@ extern glm::vec2 stage11_position[60];
 extern int stage11_neibor[60][6];
 extern Objectinformation stage11[60];
 
+extern glm::vec2 stage12_position[70];
+extern int stage12_neibor[70][6];
+extern Objectinformation stage12[70];
+
 extern std::set<int> one_layer_7;
 extern std::set<int> two_layer_7;
 
@@ -253,13 +263,15 @@ void InitializeStage8();
 void InitializeStage9();
 void InitializeStage10();
 void InitializeStage11();
+void InitializeStage12();
 
 
 enum GamePhase {
     PHASE_NORMAL,
     PHASE_PAUSE_FOR_DISAPPEAR,
     PHASE_DROPPING,
-    PHASE_ITEM_USED
+    PHASE_ITEM_USED,
+    PHASE_SHUFFLE,
 };
 
 extern GamePhase currentPhase;

@@ -55,7 +55,7 @@ void PhaseResourceManager::NextPhase(int Phase) {
             break;
 
         case PHASE_STAGE_9:
-            m_Background->NextImage("twelfth.png");
+            m_Background->NextImage("ninth.png");
             m_Phase = Phase;
             break;
         case PHASE_STAGE_10:
@@ -64,6 +64,10 @@ void PhaseResourceManager::NextPhase(int Phase) {
             break;
         case PHASE_STAGE_11:
             m_Background->NextImage("eleventh.png");
+            m_Phase = Phase;
+            break;
+        case PHASE_STAGE_12:
+            m_Background->NextImage("twelfth.png");
             m_Phase = Phase;
             break;
     }
