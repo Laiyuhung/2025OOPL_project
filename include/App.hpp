@@ -120,7 +120,7 @@ public:
     void AppearHomePage() {
         m_BGM_Music.at(0)->Playing(GA_RESOURCE_DIR "/Music/springDayShadow.mp3");
         m_Text_Point->SetVisible(false);
-        // m_Setting->SetVisible( true );
+        m_Setting->SetVisible( true );
         for (size_t i = 1; i < m_Stage_Buttoms.size(); ++i) {
             if (ifClear[i]) m_Stage_Buttoms.at(i)->SetImage(ClearStageList[i]);
             else if (ifClear[i - 1]) m_Stage_Buttoms.at(i)->SetImage(CurrentStageList[i]);
