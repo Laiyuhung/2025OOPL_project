@@ -551,9 +551,14 @@ bool StageObject::CheckAppearance(int s, int now_stage, bool ifShuffle) {
     // cout<<"flag: "<<flag<<endl;
 
     if (flag || currentPhase == PHASE_ITEM_USED ) {
-        MakeDisappear();
-        if (s == 0 || ifShuffle)
+        if ( currentPhase == PHASE_NORMAL ) {
+            startTime = std::chrono::steady_clock::now();
+            currentPhase = PHASE_BEFORE_DISAPPEAR;
+        }
+        if (s == 0 || ifShuffle) {
+            MakeDisappear();
             Dropping(s, now_stage, ifShuffle);
+        }
     } else {
         for (auto& obj : m_Stage_Object) if (obj) obj->SetSwitched(0);
         auto result = CheckShuffleDemands();
@@ -654,7 +659,7 @@ void StageObject::CheckSpecialObject(int i) {
 }
 
 void StageObject::MakeDisappear() {
-    if (m_Stage != 0 && currentPhase != PHASE_NORMAL && currentPhase != PHASE_ITEM_USED)
+    if (m_Stage != 0 && currentPhase != PHASE_NORMAL && currentPhase != PHASE_ITEM_USED && currentPhase != PHASE_BEFORE_DISAPPEAR)
         return;
     
     for (size_t i = 1; i < m_Stage_Object.size(); ++i) {

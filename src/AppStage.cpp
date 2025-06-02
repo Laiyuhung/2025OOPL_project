@@ -50,6 +50,13 @@ void App::Stage( int stage_pos ) {
         ifClear[stage_pos] = false;
         m_Jump_Page->FailPage( stage_pos );
     }
+    else if ( currentPhase == PHASE_BEFORE_DISAPPEAR ) {
+        if ( (std::chrono::steady_clock::now() - startTime) >= std::chrono::seconds(1)) {
+            currentPhase = PHASE_NORMAL;
+            m_Stage_Object[stage_pos]->MakeDisappear();
+        }
+        m_Root.Update();
+    }
     else if ( currentPhase == PHASE_PAUSE_FOR_DISAPPEAR ) {
         if ( (std::chrono::steady_clock::now() - startTime) >= std::chrono::seconds(1)) {
             currentPhase = PHASE_DROPPING;
