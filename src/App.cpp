@@ -165,65 +165,10 @@ void App::Update() {
                             m_Tools[0]->Appear();
                         }
                         currentPhase = PHASE_NORMAL;
-                        if ( m_stage_pos == 1  ) {
-                            std::cout << "Level1 Character clicked!" << std::endl;
-                            m_PRM->NextPhase(PHASE_STAGE_1);
-                            m_Phase = Phase::STAGE_1;
-                        }
-                        else if ( m_stage_pos == 2 ) {
-                            std::cout << "Level2 Character clicked!" << std::endl;
-                            m_PRM->NextPhase(PHASE_STAGE_2);
-                            m_Phase = Phase::STAGE_2;
-                        }
-                        else if ( m_stage_pos == 3 ) {
-                            std::cout << "Level3 Character clicked!" << std::endl;
-                            m_PRM->NextPhase(PHASE_STAGE_3);
-                            m_Phase = Phase::STAGE_3;
-                        }
-                        else if ( m_stage_pos == 4 ) {
-                            std::cout << "Level4 Character clicked!" << std::endl;
-                            m_PRM->NextPhase(PHASE_STAGE_4);
-                            m_Phase = Phase::STAGE_4;
-                        }
-                        else if ( m_stage_pos == 5 ) {
-                            std::cout << "Level5 Character clicked!" << std::endl;
-                            m_PRM->NextPhase(PHASE_STAGE_5);
-                            m_Phase = Phase::STAGE_5;
-                        }
-                        else if ( m_stage_pos == 6 ) {
-                            std::cout << "Level6 Character clicked!" << std::endl;
-                            m_PRM->NextPhase(PHASE_STAGE_6);
-                            m_Phase = Phase::STAGE_6;
-                        }
-                        else if ( m_stage_pos == 7 ) {
-                            std::cout << "Level7 Character clicked!" << std::endl;
-                            m_PRM->NextPhase(PHASE_STAGE_7);
-                            m_Phase = Phase::STAGE_7;
-                        }
-                        else if ( m_stage_pos == 8 ) {
-                            std::cout << "Level8 Character clicked!" << std::endl;
-                            m_PRM->NextPhase(PHASE_STAGE_8);
-                            m_Phase = Phase::STAGE_8;
-                        }
-                        else if ( m_stage_pos == 9 ) {
-                            std::cout << "Level9 Character clicked!" << std::endl;
-                            m_PRM->NextPhase(PHASE_STAGE_9);
-                            m_Phase = Phase::STAGE_9;
-                        }
-                        else if ( m_stage_pos == 10 ) {
-                            std::cout << "Level10 Character clicked!" << std::endl;
-                            m_PRM->NextPhase(PHASE_STAGE_10);
-                            m_Phase = Phase::STAGE_10;
-                        }
-                        else if ( m_stage_pos == 11 ) {
-                            std::cout << "Level11 Character clicked!" << std::endl;
-                            m_PRM->NextPhase(PHASE_STAGE_11);
-                            m_Phase = Phase::STAGE_11;
-                        }
-                        else if ( m_stage_pos == 12 ) {
-                            std::cout << "Level12 Character clicked!" << std::endl;
-                            m_PRM->NextPhase(PHASE_STAGE_12);
-                            m_Phase = Phase::STAGE_12;
+                        if (m_stage_pos >= 1 && m_stage_pos <= 12) {
+                            std::cout << "Level" << m_stage_pos << " Character clicked!" << std::endl;
+                            m_PRM->NextPhase(static_cast<PhaseType>(PHASE_STAGE_1 + (m_stage_pos - 1)));
+                            m_Phase = static_cast<Phase>(Phase::STAGE_1 + (m_stage_pos - 1));
                         }
                     }
                 }
@@ -250,48 +195,18 @@ void App::Update() {
             break;
 
         case Phase::STAGE_1:
-            Stage( 1 );
-            break;
-
         case Phase::STAGE_2:
-            Stage( 2 );
-            break;
-
         case Phase::STAGE_3:
-            Stage( 3 );
-            break;
-
         case Phase::STAGE_4:
-            Stage( 4 );
-            break;
-
         case Phase::STAGE_5:
-            Stage( 5 );
-            break;
-
         case Phase::STAGE_6:
-            Stage( 6 );
-            break;
-        
         case Phase::STAGE_7:
-            Stage( 7 );
-            break;
-        
         case Phase::STAGE_8:
-            Stage( 8 );
-            break;
-
         case Phase::STAGE_9:
-            Stage( 9 );
-            break;
         case Phase::STAGE_10:
-            Stage( 10 );
-            break;
         case Phase::STAGE_11:
-            Stage( 11 );
-            break;
         case Phase::STAGE_12:
-            Stage( 12 );
+            Stage(static_cast<int>(m_Phase) - static_cast<int>(Phase::STAGE_1) + 1);
             break;
         }
 
