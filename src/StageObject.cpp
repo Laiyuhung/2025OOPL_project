@@ -81,7 +81,7 @@ void StageObject::ShuffleStageCharacter( int s ) {
             obj->SetCurrentType(ONE_LAYER_COOKIE_OBJECT);
             continue;
         } 
-        if (s == 6 && m_Size - i <= 35 && obj->GetCurrentType() != NORMAL_OBJECT) {
+        if (s == 6 && m_Size - i < 35 && obj->GetCurrentType() != NORMAL_OBJECT) {
             if ( obj->GetCurrentType() == ONE_LAYER_COOKIE_OBJECT ) {
                 obj->SetImage(COOKIE_ONE_IMAGE);
                 obj->SetBlock(NO_COLOR);
@@ -286,7 +286,7 @@ void StageObject::InitializeStageCharacter(int s) {
             obj->SetCurrentType(ONE_LAYER_COOKIE_OBJECT);
             continue;
         } 
-        if (s == 6 && m_Size - i <= 35) {
+        if (s == 6 && m_Size - i < 35) {
             obj->SetImage(COOKIE_TWO_IMAGE);
             obj->SetBlock(NO_COLOR);
             obj->SetInformation(stage6[i]);
