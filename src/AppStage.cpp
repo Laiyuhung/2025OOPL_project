@@ -66,9 +66,9 @@ void App::Stage( int stage_pos ) {
     else if ( currentPhase == PHASE_DROPPING ) {
         m_Stage_Object[stage_pos]->Dropping( stage_pos , stage_pos , false );
         m_Text_Point->SetPoint( stage_point_counter[stage_pos] );
-        m_Text_Point->SetGoal( stage_goal_counter[stage_pos] );
         if ( stage_pos != 3 && stage_pos != 4 )
-            m_Text_Point->UpdateText();
+            m_Text_Point->SetGoal( stage_goal_counter[stage_pos] );
+        m_Text_Point->UpdateText();
     }
     if ( m_Jump_Page->ifClickWithPauseButtom() ) {
         m_Jump_Page->PausePage();
