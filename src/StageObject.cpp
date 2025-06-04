@@ -551,7 +551,7 @@ bool StageObject::CheckAppearance(int s, int now_stage, bool ifShuffle) {
     // cout<<"flag: "<<flag<<endl;
 
     if (flag || currentPhase == PHASE_ITEM_USED ) {
-        if ( currentPhase == PHASE_NORMAL ) {
+        if ( currentPhase == PHASE_NORMAL || currentPhase == PHASE_ITEM_USED ) {
             startTime = std::chrono::steady_clock::now();
             currentPhase = PHASE_BEFORE_DISAPPEAR;
         }
