@@ -268,6 +268,7 @@ void InitializeStage12();
 
 enum GamePhase {
     PHASE_NORMAL,
+    PHASE_BEFORE_DISAPPEAR,
     PHASE_PAUSE_FOR_DISAPPEAR,
     PHASE_DROPPING,
     PHASE_ITEM_USED,
