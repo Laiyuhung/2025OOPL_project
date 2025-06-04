@@ -68,6 +68,8 @@ void App::Start() {
     m_Root.AddChild(m_Jump_Page->GetContinueButtom());
     m_Root.AddChild(m_Jump_Page->GetInfoButtom());
     m_Root.AddChild(m_Jump_Page->GetBGMButtom());
+    m_Root.AddChild(m_Jump_Page->GetCheatButtom());
+
 
     m_Text_Point = std::make_shared<TaskText>();
     m_Text_Point->SetPosition({-125, 210});
@@ -123,16 +125,12 @@ void App::Update() {
             break;
         case Phase::HOME_PAGE:
             {
-                m_Tools[0]->Disappear();
-                m_Tools[1]->Disappear();
-                m_Tools[2]->Disappear();
-
                 int get_stage = PhaseHomePage(m_Stage_Buttoms);
                 if ( m_Setting->IfClick() ) {
                     m_Jump_Page->SettingPage();
                     m_Jump_Page->SetStatus( JUMP_SETTING );
                 }
-                else if ( get_stage != 0 && m_Jump_Page->GetStatus() == JUMP_NORMAL ) {
+                else if ( get_stage != 0 && m_Jump_Page->GetStatus() != JUMP_SETTING ) {
                     m_stage_pos = get_stage;
                     m_Jump_Page->PlayPage( m_stage_pos );
                     m_Jump_Page->SetStatus( JUMP_PLAY );
@@ -148,7 +146,22 @@ void App::Update() {
                         m_Jump_Page->SetBGM(true);
                     }
                 }
-                else if ( m_Jump_Page->ifClickWithPlayButtom() && m_Jump_Page->GetStatus() == JUMP_NORMAL) {
+                if ( m_Jump_Page->GetStatus() == JUMP_SETTING && m_Jump_Page->ifClickWithCheat() ) {
+                    if ( m_Jump_Page->ifCheat() ) {
+                        for ( int i = 0 ; i < 3 ; ++i ) {
+                            m_Tools.at(i)->SetCheat( i , item_num[i] );
+                        }
+                        m_Jump_Page->GetCheatButtom()->SetImage( OFF_IMAGE );
+                        m_Jump_Page->SetCheat(false);
+                    } else {
+                        for ( int i = 0 ; i < 3 ; ++i ) {
+                            m_Tools.at(i)->SetCheat( i , 100 );
+                        }
+                        m_Jump_Page->GetCheatButtom()->SetImage( ON_IMAGE );
+                        m_Jump_Page->SetCheat(true);
+                    }
+                }
+                if ( m_Jump_Page->ifClickWithPlayButtom() ) {
                     SetUpStage( m_stage_pos );
                     if ( m_stage_pos >= 1 && m_stage_pos <= 12 ) { 
                         m_Stage_Object[m_stage_pos]->SetUp( m_stage_pos );
@@ -161,21 +174,22 @@ void App::Update() {
                         m_End_Point->SetPosition( { 5 , -52.5 });
                         m_Show_Text->SetPosition( {0, 250});
                         m_Jump_Page->AllDisappear();
-                        if ( ifClear[7] ) {
+                        if ( ifClear[7] || m_Jump_Page->ifCheat()) {
                             m_Tools[1]->SetImage( MAGIC_STICK_IMAGE );
                             m_Tools[1]->UnClick();
                             m_Tools[1]->Appear();
                         }
-                        if ( ifClear[8] ) {
+                        if ( ifClear[8] || m_Jump_Page->ifCheat() ) {
                             m_Tools[2]->SetImage( GLOVES_IMAGE );
                             m_Tools[2]->UnClick();
                             m_Tools[2]->Appear();
                         } 
-                        if ( ifClear[9] ) {
+                        if ( ifClear[9] || m_Jump_Page->ifCheat() ) {
                             m_Tools[0]->SetImage( HAMMER_IMAGE );
                             m_Tools[0]->UnClick();
                             m_Tools[0]->Appear();
                         }
+
                         currentPhase = PHASE_NORMAL;
                         if ( m_stage_pos == 1  ) {
                             std::cout << "Level1 Character clicked!" << std::endl;

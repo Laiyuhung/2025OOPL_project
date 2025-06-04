@@ -86,6 +86,9 @@ void App::Stage( int stage_pos ) {
         stage_point_counter[stage_pos] = 0;
         m_stage_pos = 0;
         m_Text_Point->SetVisible( false );
+        for ( int i = 0 ; i < 3 ; ++i ) {
+            m_Tools.at(i)->Disappear();
+        }
     }
     if ( m_Jump_Page->ifClickWithCancelButtomInEnd() ) {
         m_Jump_Page->AllDisappear();
@@ -96,5 +99,8 @@ void App::Stage( int stage_pos ) {
         AppearHomePage();
         stage_point_counter[stage_pos] = 0;
         m_stage_pos = 0;
+        for ( int i = 0 ; i < 3 ; ++i ) {
+            m_Tools.at(i)->Disappear();
+        }
     }
 }

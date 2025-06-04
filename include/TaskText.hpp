@@ -25,6 +25,7 @@ public:
         this->SetPosition( point_position[stage] );
         this->UpdateText();
     }
+    bool GetVisibility() const { return m_Visible; }
 
     void SetPosition(const glm::vec2& Position) { m_Transform.translation = Position; }
 

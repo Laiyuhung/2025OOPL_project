@@ -31,14 +31,19 @@ JumpPage::JumpPage(const std::string& ImagePath)
             m_Continue_Buttom->SetVisible(false);
         
             m_Stop_Buttom = std::make_shared<Character>( GA_RESOURCE_DIR"/Image/GameObject/stopButtom.png" );
-            m_Stop_Buttom->SetPosition( {0 , -30} );
+            m_Stop_Buttom->SetPosition( {0 , -20} );
             m_Stop_Buttom->SetZIndex( 14 );
             m_Stop_Buttom->SetVisible(false);
 
             m_BGM_Buttom = std::make_shared<Character>( GA_RESOURCE_DIR"/Image/GameObject/on.png" );
-            m_BGM_Buttom->SetPosition( {0 , -30} );
+            m_BGM_Buttom->SetPosition( {0 , 50} );
             m_BGM_Buttom->SetZIndex( 31 );
             m_BGM_Buttom->SetVisible(false);
+
+            m_Cheat_Buttom = std::make_shared<Character>( GA_RESOURCE_DIR"/Image/GameObject/off.png" );
+            m_Cheat_Buttom->SetPosition( {0 , -50} );
+            m_Cheat_Buttom->SetZIndex( 31 );
+            m_Cheat_Buttom->SetVisible(false);
 
         }
 
