@@ -563,7 +563,7 @@ bool StageObject::CheckAppearance(int s, int now_stage, bool ifShuffle) {
         for (auto& obj : m_Stage_Object) if (obj) obj->SetSwitched(0);
         auto result = CheckShuffleDemands();
         if (result.first == -1 && result.second == -1) {
-            std::cout << "SHUFFLE\n";
+            // std::cout << "SHUFFLE\n";
             if ( s == 0 || ifShuffle ) {
                 ShuffleStageCharacter(now_stage);
                 CheckAppearance(s, now_stage, true);
@@ -717,7 +717,6 @@ void StageObject::MakeDisappear() {
     for (size_t i = 1; i < m_Stage_Object.size(); ++i) {
         if (!m_Stage_Object[i]->GetAppearBool()) {
             PointUpdate(GetPoint() + 1);
-            printf( "Current Type %d Type %d\n" , m_Stage_Object[i]->GetCurrentType(), m_Stage_Object[i]->GetType() );
             GoalUpdate(static_cast<int>(i));
         }
     }
@@ -1060,7 +1059,7 @@ void StageObject::MakeDisappearWithStripeFlower( int current_pos ) {
                     if ( m_Stage_Object[i]->GetInformationNeibor()[5]%(m_Size+1) != -1 )
                         MakeDisappearWithStripeInRightLeft( m_Stage_Object[i]->GetInformationNeibor()[5]%(m_Size+1) );
                     i = m_Stage_Object[i]->GetInformationNeibor()[1]%(m_Size+1);
-                    cout << "test\n";
+                    
                 }
                 if ( m_Stage_Object[j]->GetInformationNeibor()[4]%(m_Size+1) != -1 ) {
                     cout << j << endl;
@@ -1075,13 +1074,11 @@ void StageObject::MakeDisappearWithStripeFlower( int current_pos ) {
                     if ( m_Stage_Object[j]->GetInformationNeibor()[5]%(m_Size+1) != -1 )
                         MakeDisappearWithStripeInRightLeft( m_Stage_Object[j]->GetInformationNeibor()[5]%(m_Size+1) );
                     j = m_Stage_Object[j]->GetInformationNeibor()[4]%(m_Size+1);
-                    cout << "test\n";
+                    
                 }
                 break;
             case 2:
-                cout << i << endl;
                 if ( m_Stage_Object[i]->GetInformationNeibor()[2]%(m_Size+1) != -1 ) {
-                    cout << "i " << i << endl;
                     MakeDisappearWithObject( m_Stage_Object[i]->GetInformationNeibor()[2]%(m_Size+1) );
 
                     if ( m_Stage_Object[i]->GetInformationNeibor()[0]%(m_Size+1) != -1 )
@@ -1093,10 +1090,9 @@ void StageObject::MakeDisappearWithStripeFlower( int current_pos ) {
                     if ( m_Stage_Object[i]->GetInformationNeibor()[4]%(m_Size+1) != -1 )
                         MakeDisappearWithStripeInLeftRight( m_Stage_Object[i]->GetInformationNeibor()[4]%(m_Size+1) );
                     i = m_Stage_Object[i]->GetInformationNeibor()[2]%(m_Size+1);
-                    cout << "test\n";
+                    
                 }
                 if ( m_Stage_Object[j]->GetInformationNeibor()[5]%(m_Size+1) != -1 ) {
-                    cout << "i " << i << endl;
                     MakeDisappearWithObject( m_Stage_Object[j]->GetInformationNeibor()[5]%(m_Size+1) );
 
                     if ( m_Stage_Object[j]->GetInformationNeibor()[0]%(m_Size+1) != -1 )
@@ -1108,7 +1104,7 @@ void StageObject::MakeDisappearWithStripeFlower( int current_pos ) {
                     if ( m_Stage_Object[j]->GetInformationNeibor()[4]%(m_Size+1) != -1 )
                         MakeDisappearWithStripeInLeftRight( m_Stage_Object[j]->GetInformationNeibor()[4]%(m_Size+1) );
                     j = m_Stage_Object[j]->GetInformationNeibor()[5]%(m_Size+1);
-                    cout << "test\n";
+                    
                 }
                 break;
             default:
@@ -1436,7 +1432,7 @@ int StageObject::DisappearMethodOfStripe( int current_pos, int* total_length, in
                 if (total_length[j] > 0)
                     DisappearBySingleObject( m_Stage_Object[current_pos]->GetInformationNeibor()[j]%(m_Size+1), j, total_length[j]-1);
 
-                cout << "Stripe 0" << endl;
+                cout << "Stripe" << endl;
                 return 0;
             }
 
@@ -1708,8 +1704,6 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
         if( m_Stage_Object[i]->GetInformationNeibor()[j]%(m_Size+1) == check && m_Stage_Object[i]->GetInformationNeibor()[j] <= m_Size && m_Stage_Object[check]->GetInformationNeibor()[j] <= m_Size) {
             m_Stage_Object[i]->SetSwitched(2);
             m_Stage_Object[check]->SetSwitched(2);
-            std::cout<<"pos: "<<i<<"  "<<check<<std::endl;
-            std::cout<<"set SetSwitched to 2"<<std::endl;
             m_Stage_Object[i]->SwitchPosition( m_Stage_Object[check] );
             std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[check];
             m_Stage_Object[check] = m_Stage_Object[i];
@@ -1718,19 +1712,16 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
             if ( m_Stage_Object[check]->GetCurrentType() == RAINBOWBALL_OBJECT ) {
                 m_Stage_Object[check]->SetBlock( m_Stage_Object[i]->GetBlockType() );
                 m_Stage_Object[check]->SetBlockType( m_Stage_Object[i]->GetCurrentType() );
-                cout<<"find rainbow ball"<<endl;
             }
             if ( m_Stage_Object[i]->GetCurrentType() == RAINBOWBALL_OBJECT ) {
                 m_Stage_Object[i]->SetBlock( m_Stage_Object[check]->GetBlockType() ); //color
                 m_Stage_Object[i]->SetBlockType( m_Stage_Object[check]->GetCurrentType() );
-                cout<<"find rainbow ball"<<endl;
             }
 
             // flower + flower
             if ( m_Stage_Object[check]->GetCurrentType() >= FLOWER_OBJECT && m_Stage_Object[check]->GetCurrentType() <= TRIANGLEFLOWER_OBJECT && m_Stage_Object[i]->GetCurrentType() >= FLOWER_OBJECT && m_Stage_Object[i]->GetCurrentType() <= TRIANGLEFLOWER_OBJECT ) {
                 m_Stage_Object[i]->SetCurrentType( FLOWER_COMBINED_OBJECT );
                 m_Stage_Object[check]->SetCurrentType( FLOWER_COMBINED_OBJECT );
-                cout<<"find flower combined"<<endl;
             }
 
             //to be opt.
@@ -1740,7 +1731,6 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
                 m_Stage_Object[check]->SetBlockType( m_Stage_Object[check]->GetCurrentType());
                 m_Stage_Object[check]->SetCurrentType( FLOWER_STRIPE_OBJECT );
                 m_Stage_Object[i]->SetCurrentType( NORMAL_OBJECT );
-                cout<<"find flower stripe"<<endl;
             }
 
             //to be opt.
@@ -1750,17 +1740,14 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
                 m_Stage_Object[check]->SetBlockType( NORMAL_OBJECT);
                 m_Stage_Object[i]->SetCurrentType( FLOWER_STRIPE_OBJECT );
                 m_Stage_Object[check]->SetCurrentType( NORMAL_OBJECT );
-                cout<<"find flower stripe"<<endl;
             }
 
-            //to be opt.
             // stripe + stripe
             if ( m_Stage_Object[check]->GetCurrentType() >= STRIPE_OBJECT && m_Stage_Object[check]->GetCurrentType() <= STRIPE_RIGHT_LEFT_OBJECT &&  m_Stage_Object[i]->GetCurrentType() >= STRIPE_OBJECT && m_Stage_Object[i]->GetCurrentType() <= STRIPE_RIGHT_LEFT_OBJECT   ) {
                 m_Stage_Object[i]->SetBlockType( m_Stage_Object[i]->GetCurrentType());
                 m_Stage_Object[check]->SetBlockType( m_Stage_Object[check]->GetCurrentType());
                 m_Stage_Object[check]->SetCurrentType( STRIPE_COMBINED_OBJECT );
                 m_Stage_Object[i]->SetCurrentType( STRIPE_COMBINED_OBJECT );
-                cout<<"find stripe combined"<<endl;
             }
 
             //all check but no disappear
@@ -1775,7 +1762,6 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
             }
             point->SetPoint( stage_point_counter[m_Stage] );
             point->UpdateText();
-            // std::cout<<"moves left: "<<GetMovesLeft()<<std::endl;
             break;
         }
     }
@@ -1954,7 +1940,6 @@ void StageObject::UseMagicGlove(std::shared_ptr<Item> Tool) {
                 objectArray.at(0)->SetVisible(true);
                 is_click = i;
             } else {
-                std::cout << "test_else\n";
                 objectArray.at(0)->SetVisible(false);
                 if (is_click == i) {
                     is_click = 0;

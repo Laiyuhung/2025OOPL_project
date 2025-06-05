@@ -26,10 +26,6 @@ int PhaseHomePage(const std::vector<std::shared_ptr<Character>>& buttoms) {
 
 bool PhaseStage(std::shared_ptr<StageObject> StageObject, int size, std::shared_ptr<TaskText> point, int stage, std::vector<std::shared_ptr<Item>> Tools ) {
     auto objectArray = StageObject->GetStageObject();
-    // if ( stage == 9 ) {
-    //     DebugModeOfPosition( objectArray , 2 );
-    //     return false;
-    // }
     if ( currentPhase == PHASE_ITEM_USED ) {
         for ( int i = 0 ; i < 3 ; ++i ) {
             if ( Tools.at(i)->ifClickInUse() && Tools.at(i)->Click() ) {
@@ -62,7 +58,6 @@ bool PhaseStage(std::shared_ptr<StageObject> StageObject, int size, std::shared_
                 Tools.at(i)->SetImage( GA_RESOURCE_DIR"/Image/GameObject/item1Click.png");
             }
             Tools.at(i)->SetClick();
-            // printf( "Is Click in %d\n" , i );
             currentPhase = PHASE_ITEM_USED;
             return false;
         }
@@ -76,14 +71,11 @@ bool PhaseStage(std::shared_ptr<StageObject> StageObject, int size, std::shared_
                 objectArray.at(i)->GetCurrentType() == TWO_LAYER_COOKIE_OBJECT)
                 continue;
 
-            // std::cout << "which click: " << objectArray.at(i)->GetInformationPosNumber() << std::endl;
-            
             if (is_click == 0) {
                 objectArray.at(0)->SetPosition(objectArray.at(i)->GetInformationPosition());
                 objectArray.at(0)->SetVisible(true);
                 is_click = i;
             } else {
-                std::cout << "test_else\n";
                 objectArray.at(0)->SetVisible(false);
                 if (is_click == i) {
                     is_click = 0;
@@ -95,7 +87,7 @@ bool PhaseStage(std::shared_ptr<StageObject> StageObject, int size, std::shared_
             }
         }
     }
-    return stage_goal_counter[stage] <= 0;
+    return stage_goal_counter[stage] <= 0 && currentPhase == PHASE_NORMAL;
 }
 
 void DebugPhaseStage1(std::vector<std::shared_ptr<GameCharacter>>& objectArray) {
