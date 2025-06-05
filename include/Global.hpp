@@ -2,6 +2,11 @@
 #define GLOBAL_HPP
 
 #pragma once
+
+#define WAIT_FOR_SECOND(x) (std::chrono::steady_clock::now() - startTime) >= std::chrono::seconds(x)
+#define ADD(x) m_Root.AddChild(x)
+
+
 #define PHASE_INITIAL_IMAGE 1
 #define PHASE_HOME_PAGE 2
 #define PHASE_STAGE_1 3
@@ -264,6 +269,7 @@ void InitializeStage9();
 void InitializeStage10();
 void InitializeStage11();
 void InitializeStage12();
+void InitializeStages();
 
 
 enum GamePhase {

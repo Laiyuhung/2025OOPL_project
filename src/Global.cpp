@@ -1269,3 +1269,18 @@ void InitializeStage12() {
         stage12[i].SetStage(12);
     }
 }
+
+void InitializeStages() {
+    InitializeStage1();
+    InitializeStage2();
+    InitializeStage3();
+    InitializeStage4();
+    InitializeStage5();
+    InitializeStage6();
+    InitializeStage7();
+    InitializeStage8();
+    InitializeStage9();
+    InitializeStage10();
+    InitializeStage11();
+    InitializeStage12();
+}

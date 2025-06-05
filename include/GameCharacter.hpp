@@ -34,17 +34,7 @@ public:
     void DisAppear() {
         this->SetVisible(false);
     }
-    void Drop(glm::vec2 MoveVector = {0 , 1}, glm::vec2 GoalPosition = {0, 0}) {
-        while (true) {
-            glm::vec2 NextPos = this->GetPosition();
-            if (NextPos.y == GoalPosition.y && NextPos.x == GoalPosition.x) {
-                return;
-            }
-            NextPos.x += MoveVector.x;
-            NextPos.y += MoveVector.y;
-            this->SetPosition(NextPos);
-        }
-    }
+    
     void DebugMode(float Speed) {
         glm::vec2 NextPos = this->GetPosition();
         if (Util::Input::IsKeyDown(Util::Keycode::UP) )
