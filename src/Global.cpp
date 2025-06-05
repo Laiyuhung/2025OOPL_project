@@ -152,9 +152,9 @@ int stage_moves[13] = {
 
 bool ifClear[13] = {
     true,
-    true,
-    true,
-    true,
+    false,
+    false,
+    false,
     false,
     false,
     false,
