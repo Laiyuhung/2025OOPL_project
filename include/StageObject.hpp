@@ -15,6 +15,7 @@ public:
         : m_Size(size) {
         }
 
+    // Getting and Setting Variables
     const std::vector<std::shared_ptr<GameCharacter>>& GetStageObject() const {
         return m_Stage_Object;
     }
@@ -48,7 +49,7 @@ public:
     std::shared_ptr<GameCharacter>  GetStageGoalObject() {
         return this->m_Stage_Goal_Object_Show;
     }
-
+    
     void SetStage(int stage) {
         m_Stage = stage;
     }
@@ -59,26 +60,37 @@ public:
 
     virtual ~StageObject() = default;
 
+    // Stage Init 
     void SetUp(int stage);
     void InitializeStageCharacter(int s);
+    
+    // Stage Check
+    void CheckClickSwitch(int check, int i, std::shared_ptr<TaskText> point);
     bool CheckAppearance(int s, int now_stage, bool ifShuffle);
     void CheckSpecialObject(int i);
+    void CheckObstaclesDisappear(bool ifShuffle);
+
+    // Stage Disappear
     void MakeDisappear();
     void Dropping(int s, int now_stage, bool ifShuffle);
-    void CheckObstaclesDisappear(bool ifShuffle);
     void MakeObstaclesDisappear(int position);
-    void PointUpdate(int point);
-    int  GetPoint();
-    void GoalUpdate(int i);
     void AppearAll();
     void DisAppearAll();
     void ClearAllClick();
-    bool IsSameColor(int blockType1, int blockType2);
-    void CheckClickSwitch(int check, int i, std::shared_ptr<TaskText> point);
 
+    bool IsSameColor(int blockType1, int blockType2);
+    
+    // Stage Update
+    void PointUpdate(int point);
+    int  GetPoint();
+    void GoalUpdate(int i);
+
+    // Stage Item Used
     void UseHammer(std::shared_ptr<Item> Tool);
     void UseMagicStick(std::shared_ptr<Item> Tool);
     void UseMagicGlove(std::shared_ptr<Item> Tool);
+
+    // Stage Shuffle
     void ShuffleStageCharacter( int s );
     
 protected:
@@ -89,6 +101,7 @@ protected:
 
     void RandomChangeObject(int current_pos);
     
+    // Stage Makedisppear 
     void MakeDisappearWithObject(int current_pos);
     void MakeDisappearWithStripe(int current_pos);
     void MakeDisappearWithRainbow(int current_pos);
@@ -101,6 +114,7 @@ protected:
     void MakeDisappearWithStripeFlower(int current_pos);
     void MakeDisappearWithStripeCombined(int current_pos);
 
+    // Stage Disappear
     bool DisappearMethodOfOneLine(int current_pos, int* total_length);
     int DisappearMethodOfStripe(int current_pos, int* total_length, int priority);
     bool DisappearMethodOfFlower(int current_pos, int* total_length);
@@ -108,13 +122,15 @@ protected:
     bool DisappearMethodOfTriangleFlower(int current_pos, int* total_length);
     bool DisappearMethodOfRainbowBall(int current_pos, int* total_length, int priority);
     void DisappearBySingleObject(int current_pos, int side, int length_left);
-
+    
+    // Stage Disappear
+    void Dropping_method(const int current_position);
+    
+    // Stage Check
     std::pair<int, int> CheckShuffleDemands();
     bool CheckLineMaking();
     std::pair<int, int> CheckRainbowUsing();
     std::pair<int, int> CheckSpecialBlocksNeighbor();
-
-    void Dropping_method(const int current_position);
     bool checkAppearanceOfObject(int i, int side, int length_left);
     bool checkSwitchedAllInfoWithZero(int i, int side, int length_left);
     int CheckNextAppearance(int i, int side, int length);

@@ -43,11 +43,13 @@ add_executable(${PROJECT_NAME}
     ${SRC_DIR}/JumpPage.cpp
     ${SRC_DIR}/AppStage.cpp
     ${SRC_DIR}/AppInit.cpp
-
-    # ${SRC_DIR}/Disappear.cpp
-    # ${SRC_DIR}/Drop.cpp
-    # ${SRC_DIR}/ObjectChange.cpp
-    # ${SRC_DIR}/Point.cpp
+    ${SRC_DIR}/StageObjectInit.cpp
+    ${SRC_DIR}/StageObjectCheck.cpp
+    ${SRC_DIR}/StageObjectDisappear.cpp
+    ${SRC_DIR}/StageObjectItemUsed.cpp
+    ${SRC_DIR}/StageObjectMakeDisappear.cpp
+    ${SRC_DIR}/StageObjectShuffle.cpp
+    ${SRC_DIR}/StageObjectUpdate.cpp
     ${SRC_FILES}
     ${HEADER_FILES}
 )
