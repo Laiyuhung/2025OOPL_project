@@ -59,7 +59,6 @@ public:
     }
 
 private:
-    void ValidTask();
     void Stage( int stage_pos );
 
 private:
