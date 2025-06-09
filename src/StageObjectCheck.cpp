@@ -12,7 +12,18 @@
 
 void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText> point ) {
     for ( int j = 0 ; j < 6 ; ++j ) {
-        if( m_Stage_Object[i]->GetInformationNeibor()[j]%(m_Size+1) == check && m_Stage_Object[i]->GetInformationNeibor()[j] <= m_Size && m_Stage_Object[check]->GetInformationNeibor()[j] <= m_Size) {
+        // std::cout << "Checking neighbor " << j << " for object " << i << ":" << std::endl;
+        // std::cout << "  Condition 1: m_Stage_Object[i]->GetInformationNeibor()[j]%(m_Size+1) == check : " 
+        //           << (m_Stage_Object[i]->GetInformationNeibor()[j]%(m_Size+1) == check) 
+        //           << " (" << m_Stage_Object[i]->GetInformationNeibor()[j]%(m_Size+1) << " == " << check << ")" << std::endl;
+        // std::cout << "  Condition 2: m_Stage_Object[i]->GetInformationNeibor()[j] <= m_Size : " 
+        //           << (m_Stage_Object[i]->GetInformationNeibor()[j] <= m_Size)
+        //           << " (" << m_Stage_Object[i]->GetInformationNeibor()[j] << " <= " << m_Size << ")" << std::endl;
+        // std::cout << "  Condition 3: m_Stage_Object[check]->GetInformationNeibor()[j] <= m_Size : " 
+        //           << (m_Stage_Object[check]->GetInformationNeibor()[j] <= m_Size)
+        //           << " (" << m_Stage_Object[check]->GetInformationNeibor()[j] << " <= " << m_Size << ")" << std::endl;
+        
+        if( m_Stage_Object[i]->GetInformationNeibor()[j]%(m_Size+1) == check && m_Stage_Object[i]->GetInformationNeibor()[j] <= m_Size) {
             m_Stage_Object[i]->SetSwitched(2);
             m_Stage_Object[check]->SetSwitched(2);
             m_Stage_Object[i]->SwitchPosition( m_Stage_Object[check] );
@@ -62,6 +73,7 @@ void StageObject::CheckClickSwitch( int check , int i , std::shared_ptr<TaskText
             }
 
             //all check but no disappear
+            printf( "asdasda\n");
             if ( !CheckAppearance( 1 , m_Stage , false ) ) {
                 m_Stage_Object[i]->SwitchPosition( m_Stage_Object[check] );
                 std::shared_ptr<GameCharacter> NewObject = m_Stage_Object[check];
