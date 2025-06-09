@@ -108,7 +108,8 @@
 void App::SetUpStage(int stage) {
     // m_Stage_Object.at(stage)->ClearObject();
     m_Setting->SetVisible(false);
-    m_BGM_Music.at(0)->Playing(GA_RESOURCE_DIR "/Music/rickRoll.mp3");
+    if ( m_Jump_Page->ifBGM() )
+        m_BGM_Music.at(0)->Playing(GA_RESOURCE_DIR "/Music/rickRoll.mp3");
     int size = 0;
     if (stage == 1) size = 37;
     else if (stage == 2) size = 45;

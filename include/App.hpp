@@ -47,7 +47,8 @@ public:
     int GetStage() { return m_stage_pos; }
 
     void AppearHomePage() {
-        m_BGM_Music.at(0)->Playing(GA_RESOURCE_DIR "/Music/springDayShadow.mp3");
+        if ( m_Jump_Page->ifBGM() )
+            m_BGM_Music.at(0)->Playing(GA_RESOURCE_DIR "/Music/springDayShadow.mp3");
         m_Text_Point->SetVisible(false);
         m_Setting->SetVisible( true );
         for (size_t i = 1; i < m_Stage_Buttoms.size(); ++i) {
